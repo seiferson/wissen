@@ -1,0 +1,19 @@
+#Eclipse files
+
+.classpath
+.project
+.settings/
+.tern-project
+ 
+#Maven files
+target/
+
+#Java files
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+#Common files
+*~
