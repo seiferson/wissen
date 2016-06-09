@@ -1,6 +1,6 @@
 package com.seifernet.wissen.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
@@ -26,6 +26,13 @@ public class Flashcard {
 	private String references;
 	
 	/**
+	 * 
+	 */
+	public Flashcard( ){
+		
+	}
+	
+	/**
 	 * @param update
 	 * @param question
 	 * @param answer
@@ -34,7 +41,6 @@ public class Flashcard {
 	 * @param references
 	 */
 	public Flashcard( Date update, String question, String answer, String details, String author, String references ) {
-		super();
 		this.update = update;
 		this.question = question;
 		this.answer = answer;
@@ -53,7 +59,6 @@ public class Flashcard {
 	 * @param references
 	 */
 	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details, String author, String references ) {
-		super();
 		this.id = id;
 		this.enabled = enabled;
 		this.update = update;

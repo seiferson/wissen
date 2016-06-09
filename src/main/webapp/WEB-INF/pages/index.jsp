@@ -47,36 +47,41 @@
 				<div class="sub header">Flashcard repository</div>
 			</div>
 		</h1>
-
-		<div class="ui card">
-			<div class="content">
-				<div class="header">Cute Dog</div>
-				<div class="meta">2 days ago</div>
-				<div class="description">
-					<div class="ui list">
-						<div class="item">
-							<a class="header">Header</a>
-							<div class="description">Click a link in our <a>description</a>.</div>
-						</div>
-						<div class="item">
-							<a class="header">Learn More</a>
-							<div class="description">Learn more about this site on <a>our FAQ page</a>.</div>
+		
+		<div class="ui container">
+			<div class="ui one cards">
+			<div class="card">
+				<div class="content">
+					<div class="header center aligned">What is the capital of Hungary?</div>
+					<div class="meta">
+						<span>June 8th 2016</span>
+						<a href="#">Geography</a>
+					</div>
+					<div class="description">
+						<div class="ui list">
+							<div class="item">
+								<a class="header">Answer</a>
+								<div class="description">Budapest</div>
+							</div>
+							<div class="item">
+								<a class="header">Details</a>
+								<div class="description">Budapest is the capital and the largest city of Hungary, and one of the largest cities in the European Union</div>
+							</div>
+							<div class="item">
+								<a class="header">References</a>
+								<div class="description">Wikipediaorg. (2016). Wikipediaorg. Retrieved 9 June, 2016, from https://en.wikipedia.org/wiki/Budapest</div>
+							</div>
 						</div>
 					</div>
-					<p>Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size.</p>
-					<p>Many people also have their own barometers for what makes a cute dog.</p>
+				</div>
+				<div class="extra content">
+					<i class="lightning icon"></i>1023 views
+					<div class="right floated author">
+						<img class="ui avatar image" src="https://api.adorable.io/avatars/50/seifer"> seifer
+					</div>
 				</div>
 			</div>
-			<div class="extra content">
-				<i class="check icon"></i>121 Votes
-				<div class="right floated author">
-					<img class="ui avatar image" src="https://api.adorable.io/avatars/50/seifer"> seifer
-				</div>
 			</div>
-		</div>
-		
-		<div class="ui message">
-			<p>Cute dogs come in a variety of shapes and sizes.</p>
 		</div>
 		
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
