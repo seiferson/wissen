@@ -50,7 +50,7 @@
 		
 		<div class="ui container">
 			<div class="ui one cards">
-			<div class="card">
+			<div class="card teal">
 				<div class="content">
 					<div class="header center aligned">What is the capital of Hungary?</div>
 					<div class="meta">
