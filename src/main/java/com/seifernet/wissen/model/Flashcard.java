@@ -24,6 +24,7 @@ public class Flashcard {
 	private String details;
 	private String author;
 	private String references;
+	private String category;
 	
 	/**
 	 * 
@@ -40,13 +41,14 @@ public class Flashcard {
 	 * @param author
 	 * @param references
 	 */
-	public Flashcard( Date update, String question, String answer, String details, String author, String references ) {
+	public Flashcard( Date update, String question, String answer, String details, String author, String references, String category ) {
 		this.update = update;
 		this.question = question;
 		this.answer = answer;
 		this.details = details;
 		this.author = author;
 		this.references = references;
+		this.category = category;
 	}
 	/**
 	 * @param id
@@ -58,7 +60,7 @@ public class Flashcard {
 	 * @param author
 	 * @param references
 	 */
-	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details, String author, String references ) {
+	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details, String author, String references, String category ) {
 		this.id = id;
 		this.enabled = enabled;
 		this.update = update;
@@ -67,6 +69,7 @@ public class Flashcard {
 		this.details = details;
 		this.author = author;
 		this.references = references;
+		this.category = category;
 	}
 	
 	/**
@@ -164,6 +167,20 @@ public class Flashcard {
 	 */
 	public void setReferences(String references) {
 		this.references = references;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param topic the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }

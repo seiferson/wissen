@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan( )
+@ComponentScan
 public class SpringBoot {
 
 	/**
