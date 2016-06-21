@@ -25,31 +25,16 @@ public class Flashcard {
 	private String author;
 	private String references;
 	private String category;
+	private Boolean shared;
+	private String resource;
 	
 	/**
 	 * 
 	 */
 	public Flashcard( ){
-		
+		this.enabled = true;
 	}
 	
-	/**
-	 * @param update
-	 * @param question
-	 * @param answer
-	 * @param details
-	 * @param author
-	 * @param references
-	 */
-	public Flashcard( Date update, String question, String answer, String details, String author, String references, String category ) {
-		this.update = update;
-		this.question = question;
-		this.answer = answer;
-		this.details = details;
-		this.author = author;
-		this.references = references;
-		this.category = category;
-	}
 	/**
 	 * @param id
 	 * @param enabled
@@ -59,8 +44,12 @@ public class Flashcard {
 	 * @param details
 	 * @param author
 	 * @param references
+	 * @param category
+	 * @param shared
+	 * @param resource
 	 */
-	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details, String author, String references, String category ) {
+	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details,
+					  String author, String references, String category, Boolean shared, String resource ) {
 		this.id = id;
 		this.enabled = enabled;
 		this.update = update;
@@ -70,8 +59,35 @@ public class Flashcard {
 		this.author = author;
 		this.references = references;
 		this.category = category;
+		this.shared = shared;
+		this.resource = resource;
 	}
-	
+
+	/**
+	 * @param update
+	 * @param question
+	 * @param answer
+	 * @param details
+	 * @param author
+	 * @param references
+	 * @param category
+	 * @param shared
+	 * @param resource
+	 */
+	public Flashcard( Date update, String question, String answer, String details, String author, String references,
+					  String category, Boolean shared, String resource ) {
+		this.enabled = true;
+		this.update = update;
+		this.question = question;
+		this.answer = answer;
+		this.details = details;
+		this.author = author;
+		this.references = references;
+		this.category = category;
+		this.shared = shared;
+		this.resource = resource;
+	}
+
 	/**
 	 * @return the id
 	 */
@@ -181,6 +197,42 @@ public class Flashcard {
 	 */
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+
+
+	/**
+	 * @return the shared
+	 */
+	public Boolean getShared() {
+		return shared;
+	}
+
+
+
+	/**
+	 * @param shared the shared to set
+	 */
+	public void setShared(Boolean shared) {
+		this.shared = shared;
+	}
+
+
+
+	/**
+	 * @return the resource
+	 */
+	public String getResource() {
+		return resource;
+	}
+
+
+
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 
 }
