@@ -50,4 +50,9 @@ public class FlashcardController {
 
 		return "create_flashcard";
 	}
+	
+	@RequestMapping( "/flashcardslist" )
+	public String flashcard( ){
+		return "flashcard_list";
+	}
 }

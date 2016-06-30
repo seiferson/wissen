@@ -13,6 +13,6 @@ import com.seifernet.wissen.model.Flashcard;
  *
  */
 @RepositoryRestResource( collectionResourceRel = "flashcard", path = "flashcard" )
-public interface FlashcardRepository extends MongoRepository<Flashcard, String>{
+public interface FlashcardRepository extends MongoRepository<Flashcard, String> {
 	
 }
