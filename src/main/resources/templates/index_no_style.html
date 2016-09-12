@@ -6,19 +6,27 @@
 	</head>
 	<body>
 		<h1>Wissen</h1>
+		<form id="flashcardForm" action="" method="POST">
+			<input placeholder="Question" id="question" name="question" />
+			<input placeholder="Answer" id="answer" name="answer" />
+			<input placeholder="Details" id="details" name="details" />
+			<input placeholder="Author" id="author" name="author" />
+			<input placeholder="References" id="references" name="references" />
+			<input placeholder="Category" id="category" name="category" />
+			<button type="button" onclick="sendData( )" >Create</button>
+		</form>
+		
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script>
 			function sendData( ){
 				$.ajax({
 					url : "/flashcard",
 				    type: "POST",
-				    data : formData,
-				    success: function(data, textStatus, jqXHR)
-				    {
-				        //data - response from server
-				    },
-				    error: function (jqXHR, textStatus, errorThrown)
-				    {
-				 
+				    contentType: "application/json; charset=utf-8",
+				    data : '{"question":"' + $("#question").value( ) +'"}',
+				    dataType: "json",
+				    success: function( data ) {
+				        alert( "OK" );
 				    }
 				});
 			}
