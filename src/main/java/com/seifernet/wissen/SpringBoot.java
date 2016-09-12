@@ -4,24 +4,25 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.annotation.EnableJms;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 /**
+ * Spring boot main class and annotation configuration
  * 
  * @author Seifer( Cuauhtemoc Herrera )
  * @version 0.0.1
- * @since 0.0.1
  *
  */
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-//@EnableJms
+@EnableWebSecurity
 public class SpringBoot {
 
 	/**
+	 * Main method
 	 * 
-	 * @param args
+	 * @param args Console arguments
 	 * @throws Exception
 	 */
 	public static void main( String[] args ) throws Exception {

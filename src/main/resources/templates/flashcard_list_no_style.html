@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>Wissen</title>
+	</head>
+	<body>
+	<table >
+		<thead>
+			<tr>
+				<th>Question</th>
+				<th>Answer</th>
+				<th>Author</th>
+			</tr>
+		</thead>
+		<tbody id="flashcardTable">
+		
+		</tbody>
+	</table>
+	
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script>
+		$(function() {
+			$.ajax({
+				url : "/flashcard",
+			    type: "GET",
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function( data ) {
+				    for( var f in data._embedded.flashcard ) {
+				    	$( "#flashcardTable" ).append( "<tr><td>" + data._embedded.flashcard[f].question  + "</td><td>" + data._embedded.flashcard[f].answer + "</td><td>" + data._embedded.flashcard[f].author + "</td></tr>" );
+					}
+			    }
+			});
+		});
+	</script>
+	</body>
+</html>

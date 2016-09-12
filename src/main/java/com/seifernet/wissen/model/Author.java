@@ -18,8 +18,6 @@ public class Author {
 	private String openId;
 	private String avatar;
 	
-	
-	
 	/**
 	 * @return the id
 	 */

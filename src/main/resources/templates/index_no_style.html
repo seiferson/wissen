@@ -23,10 +23,9 @@
 					url : "/flashcard",
 				    type: "POST",
 				    contentType: "application/json; charset=utf-8",
-				    data : '{"question":"' + $("#question").value( ) +'"}',
+				    data : '{"question":"' + $("#question").val() +'", "answer":"' + $("#answer").val() +'", "author":"' + $("#author").val() +  '"  }',
 				    dataType: "json",
 				    success: function( data ) {
-				        alert( "OK" );
 				    }
 				});
 			}

@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
  * 
  * @author Seifer ( Cuauhtemoc Herrera )
  * @version 0.0.1
- * @since 0.0.1
  *
  */
 public class Flashcard {
