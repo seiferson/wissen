@@ -16,7 +16,7 @@ import org.springframework.jms.annotation.EnableJms;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-@EnableJms
+//@EnableJms
 public class SpringBoot {
 
 	/**

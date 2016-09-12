@@ -18,6 +18,7 @@ public class Flashcard {
 	private String id;
 	
 	private Boolean enabled;
+	private Date created;
 	private Date update;
 	private String question;
 	private String answer;
@@ -49,7 +50,7 @@ public class Flashcard {
 	 * @param resource
 	 */
 	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details,
-					  String author, String references, String category, Boolean shared, String resource ) {
+					  String author, String references, String category, Boolean shared, String resource, Date created ) {
 		this.id = id;
 		this.enabled = enabled;
 		this.update = update;
@@ -61,6 +62,7 @@ public class Flashcard {
 		this.category = category;
 		this.shared = shared;
 		this.resource = resource;
+		this.created = created;
 	}
 
 	/**
@@ -74,10 +76,11 @@ public class Flashcard {
 	 * @param shared
 	 * @param resource
 	 */
-	public Flashcard( Date update, String question, String answer, String details, String author, String references,
+	public Flashcard( String question, String answer, String details, String author, String references,
 					  String category, Boolean shared, String resource ) {
 		this.enabled = true;
-		this.update = update;
+		this.created = new Date( );
+		this.update = new Date( );
 		this.question = question;
 		this.answer = answer;
 		this.details = details;
@@ -233,6 +236,20 @@ public class Flashcard {
 	 */
 	public void setResource(String resource) {
 		this.resource = resource;
+	}
+
+	/**
+	 * @return the created
+	 */
+	public Date getCreated() {
+		return created;
+	}
+
+	/**
+	 * @param created the created to set
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 }

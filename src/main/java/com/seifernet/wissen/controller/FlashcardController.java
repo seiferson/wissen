@@ -9,12 +9,12 @@ import java.security.SecureRandom;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
+//import com.cloudinary.Cloudinary;
+//import com.cloudinary.utils.ObjectUtils;
 
 /**
  * 
@@ -25,7 +25,7 @@ import com.cloudinary.utils.ObjectUtils;
 public class FlashcardController {
 
 	@RequestMapping( "/" )
-	public String index( Authentication auth ){
+	public String index(  ){//Authentication auth ){
 //		try{
 //			String data = new BigInteger( 20, new SecureRandom( ) ).toString( 32 );
 //		URL url = new URL( "https://api.adorable.io/avatars/50/" + data + ".png" );
@@ -40,9 +40,9 @@ public class FlashcardController {
 //		} catch ( Exception e ){
 //			
 //		}
-		System.out.println( auth.isAuthenticated( ) );
-		System.out.println( auth.getPrincipal( ) );
-		return "index";
+//		System.out.println( auth.isAuthenticated( ) );
+//		System.out.println( auth.getPrincipal( ) );
+		return "index_no_style";
 	}
 	
 	@RequestMapping( "/createflashcard" )

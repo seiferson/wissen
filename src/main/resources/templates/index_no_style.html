@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Wissen</title>
+	</head>
+	<body>
+		<h1>Wissen</h1>
+		<script>
+			function sendData( ){
+				$.ajax({
+					url : "/flashcard",
+				    type: "POST",
+				    data : formData,
+				    success: function(data, textStatus, jqXHR)
+				    {
+				        //data - response from server
+				    },
+				    error: function (jqXHR, textStatus, errorThrown)
+				    {
+				 
+				    }
+				});
+			}
+		</script>
+	</body>
+</html>
