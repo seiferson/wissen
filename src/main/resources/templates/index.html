@@ -10,6 +10,22 @@
 		<div class="ui top menu">
 			<div class="header item">Wissen</div>
 			<div class="right menu">
+				<a sec:authorize="isAnonymous()" href="/login" class="item" >login</a>
+				<a sec:authorize="isAuthenticated( )" class="item" href="#">
+					<span sec:authentication="principal.username"></span>
+				</a>
+				<div sec:authorize="isAuthenticated( ) class="ui dropdown icon item">
+					<b>repository</b>
+					<div class="menu">
+						<a class="item" href="#">
+							<i class="book icon"></i> flashcards
+						</a>
+						<a class="item" href="#">
+							<i class="block layout icon"></i> categories
+						</a>
+					</div>
+				</div>
+				<a sec:authorize="isAuthenticated( )" class="item" href="/logout">logout</a>
 				<div class="ui right aligned category search item">
 					<div class="ui transparent icon input">
 						<input class="prompt" type="text" placeholder="Search flashcards..." />
@@ -30,15 +46,6 @@
 		</h1>
 		
 		<div style="margin-top: 50px"></div>
-		
-		<div sec:authorize="isAuthenticated()">
-			<span sec:authentication="principal.username"></span>
-		</div>
-		
-		<div sec:authorize="isAnonymous()">
-			anon
-		</div>
-			
 		
 		<div class="ui basic segment center aligned">
 			<b>Seifernet 2016</b>
@@ -81,6 +88,8 @@
 				},
 				url: '/flashcard/search/findDistictFlashcardsByQuestionLikeIgnoreCaseOrderByIdAsc?question={query}'
 			}});
+
+			$( '.ui.dropdown' ).dropdown();
 		</script>
 	</body>
 </html>
