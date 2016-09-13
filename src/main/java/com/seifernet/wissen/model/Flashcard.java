@@ -27,6 +27,7 @@ public class Flashcard {
 	private String category;
 	private Boolean shared;
 	private String resource;
+	private String keywords;
 	
 	/**
 	 * 
@@ -249,6 +250,20 @@ public class Flashcard {
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	/**
+	 * @return the keywords
+	 */
+	public String getKeywords() {
+		return keywords;
+	}
+
+	/**
+	 * @param keywords the keywords to set
+	 */
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 }

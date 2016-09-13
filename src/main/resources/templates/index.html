@@ -14,7 +14,7 @@
 				<a sec:authorize="isAuthenticated( )" class="item" href="#">
 					<span sec:authentication="principal.username"></span>
 				</a>
-				<div sec:authorize="isAuthenticated( ) class="ui dropdown icon item">
+				<div sec:authorize="isAuthenticated( )" class="ui dropdown icon item">
 					<b>repository</b>
 					<div class="menu">
 						<a class="item" href="#">
@@ -51,9 +51,99 @@
 			<b>Seifernet 2016</b>
 		</div>
 		
+		<div class="ui modal">
+			<div class="header"><i class="icon book"></i> New flashcard</div>
+			<div class="content">
+				<div class="ui form">
+					<div class="field">
+						<label>Question</label>
+						<input id="question" name="question" type="text" placeholder="When was France founded?" />
+					</div>
+					<div class="field">
+						<label>Answer</label>
+						<input id="answer" name="answer" type="text" placeholder="In the ninth century" />
+					</div>
+					<div class="field">
+						<label>Details</label>
+						<textarea id="details" name="details" rows="2"></textarea>
+					</div>
+					<div class="three fields">
+						<div class="field">
+							<label>References</label>
+							<input id="references" name="references" type="text" placeholder="http://resources.com/france" />
+						</div>
+						<div class="field">
+							<label>Category</label>
+							<select id="category" name="category" class="ui fluid dropdown">
+								<option value="Uncategorized">Uncategorized</option>
+								<option value="History">History</option>
+								<option value="Culture">Culture</option>
+								<option value="Science">Science</option>
+							</select>
+						</div>
+						<div class="field">
+							<label>Keywords ( comma separated )</label>
+							<input id="keywords" name="keywords" type="text" placeholder="france,history,foundation" />
+						</div>
+					</div>
+					<div class="field">
+						 <div class="ui checkbox">
+						 	<input name="shared" id="shared" type="checkbox" tabindex="0" class="hidden" checked="checked" />
+						 	<label>Make it available for everyone. <a href="#">Learn more</a></label>
+						 </div>
+					</div>
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui black deny button">Cancel</div>
+				<button class="ui right labeled icon button" onclick="createFlashcard( )">
+					Create<i class="add circle icon"></i>
+				</button>
+			</div>
+		</div>
+		
+		<button class="circular ui icon button" onclick="showModal( )">
+			<i class="icon settings"></i>
+		</button>
+		
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script src="/js/semantic.js"></script>
 		<script>
+			
+			function createFlashcard(  ){
+				var d = new Date();
+				var month = d.getMonth( ) + 1;
+				var day = d.getDate( );
+
+				var currDate =  day + '/' + month + '/' + d.getFullYear( );
+			    
+				$.ajax({
+					url : "/flashcard",
+				    type: "POST",
+				    contentType: "application/json; charset=utf-8",
+				    data :
+					    '{"question":"' + $("#question").val( ) +'",' + 
+					    ' "answer":"' + $("#answer").val( ) +'",' + 
+					    ' "author":" seifer'  + '",' + 
+					    ' "details":"' + $("#details").val( ) +'",' + 
+					    ' "category":"' + $("#category").val( ) +'",' + 
+					    ' "keywords":"' + $("#keywords").val( ) +'",' + 
+					    ' "shared":"' + $("#shared").val( ) +'",' + 
+					    ' "created":"' + currDate +'",' +
+					    ' "update":"' + currDate +'",' +
+					    ' "enabled" : "true"  }',
+				    dataType: "json",
+				    success: function( data ) {
+					    alert( 'ok' );
+				    }
+				});
+			}
+			
+			
+			function showModal(  ){
+				$('.ui.modal').modal('show');
+			}
+		
 			$( '.ui.search' ).search( {
 				type          : 'category',
 				minCharacters : 3,
