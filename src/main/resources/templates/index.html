@@ -58,6 +58,8 @@
 					<div class="field">
 						<label>Question</label>
 						<input id="question" name="question" type="text" placeholder="When was France founded?" />
+						<input type="hidden" id="csfrToken" name="csfrToken" th:value="${_csrf.token}" />
+						<input type="hidden" id="csfrAttr" name="csfrAttr" th:value="${_csrf.parameterName}" />
 					</div>
 					<div class="field">
 						<label>Answer</label>
@@ -88,7 +90,7 @@
 					</div>
 					<div class="field">
 						 <div class="ui checkbox">
-						 	<input name="shared" id="shared" type="checkbox" tabindex="0" class="hidden" checked="checked" />
+						 	<input name="shared" id="shared" type="checkbox" class="hidden" />
 						 	<label>Make it available for everyone. <a href="#">Learn more</a></label>
 						 </div>
 					</div>
@@ -115,10 +117,9 @@
 				var month = d.getMonth( ) + 1;
 				var day = d.getDate( );
 
-				var currDate =  day + '/' + month + '/' + d.getFullYear( );
-			    
+				var currDate = d.getFullYear( ) + '-' + ( 10 >= month ? "0" : "" ) + month + '-' + ( 10 >= day ? '0' : '' ) + day;
 				$.ajax({
-					url : "/flashcard",
+					url : "/api/flashcards?" + $( "#csfrAttr" ).val( ) + "=" + $( "#csfrToken" ).val( ),
 				    type: "POST",
 				    contentType: "application/json; charset=utf-8",
 				    data :
@@ -128,10 +129,10 @@
 					    ' "details":"' + $("#details").val( ) +'",' + 
 					    ' "category":"' + $("#category").val( ) +'",' + 
 					    ' "keywords":"' + $("#keywords").val( ) +'",' + 
-					    ' "shared":"' + $("#shared").val( ) +'",' + 
+					    ' "shared":"' + $("#shared").is(":checked") +'",' + 
 					    ' "created":"' + currDate +'",' +
 					    ' "update":"' + currDate +'",' +
-					    ' "enabled" : "true"  }',
+					    ' "enabled" : true  }',
 				    dataType: "json",
 				    success: function( data ) {
 					    alert( 'ok' );
@@ -176,10 +177,11 @@
 					});
 					return response;
 				},
-				url: '/flashcard/search/findDistictFlashcardsByQuestionLikeIgnoreCaseOrderByIdAsc?question={query}'
+				url: '/api/flashcards/search/findDistictFlashcardsByQuestionLikeIgnoreCaseOrderByIdAsc?question={query}'
 			}});
 
 			$( '.ui.dropdown' ).dropdown();
+			$('.ui.checkbox').checkbox();
 		</script>
 	</body>
 </html>

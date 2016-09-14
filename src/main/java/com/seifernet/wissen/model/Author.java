@@ -1,6 +1,11 @@
 package com.seifernet.wissen.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -13,10 +18,23 @@ public class Author {
 	private String id;
 	
 	private String nickname;
+	
+	@JsonIgnore
 	private Boolean enabled;
+	
+	@JsonIgnore
 	private String email;
-	private String openId;
+	
+	@JsonIgnore
+	private String password;
+	
 	private String avatar;
+	
+	@JsonIgnore
+	private List<Flashcard> bookmarks;
+	
+	@JsonIgnore
+	private List<GrantedAuthority> authorities;
 	
 	/**
 	 * @return the id
@@ -67,18 +85,6 @@ public class Author {
 		this.email = email;
 	}
 	/**
-	 * @return the openId
-	 */
-	public String getOpenId() {
-		return openId;
-	}
-	/**
-	 * @param openId the openId to set
-	 */
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-	/**
 	 * @return the avatar
 	 */
 	public String getAvatar() {
@@ -89,5 +95,41 @@ public class Author {
 	 */
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	/**
+	 * @return the bookmarks
+	 */
+	public List<Flashcard> getBookmarks() {
+		return bookmarks;
+	}
+	/**
+	 * @param bookmarks the bookmarks to set
+	 */
+	public void setBookmarks(List<Flashcard> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return the authorities
+	 */
+	public List<GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+	/**
+	 * @param authorities the authorities to set
+	 */
+	public void setAuthorities(List<GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 }

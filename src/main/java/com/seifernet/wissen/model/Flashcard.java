@@ -1,6 +1,7 @@
 package com.seifernet.wissen.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
@@ -28,7 +29,8 @@ public class Flashcard {
 	private Boolean shared;
 	private String resource;
 	private String keywords;
-	
+	private List<String> stars;
+
 	/**
 	 * 
 	 */
@@ -91,6 +93,20 @@ public class Flashcard {
 		this.resource = resource;
 	}
 
+	/**
+	 * @return the stars
+	 */
+	public List<String> getStars() {
+		return stars;
+	}
+
+	/**
+	 * @param stars the stars to set
+	 */
+	public void setStars(List<String> stars) {
+		this.stars = stars;
+	}
+	
 	/**
 	 * @return the id
 	 */
