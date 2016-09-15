@@ -36,6 +36,9 @@ public class Author {
 	@JsonIgnore
 	private List<GrantedAuthority> authorities;
 	
+	@JsonIgnore
+	private List<String> activityLog;
+	
 	/**
 	 * @return the id
 	 */
@@ -131,5 +134,17 @@ public class Author {
 	 */
 	public void setAuthorities(List<GrantedAuthority> authorities) {
 		this.authorities = authorities;
+	}
+	/**
+	 * @return the activityLog
+	 */
+	public List<String> getActivityLog() {
+		return activityLog;
+	}
+	/**
+	 * @param activityLog the activityLog to set
+	 */
+	public void setActivityLog(List<String> activityLog) {
+		this.activityLog = activityLog;
 	}
 }
