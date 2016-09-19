@@ -9,5 +9,5 @@ package com.seifernet.wissen.util;
  */
 public class WebResources {
 	
-	public static final String INDEX_TEMPLATE = "index";
+	public static final String BASE_LAYOUT = "main_layout";
 }

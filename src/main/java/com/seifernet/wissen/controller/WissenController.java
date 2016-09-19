@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.seifernet.wissen.util.ModelAttributes;
 import com.seifernet.wissen.util.WebResources;
 
 /**
@@ -26,7 +27,9 @@ public class WissenController {
 	@RequestMapping( "/" )
 	public String index( Model model ){
 		
-		return WebResources.INDEX_TEMPLATE;
+		model.addAttribute( ModelAttributes.HEADER_FRAGMENT, "index_header" );
+		
+		return WebResources.BASE_LAYOUT;
 	}
 	
 	@RequestMapping( "/login" )

@@ -31,3 +31,139 @@
 				</div>
 			</div>
 			</div>
+			
+			<div class="ui two cards">
+						<div class="ui card">
+							<div class="content">
+								<i class="right floated remove teal bookmark icon"></i>
+								<i class="right floated empty star icon"></i>
+								<div class="header">Cute Dog</div>
+								<div class="description">
+									<p></p>
+								</div>
+							</div>
+							<div class="extra content">
+								<span class="right floated">121 <i class="yellow star icon"></i></span>
+							</div>
+						</div>
+						<div class="ui card">
+							<div class="content">
+								<i class="right floated remove teal bookmark icon"></i>
+								<i class="right floated empty star icon"></i>
+								<div class="header">Cute Dog</div>
+								<div class="description">
+									<p></p>
+								</div>
+							</div>
+							<div class="extra content">
+								<span class="right floated">121 <i class="yellow star icon"></i></span>
+							</div>
+						</div>
+					</div>
+					
+					<script>
+			
+			function createFlashcard(  ){
+				var d = new Date();
+				var month = d.getMonth( ) + 1;
+				var day = d.getDate( );
+
+				var currDate = d.getFullYear( ) + '-' + ( 10 >= month ? "0" : "" ) + month + '-' + ( 10 >= day ? '0' : '' ) + day;
+				$.ajax({
+					url : "/api/flashcards?" + $( "#csfrAttr" ).val( ) + "=" + $( "#csfrToken" ).val( ),
+				    type: "POST",
+				    contentType: "application/json; charset=utf-8",
+				    data :
+					    '{"question":"' + $("#question").val( ) +'",' + 
+					    ' "answer":"' + $("#answer").val( ) +'",' + 
+					    ' "author":" seifer'  + '",' + 
+					    ' "details":"' + $("#details").val( ) +'",' + 
+					    ' "category":"' + $("#category").val( ) +'",' + 
+					    ' "keywords":"' + $("#keywords").val( ) +'",' + 
+					    ' "shared":"' + $("#shared").is(":checked") +'",' + 
+					    ' "created":"' + currDate +'",' +
+					    ' "update":"' + currDate +'",' +
+					    ' "enabled" : true  }',
+				    dataType: "json",
+				    success: function( data ) {
+					    alert( 'ok' );
+				    }
+				});
+			}
+			
+			
+			function showModal(  ){
+				$('.ui.modal').modal('show');
+			}
+		
+			
+
+			$( '.ui.dropdown' ).dropdown();
+			$('.ui.checkbox').checkbox();
+		</script>
+		
+			<div class="ui modal">
+			<div class="header"><i class="icon book"></i> New flashcard</div>
+			<div class="content">
+				<div class="ui form">
+					<div class="field">
+						<label>Question</label>
+						<input id="question" name="question" type="text" placeholder="When was France founded?" />
+						<input type="hidden" id="csfrToken" name="csfrToken" th:value="${_csrf.token}" />
+						<input type="hidden" id="csfrAttr" name="csfrAttr" th:value="${_csrf.parameterName}" />
+					</div>
+					<div class="field">
+						<label>Answer</label>
+						<input id="answer" name="answer" type="text" placeholder="In the ninth century" />
+					</div>
+					<div class="field">
+						<label>Details</label>
+						<textarea id="details" name="details" rows="2"></textarea>
+					</div>
+					<div class="three fields">
+						<div class="field">
+							<label>References</label>
+							<input id="references" name="references" type="text" placeholder="http://resources.com/france" />
+						</div>
+						<div class="field">
+							<label>Category</label>
+							<select id="category" name="category" class="ui fluid dropdown">
+								<option value="Uncategorized">Uncategorized</option>
+								<option value="History">History</option>
+								<option value="Culture">Culture</option>
+								<option value="Science">Science</option>
+							</select>
+						</div>
+						<div class="field">
+							<label>Keywords ( comma separated )</label>
+							<input id="keywords" name="keywords" type="text" placeholder="france,history,foundation" />
+						</div>
+					</div>
+					<div class="field">
+						 <div class="ui checkbox">
+						 	<input name="shared" id="shared" type="checkbox" class="hidden" />
+						 	<label>Make it available for everyone. <a href="#">Learn more</a></label>
+						 </div>
+					</div>
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui black deny button">Cancel</div>
+				<button class="ui right labeled icon button" onclick="createFlashcard( )">
+					Create<i class="add circle icon"></i>
+				</button>
+			</div>
+		</div>
+		
+		<button class="circular ui icon button" onclick="showModal( )">
+			<i class="icon settings"></i>
+		</button>
+		
+		<div class="ui grid">
+				<div class="twelve wide computer sixteen wide mobile column">
+					
+				</div>
+				<div class="four wide computer only column">
+					
+				</div>
+			</div>

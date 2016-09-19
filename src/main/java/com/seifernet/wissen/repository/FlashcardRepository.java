@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import com.seifernet.wissen.model.Flashcard;
 
 /**
+ * Flashcard repository interface
  * 
  * @author Seifer ( Cuauhtemoc Herrera )
  * @version 0.0.1
@@ -18,7 +19,7 @@ public interface FlashcardRepository extends MongoRepository<Flashcard, String> 
 	
 	public Page<Flashcard> findByAuthor(  @Param( "author" ) String author, Pageable pageable );
 	
-	public Page<Flashcard> findByQuestion(  @Param( "question" ) String question, Pageable pageable );
+	public Page<Flashcard> findByCategory( @Param( "category" ) String category, Pageable pageable );
 	
 	public Page<Flashcard> findByQuestionRegexIgnoreCase( @Param( "question" ) String question, Pageable pageable );
 	
