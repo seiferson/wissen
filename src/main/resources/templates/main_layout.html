@@ -2,27 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Wissen</title>
-		
-		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="/css/semantic.css" />
+		<title>Wissen</title>
 	</head>
 	<body>
-	
-		<th:block th:include="top_menu :: topMenu"> </th:block>
-		<th:block th:include="${headerFragmentSource} :: header"> </th:block>
-		
-		
-		<!-- CONTENT -->
+		<th:block th:include="${menuSource} :: ${menuFragment}"> </th:block>
+		<th:block th:include="${headerSource} :: ${headerFragment}"></th:block>
 		<div class="ui container">
 		</div>
 		
-		<!-- FOOTER -->
 		<div class="ui basic segment center aligned">
 			<b>Seifernet 2016</b>
 		</div>
 		
-		<!-- JS -->
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script src="/js/semantic.js"></script>
 		<script src="/js/search.js" ></script>

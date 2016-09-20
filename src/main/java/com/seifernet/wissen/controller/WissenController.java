@@ -1,6 +1,7 @@
 package com.seifernet.wissen.controller;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,18 @@ public class WissenController {
 	 * @return String template name
 	 */
 	@RequestMapping( "/" )
-	public String index( Model model ){
+	public String index( Model model, Authentication auth ){
 		
-		model.addAttribute( ModelAttributes.HEADER_FRAGMENT, "index_header" );
+		model.addAttribute( ModelAttributes.HEADER_SOURCE, "headers" );
+		model.addAttribute( ModelAttributes.HEADER_FRAGMENT, "indexHeader" );
+		model.addAttribute( ModelAttributes.MENU_SOURCE, "menus" );
 		
+		if( auth != null && auth.isAuthenticated( ) ){
+			model.addAttribute( ModelAttributes.MENU_FRAGMENT, "topMenuUser" );
+			model.addAttribute( ModelAttributes.USER_NICKNAME, ( ( User )auth.getPrincipal() ).getUsername( ) );
+		} else {
+			model.addAttribute( ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous" );
+		}
 		return WebResources.BASE_LAYOUT;
 	}
 	

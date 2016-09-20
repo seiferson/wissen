@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		
+		<!-- TOP MENU ANONYMOUS-->
+		<div th:fragment="topMenuAnonymous">
+		<div class="ui top menu">
+			<div class="header item">Wissen</div>
+			<div class="right menu">
+				<a class="item" href="/login">login</a>
+				<div class="ui right aligned category search item">
+					<div class="ui transparent icon input">
+						<input class="prompt" type="text" placeholder="Search flashcards..." />
+						<i class="search link icon"></i>
+					</div>
+					<div class="results"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<!-- TOP MENU USER-->
+		<div th:fragment="topMenuUser">
+		<div class="ui top menu">
+			<div class="header item">Wissen</div>
+			<div class="right menu">
+				<a class="item" th:href="@{/users/{userNickname}(userNickname=${userNickname})}" th:text="${userNickname}"></a>
+				<a class="item" href="/logout">logout</a>
+				<div class="ui right aligned category search item">
+					<div class="ui transparent icon input">
+						<input class="prompt" type="text" placeholder="Search flashcards..." />
+						<i class="search link icon"></i>
+					</div>
+					<div class="results"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+</html>
