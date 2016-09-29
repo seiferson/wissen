@@ -28,9 +28,13 @@ public class WissenController {
 	@RequestMapping( "/" )
 	public String index( Model model, Authentication auth ){
 		
-		model.addAttribute( ModelAttributes.HEADER_SOURCE, "headers" );
+		model.addAttribute( ModelAttributes.HEADER_SOURCE, "header" );
 		model.addAttribute( ModelAttributes.HEADER_FRAGMENT, "indexHeader" );
-		model.addAttribute( ModelAttributes.MENU_SOURCE, "menus" );
+		model.addAttribute( ModelAttributes.MENU_SOURCE, "menu" );
+		model.addAttribute( ModelAttributes.CUSTOMJS_SOURCE, "customjs" );
+		model.addAttribute( ModelAttributes.CUSTOMJS_FRAGMENT, "indexCustomjs" );
+		model.addAttribute( ModelAttributes.CONTENT_SOURCE, "content" );
+		model.addAttribute( ModelAttributes.CONTENT_FRAGMENT, "index" );
 		
 		if( auth != null && auth.isAuthenticated( ) ){
 			model.addAttribute( ModelAttributes.MENU_FRAGMENT, "topMenuUser" );
