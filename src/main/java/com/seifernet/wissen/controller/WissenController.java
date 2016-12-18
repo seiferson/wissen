@@ -52,8 +52,5 @@ public class WissenController {
 		}
 		return "login";
 	}
-	@RequestMapping( "/flashcardslist" )
-	public String flashcard( ){
-		return "flashcard_list_no_style";
-	}
+	
 }
