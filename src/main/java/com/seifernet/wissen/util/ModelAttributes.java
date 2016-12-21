@@ -3,7 +3,7 @@ package com.seifernet.wissen.util;
 /**
  * Model attribute names
  * 
- * @author Seifer ( Cuauhtemoc Herrera )
+ * @author Seifer (Cuauhtemoc Herrera)
  * @version 0.0.1
  *
  */

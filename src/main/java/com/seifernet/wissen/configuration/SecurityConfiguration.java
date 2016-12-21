@@ -3,6 +3,7 @@ package com.seifernet.wissen.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,49 +31,58 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private AuthorRepository authorRepository;
 	
 	@Bean
-	public UserDetailsService userDetailsService( ) {		
-		return new UserDetailsService( ) {
+	public UserDetailsService userDetailsService() {		
+		return new UserDetailsService() {
 			
 			@Override
-			public UserDetails loadUserByUsername( String username ) throws UsernameNotFoundException {
-				Author account = authorRepository.findByNickname( username );
-				if( account != null ) {
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+				Author account = authorRepository.findByNickname(username);
+				if(account != null) {
 					return new User( 
-						account.getNickname( ), 
-						account.getPassword( ), 
-						account.getEnabled( ), 
-						account.getEnabled( ), 
-						account.getEnabled( ), 
-						account.getEnabled( ),
-						account.getAuthorities( ) );
+						account.getNickname(), 
+						account.getPassword(), 
+						account.getEnabled(), 
+						account.getEnabled(), 
+						account.getEnabled(), 
+						account.getEnabled(),
+						account.getAuthorities()
+					);
 				} else {
-					throw new UsernameNotFoundException( "User not found: '" + username + "'" );
+					throw new UsernameNotFoundException("User not found: '" + username + "'");
 				}
 			}
 		};
 	}
 	
 	@Override
-	protected void configure( HttpSecurity http ) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests( )
-				.anyRequest( )
-					.permitAll( )
-				.and( )
+			.csrf()
+				.disable()
+			.authorizeRequests()
+				.anyRequest()
+					.permitAll()
+				.and()
 				.formLogin()
-					.loginPage( "/login" )
-					.permitAll( )
-				.and( )
-				.logout( )
-					.logoutRequestMatcher( new AntPathRequestMatcher( "/logout" ) )
-					.logoutSuccessUrl( "/" )
-					.permitAll( );
+					.loginPage("/login")
+					.permitAll()
+				.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/")
+					.permitAll();
     }
 
     @Autowired
-    public void configureGlobal( AuthenticationManagerBuilder auth, UserDetailsService userDetailsService ) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
     	auth
-    		.userDetailsService( userDetailsService )
-    		.passwordEncoder( new ShaPasswordEncoder( 512 ) );
+    		.userDetailsService(userDetailsService)
+    		.passwordEncoder(new ShaPasswordEncoder(512));
     }
+    
+    @Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 }

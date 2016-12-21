@@ -12,7 +12,7 @@ import com.seifernet.wissen.util.WebResources;
 /**
  * Application controller
  * 
- * @author Seifer( Cuauhtemoc Herrera )
+ * @author Seifer(Cuauhtemoc Herrera)
  * @version 0.0.1
  *
  */
@@ -25,29 +25,29 @@ public class WissenController {
 	 * @param auth User authentication
 	 * @return String template name
 	 */
-	@RequestMapping( "/" )
-	public String index( Model model, Authentication auth ){
+	@RequestMapping("/")
+	public String index(Model model, Authentication auth){
 		
-		model.addAttribute( ModelAttributes.HEADER_SOURCE, "header" );
-		model.addAttribute( ModelAttributes.HEADER_FRAGMENT, "indexHeader" );
-		model.addAttribute( ModelAttributes.MENU_SOURCE, "menu" );
-		model.addAttribute( ModelAttributes.CUSTOMJS_SOURCE, "customjs" );
-		model.addAttribute( ModelAttributes.CUSTOMJS_FRAGMENT, "indexCustomjs" );
-		model.addAttribute( ModelAttributes.CONTENT_SOURCE, "content" );
-		model.addAttribute( ModelAttributes.CONTENT_FRAGMENT, "index" );
+		model.addAttribute(ModelAttributes.HEADER_SOURCE, "header");
+		model.addAttribute(ModelAttributes.HEADER_FRAGMENT, "indexHeader");
+		model.addAttribute(ModelAttributes.MENU_SOURCE, "menu");
+		model.addAttribute(ModelAttributes.CUSTOMJS_SOURCE, "customjs");
+		model.addAttribute(ModelAttributes.CUSTOMJS_FRAGMENT, "indexCustomjs");
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, "content");
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "index");
 		
-		if( auth != null && auth.isAuthenticated( ) ){
-			model.addAttribute( ModelAttributes.MENU_FRAGMENT, "topMenuUser" );
-			model.addAttribute( ModelAttributes.USER_NICKNAME, ( ( User )auth.getPrincipal() ).getUsername( ) );
+		if(auth != null && auth.isAuthenticated()){
+			model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuUser");
+			model.addAttribute(ModelAttributes.USER_NICKNAME, ((User)auth.getPrincipal()).getUsername());
 		} else {
-			model.addAttribute( ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous" );
+			model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
 		}
 		return WebResources.BASE_LAYOUT;
 	}
 	
-	@RequestMapping( "/login" )
-	public String loginPage( Authentication auth ){
-		if( auth != null && auth.isAuthenticated( ) ){
+	@RequestMapping("/login")
+	public String loginPage(Authentication auth){
+		if(auth != null && auth.isAuthenticated()){
 			return "redirect:/";
 		}
 		return "login";

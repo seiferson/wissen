@@ -3,7 +3,7 @@ package com.seifernet.wissen.util;
 /**
  * Web resources definitions
  * 
- * @author Seifer( Cuauhtemoc Herrera )
+ * @author Seifer (Cuauhtemoc Herrera)
  * @version 0.0.1
  * 
  */
