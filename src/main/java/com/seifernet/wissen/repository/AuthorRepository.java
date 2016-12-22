@@ -14,4 +14,6 @@ public interface AuthorRepository extends MongoRepository<Author, String>{
 	
 	public Author findByNickname(String nickname);
 	
+	public Author findByClientId(String cliendId);
+	
 }

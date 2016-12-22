@@ -23,7 +23,7 @@ public class AccountClientDetailsService implements ClientDetailsService{
 	
 	@Override
 	public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-		Author account = authorRepository.findByNickname(clientId);
+		Author account = authorRepository.findByClientId(clientId);
 		if(account != null) {
 			return new AccountClientDetails(account);
 		} else {
