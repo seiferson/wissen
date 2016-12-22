@@ -11,11 +11,13 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
+ * OAuth2 authorization server configuration
  * 
  * @author Seifer (Cuauhtemoc Herrera)
  * @version 0.0.1
@@ -32,6 +34,9 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private ClientDetailsService clientDetailsService;
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -40,17 +45,11 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 			.authenticationManager(this.authenticationManager)
 			.userDetailsService(userDetailsService);
 	}
-
+	
 	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+	public void configure(ClientDetailsServiceConfigurer clients ) throws Exception {
 		clients
-			.inMemory()
-				.withClient("clientapp")
-					.authorizedGrantTypes("password", "refresh_token")
-					.authorities("USER")
-					.scopes("read", "write")
-					.resourceIds("restservice")
-					.secret("123456");
+			.withClientDetails(clientDetailsService);
 	}
 
 	@Bean
