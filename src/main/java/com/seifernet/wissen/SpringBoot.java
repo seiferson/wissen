@@ -2,9 +2,12 @@ package com.seifernet.wissen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+import com.seifernet.wissen.configuration.CustomProperties;
 
 /**
  * Spring boot main class and annotation configuration
@@ -14,9 +17,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
  *
  */
 @Configuration
-@EnableAutoConfiguration
 @ComponentScan
-@EnableWebSecurity
+@EnableAutoConfiguration
+@EnableConfigurationProperties(CustomProperties.class)
 public class SpringBoot {
 
 	/**

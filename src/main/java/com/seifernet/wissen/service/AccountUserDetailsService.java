@@ -20,6 +20,8 @@ public class AccountUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Author account = authorRepository.findByNickname(username);
 		if(account != null) {
+			System.out.println(account.getNickname());
+			System.out.println(account.getPassword());
 			return new User( 
 					account.getNickname(), 
 					account.getPassword(), 
