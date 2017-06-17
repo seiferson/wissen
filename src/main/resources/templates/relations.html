@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="/css/semantic.css" />
+		<title>Wissen</title>
+	</head>
+	<body>
+		
+		<div class="ui top menu">
+			<div class="header item">Wissen</div>
+			<div class="right menu">
+				<div class="ui right aligned category search item">
+					<div class="ui transparent icon input">
+						<input class="prompt" type="text" placeholder="Search flashcards..." />
+						<i class="search link icon"></i>
+					</div>
+					<div class="results"></div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<h1 class="ui center aligned icon header">
+			<i class="circular book icon"></i>
+			<div class="content">
+				Wissen
+				<div class="sub header">Flashcards repository</div>
+			</div>
+		</h1>
+		
+		<div style="margin-top: 50px"></div>
+		
+		<div class="ui container">
+			<div class="ui breadcrumb">
+				<a class="section" href="/indetify" >Identify</a>
+			</div>
+			<table class="ui celled striped table">
+				<thead>
+					<tr><th colspan="3">Relations</th></tr>
+				</thead>
+				<tbody>
+					<th:block th:each="relation : ${relations}">
+						<tr>
+							<td class="collapsing" th:text="${relation.subject.text}"></td>
+							<td th:text="${relation.action.text}"></td>
+							<td th:text="${relation.other.text}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="ui basic segment center aligned">
+			<b>Seifernet 2016</b>
+		</div>
+		
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="/js/semantic.js"></script>
+		<script>
+			$('.ui.dropdown')
+			  .dropdown()
+			;
+
+		</script>
+	</body>
+</html>
