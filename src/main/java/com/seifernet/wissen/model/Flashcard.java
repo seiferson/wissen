@@ -1,5 +1,6 @@
 package com.seifernet.wissen.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import org.springframework.data.annotation.Id;
 /**
  * Flashcard data abstraction
  * 
- * @author Seifer ( Cuauhtemoc Herrera )
+ * @author Seifer (Cuauhtemoc Herrera)
  * @version 0.0.1
  *
  */
@@ -28,14 +29,28 @@ public class Flashcard {
 	private String category;
 	private Boolean shared;
 	private String resource;
-	private String keywords;
+	private List<String> keywords;
 	private List<String> stars;
 
 	/**
 	 * 
 	 */
-	public Flashcard( ){
+	public Flashcard(){
+		super();
 		this.enabled = true;
+		this.enabled = true;
+		this.created = new Date();
+		this.update = new Date();
+		this.shared = true;
+		this.stars = new ArrayList<>();
+		this.keywords = new ArrayList<>();
+		this.details = "";
+		this.references = "";
+		this.category = "";
+		this.resource = "";
+		this.question = "";
+		this.answer = "";
+		this.author = "Anonymous";
 	}
 	
 	/**
@@ -51,8 +66,8 @@ public class Flashcard {
 	 * @param shared
 	 * @param resource
 	 */
-	public Flashcard( String id, Boolean enabled, Date update, String question, String answer, String details,
-					  String author, String references, String category, Boolean shared, String resource, Date created ) {
+	public Flashcard(String id, Boolean enabled, Date update, String question, String answer, String details,
+					  String author, String references, String category, Boolean shared, String resource, Date created) {
 		this.id = id;
 		this.enabled = enabled;
 		this.update = update;
@@ -78,8 +93,8 @@ public class Flashcard {
 	 * @param shared
 	 * @param resource
 	 */
-	public Flashcard( String question, String answer, String details, String author, String references,
-					  String category, Boolean shared, String resource ) {
+	public Flashcard(String question, String answer, String details, String author, String references,
+					  String category, Boolean shared, String resource) {
 		this.enabled = true;
 		this.created = new Date( );
 		this.update = new Date( );
@@ -271,14 +286,14 @@ public class Flashcard {
 	/**
 	 * @return the keywords
 	 */
-	public String getKeywords() {
+	public List<String> getKeywords() {
 		return keywords;
 	}
 
 	/**
 	 * @param keywords the keywords to set
 	 */
-	public void setKeywords(String keywords) {
+	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
 	}
 

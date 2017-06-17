@@ -6,40 +6,33 @@
 	<body>
 		<th:block th:fragment="index">
 		<div class="ui container">
-			<div class="ui people shape">
-				<div class="sides">
-					<div class="side">
-						<div class="ui card">
-							<div class="content">
-								<i class="right floated remove teal bookmark icon"></i>
-								<i class="right floated empty star icon"></i>
-								<div class="header">Cute Dog</div>
-								<div class="description">
-									<p></p>
-								</div>
-							</div>
-							<div class="extra content">
-								<span class="right floated">121 <i class="yellow star icon"></i></span>
-							</div>
-						</div>
-					</div>
-					<div class="side active">
-						<div class="ui card">
-							<div class="content">
-								<i class="right floated remove teal bookmark icon"></i>
-								<i class="right floated empty star icon"></i>
-								<div class="header">Cute Dog</div>
-								<div class="description">
-									<p></p>
-								</div>
-							</div>
-							<div class="extra content">
-								<span class="right floated">121 <i class="yellow star icon"></i></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
+			<div class="ui grid">
+				 <div class="row">
+				 	<div sec:authorize="isAuthenticated()" class="eight wide column">
+				 		<div class="ui segment">
+				 			<div class="ui form">
+				 				<h4 class="ui dividing header"><i class="write icon"></i>New flashcard</h4>
+				 				<div class="field">
+				 					<label for="question">Question/Concept</label>
+				 					<input type="text" name="question" id="question" />
+				 				</div>
+				 				<div class="field">
+				 					<label for="answer">Answer/Definition</label>
+				 					<textarea rows="3" name="answer" id="answer" placeholder="Write a short description/explanation"></textarea>
+				 				</div>
+				 				<div class="field">
+				 					<label for="keywords">Keywords</label>
+				 					<input type="text" name="keywords" id="keywords" placeholder="Keywords comma/pipe/slash/dash separated "/>
+				 				</div>
+				 				<div class="fluid ui submit button" onclick="createFlashcard( )">Create</div>
+				 			</div>
+				 		</div>
+				 	</div>
+				 	<div class="eight wide column">
+				 		
+				 	</div>
+				 </div>
+			</div>
 		</div>
 		</th:block>
 	</body>
