@@ -31,6 +31,22 @@ public class WissenController {
 	@Autowired
 	private CustomProperties properties;
 	
+	@RequestMapping(URL.INDEX)
+	private String index( Model model ){
+		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
+		model.addAttribute(ModelAttributes.HEADER_SOURCE, WebResources.HEADER);
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		
+		model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
+		
+		model.addAttribute(ModelAttributes.HEADER_FRAGMENT, "indexHeader");
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "index");
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "indexCustomjs");
+		
+		return WebResources.BASE_LAYOUT;
+	}
+	
 	/*
 	private String generateToken(Authentication auth){
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
