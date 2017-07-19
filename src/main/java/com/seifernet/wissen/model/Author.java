@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -259,7 +259,7 @@ public class Author {
 	/**
 	 * 
 	 * @return
-	 */
+	 *//*
 	@JsonIgnore
 	public List<GrantedAuthority> getGrantedAuthorities(){
 		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -269,5 +269,5 @@ public class Author {
 		}
 		
 		return grantedAuthorities;
-	}
+	}*/
 }

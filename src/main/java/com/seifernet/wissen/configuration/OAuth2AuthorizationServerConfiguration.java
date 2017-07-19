@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+/**
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+**/
 
 import com.seifernet.wissen.service.AccountClientDetailsService;
 import com.seifernet.wissen.service.AccountUserDetailsService;
@@ -26,9 +28,10 @@ import com.seifernet.wissen.service.AccountUserDetailsService;
  * @version 0.0.1
  *
  */
-@Configuration
-@EnableAuthorizationServer
-public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter{
+//@Configuration
+//@EnableAuthorizationServer
+public class OAuth2AuthorizationServerConfiguration { /*extends AuthorizationServerConfigurerAdapter{
+	
 	private TokenStore tokenStore = new InMemoryTokenStore();
 
 	@Autowired
@@ -73,4 +76,5 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 		tokenServices.setTokenStore(this.tokenStore);
 		return tokenServices;
 	}
+	*/
 }

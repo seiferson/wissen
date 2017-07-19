@@ -1,10 +1,10 @@
 package com.seifernet.wissen.controller;
 
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -31,6 +31,7 @@ public class WissenController {
 	@Autowired
 	private CustomProperties properties;
 	
+	/*
 	private String generateToken(Authentication auth){
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Authorization", "Basic "+Base64.encodeBase64String(properties.getMainClientAppId().getBytes()));
@@ -66,7 +67,7 @@ public class WissenController {
 	 * @param model
 	 * @param auth
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(URL.INDEX)
 	public String indexPage(Model model, Authentication auth){
 		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
@@ -95,7 +96,7 @@ public class WissenController {
 	 * @param model
 	 * @param auth
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(URL.NEW_USER)
 	public String newUserPage(Model model, Authentication auth){
 		if(auth != null && auth.isAuthenticated()){
@@ -119,6 +120,6 @@ public class WissenController {
 		System.out.println(properties.getMainClientAppId());
 		System.out.println(properties.getMainClientAppSecret());
 		return "login";
-	}
+	}*/
 	
 }

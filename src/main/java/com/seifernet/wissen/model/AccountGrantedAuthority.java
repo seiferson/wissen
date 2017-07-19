@@ -1,13 +1,13 @@
 package com.seifernet.wissen.model;
 
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 /**
  * 
  * @author cuauhteh
  *
  */
-public class AccountGrantedAuthority implements GrantedAuthority{
+public class AccountGrantedAuthority {//implements GrantedAuthority{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -17,7 +17,7 @@ public class AccountGrantedAuthority implements GrantedAuthority{
 		this.authority = authority;
 	}
 
-	@Override
+	//@Override
 	public String getAuthority() {
 		return authority;
 	}

@@ -8,7 +8,7 @@ import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +25,8 @@ import com.seifernet.wissen.graph.Relation;
 @Controller
 public class FlashcardController {
 
-	@RequestMapping( "/" )
-	public String index( Authentication auth ){
+//	@RequestMapping( "/" )
+//	public String index( Authentication auth ){
 //		
 //		Set<String> entities = new HashSet<>();
 //		HashMap<String, Concept> c = new HashMap<>();
@@ -46,8 +46,8 @@ public class FlashcardController {
 //			
 //		}
 //		System.out.println( entities );
-		return "simple";
-	}
+//		return "simple";
+//	}
 	
 	@RequestMapping( "/process" )
 	public String process( Model model, @RequestParam("xurl") String url, HttpServletRequest request ){ 

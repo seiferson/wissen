@@ -5,15 +5,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.provider.ClientDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
  * 
  * @author cuauhteh
  *
  */
-public class AccountClientDetails implements ClientDetails{
+public class AccountClientDetails { //implements ClientDetails{
 
 	private static final long serialVersionUID = 1L;
 	private Author account;
@@ -26,67 +26,67 @@ public class AccountClientDetails implements ClientDetails{
 		this.account = account;
 	}
 
-	@Override
+	//@Override
 	public Integer getAccessTokenValiditySeconds() {
 		return 600;
 	}
 
-	@Override
+	//@Override
 	public Map<String, Object> getAdditionalInformation() {
 		return null;
 	}
 
-	@Override
-	public Collection<GrantedAuthority> getAuthorities() {
+	//@Override
+	/*public Collection<GrantedAuthority> getAuthorities() {
 		return account.getGrantedAuthorities();
 	}
 
 	@Override
 	public Set<String> getAuthorizedGrantTypes() {
 		return new HashSet<>(account.getGrantTypes());
-	}
+	}*/
 
-	@Override
+	//@Override
 	public String getClientId() {
 		return account.getClientId();
 	}
 
-	@Override
+	//@Override
 	public String getClientSecret() {
 		return account.getSecret();
 	}
 
-	@Override
+	//@Override
 	public Integer getRefreshTokenValiditySeconds() {
 		return 600;
 	}
 
-	@Override
+	//@Override
 	public Set<String> getRegisteredRedirectUri() {
 		return null;
 	}
 
-	@Override
+	//@Override
 	public Set<String> getResourceIds() {
 		return new HashSet<>(account.getResources());
 	}
 
-	@Override
+	//@Override
 	public Set<String> getScope() {
 		return new HashSet<>(account.getScopes());
 	}
 
-	@Override
+	//@Override
 	public boolean isAutoApprove(String arg0) {
 		return true;
 	}
 
-	@Override
+	//@Override
 	public boolean isScoped() {
 		return true;
 	}
 
-	@Override
+	//@Override
 	public boolean isSecretRequired() {
 		return true;
 	}

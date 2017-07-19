@@ -1,9 +1,9 @@
 package com.seifernet.wissen.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.ClientDetails;
+/*import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;*/
 import org.springframework.stereotype.Service;
 
 import com.seifernet.wissen.model.AccountClientDetails;
@@ -15,8 +15,8 @@ import com.seifernet.wissen.repository.AuthorRepository;
  * @author cuauhteh
  *
  */
-@Service
-public class AccountClientDetailsService implements ClientDetailsService{
+//@Service
+public class AccountClientDetailsService {/*implements ClientDetailsService{
 
 	@Autowired
 	private AuthorRepository authorRepository;
@@ -29,6 +29,6 @@ public class AccountClientDetailsService implements ClientDetailsService{
 		} else {
 			throw new ClientRegistrationException("Client not found: '" + clientId + "'");
 		}
-	}
+	}*/
 
 }
