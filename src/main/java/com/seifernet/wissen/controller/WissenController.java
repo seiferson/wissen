@@ -1,20 +1,21 @@
 package com.seifernet.wissen.controller;
 
 //import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpEntity;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.userdetails.User;
+//import org.springframework.util.LinkedMultiValueMap;
+//import org.springframework.util.MultiValueMap;
+//import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
 
-import com.seifernet.wissen.configuration.CustomProperties;
+
+//import com.seifernet.wissen.util.ResponseToken;
+//import com.seifernet.wissen.configuration.CustomProperties;
 import com.seifernet.wissen.util.ModelAttributes;
-import com.seifernet.wissen.util.ResponseToken;
 import com.seifernet.wissen.util.URL;
 import com.seifernet.wissen.util.WebResources;
 
@@ -28,24 +29,36 @@ import com.seifernet.wissen.util.WebResources;
 @Controller
 public class WissenController {
 	
-	@Autowired
-	private CustomProperties properties;
-	
+	/**
+	 * Home
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(URL.INDEX)
 	private String index( Model model ){
 		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
-		model.addAttribute(ModelAttributes.HEADER_SOURCE, WebResources.HEADER);
 		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
-		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
 		
 		model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
-		
-		model.addAttribute(ModelAttributes.HEADER_FRAGMENT, "indexHeader");
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "index");
-		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "indexCustomjs");
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "todo");
 		
 		return WebResources.BASE_LAYOUT;
 	}
+	
+	@RequestMapping(URL.TASK)
+	private String task( Model model ){
+		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		
+		model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "task");
+		
+		return WebResources.BASE_LAYOUT;
+	}
+	
+//	@Autowired
+//	private CustomProperties properties;
 	
 	/*
 	private String generateToken(Authentication auth){

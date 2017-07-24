@@ -4,34 +4,46 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
-		<th:block th:fragment="index">
+	
+		<th:block th:fragment="todo">
 		<div class="ui container">
-			<div class="ui grid">
-				 <div class="row">
-				 	<div sec:authorize="isAuthenticated()" class="eight wide column">
-				 		<div class="ui segment">
-				 			<div class="ui form">
-				 				<h4 class="ui dividing header"><i class="write icon"></i>New flashcard</h4>
-				 				<div class="field">
-				 					<label for="question">Question/Concept</label>
-				 					<input type="text" name="question" id="question" />
-				 				</div>
-				 				<div class="field">
-				 					<label for="answer">Answer/Definition</label>
-				 					<textarea rows="3" name="answer" id="answer" placeholder="Write a short description/explanation"></textarea>
-				 				</div>
-				 				<div class="field">
-				 					<label for="keywords">Keywords</label>
-				 					<input type="text" name="keywords" id="keywords" placeholder="Keywords comma/pipe/slash/dash separated "/>
-				 				</div>
-				 				<div class="fluid ui submit button" onclick="createFlashcard( )">Create</div>
-				 			</div>
-				 		</div>
-				 	</div>
-				 	<div class="eight wide column">
-				 		
-				 	</div>
-				 </div>
+			<div class="ui segment"><b><a href="/task">Task1</a></b></div>
+			<div class="ui orange segment"><b><a href="/task">Task2</a></b></div>
+			<div class="ui yellow segment"><b><a href="/task">Task3</a></b></div>
+			<div class="ui olive segment"><b><a href="/task">Task4</a></b></div>
+			<div class="ui green segment"><b><a href="/task">Task5</a></b></div>
+			<div class="ui teal segment"><b><a href="/task">Task6</a></b></div>
+			<div class="ui blue segment"><b><a href="/task">Task7</a></b></div>
+			<div class="ui violet segment"><b><a href="/task">Task8</a></b></div>
+			<div class="ui purple segment"><b><a href="/task">Task9</a></b></div>
+			<div class="ui pink segment"><b><a href="/task">Task10</a></b></div>
+			<div class="ui brown segment"><b><a href="/task">Task11</a></b></div>
+			<div class="ui grey segment"><b><a href="/task">Task12</a></b></div>
+			<div class="ui black segment"><b><a href="/task">Task13</a></b></div>
+		</div>
+		</th:block>
+	
+		<th:block th:fragment="task">
+		<div class="ui container">
+			<div class="ui one cards">
+				<div class="card">
+					<div class="ui top attached progress" id="taskcard">
+						<div class="bar"></div>
+					</div>
+					<div class="content">
+						<div class="header">Laundry</div>
+						<div class="meta">
+							<span>2 days ago</span>
+						</div>
+						<div class="description">
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu turpis vel est porttitor pellentesque vel ac eros. Aenean egestas orci in mauris malesuada ultrices. Maecenas euismod lorem id ullamcorper varius
+							</p>
+						</div>
+					</div>
+					<div class="extra content">
+					</div>
+				</div>
 			</div>
 		</div>
 		</th:block>
