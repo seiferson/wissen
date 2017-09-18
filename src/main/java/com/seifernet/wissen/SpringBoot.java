@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.seifernet.wissen.configuration.CustomProperties;
 
@@ -19,6 +20,7 @@ import com.seifernet.wissen.configuration.CustomProperties;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableConfigurationProperties(CustomProperties.class)
+@EnableScheduling
 public class SpringBoot {
 
 	/**
