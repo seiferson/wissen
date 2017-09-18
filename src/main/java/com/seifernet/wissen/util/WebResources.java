@@ -5,7 +5,6 @@ package com.seifernet.wissen.util;
  * 
  * @author Seifer (Cuauhtemoc Herrera)
  * @version 0.0.1
- * 
  */
 public class WebResources {
 	

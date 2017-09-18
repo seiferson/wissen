@@ -46,6 +46,11 @@ public class WissenController {
 		return WebResources.BASE_LAYOUT;
 	}
 	
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(URL.TASK)
 	private String task( Model model ){
 		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
@@ -150,5 +155,30 @@ public class WissenController {
 		System.out.println(properties.getMainClientAppSecret());
 		return "login";
 	}*/
+	
+	
+	//	@RequestMapping( "/" )
+//	public String index( Authentication auth ){
+//		
+//		Set<String> entities = new HashSet<>();
+//		HashMap<String, Concept> c = new HashMap<>();
+//		for( Relation r : Alchemy.getRelations("https://es.wikipedia.org/wiki/B%C3%B3lido_de_Tunguska") ){
+//			try{
+////				System.out.println( r.getSubject().getText() + " | " + r.getAction().getText() + " | " + r.getObject( ).getText() );
+//				String x = r.getSubject().getText().split("\\(")[0].trim();
+////				if( x.equals(principal) || x.equals( "su" ) || x.equals("sus") || x.equals(sub1) || x.equals(sub2) ){
+//					entities.add(x);
+////					System.out.println( r.getAction().getText() + " " + r.getObject().getText() );
+////					
+////				}
+//				
+//			} catch( Exception e){
+//				
+//			}
+//			
+//		}
+//		System.out.println( entities );
+//		return "simple";
+//	}
 	
 }
