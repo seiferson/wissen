@@ -11,6 +11,15 @@
 			body > .ui.container {
 				margin-top: 3em;
 			}
+			.greenicon {
+			   color: #339933; 
+			}
+			.greenstatus {
+			    color: #009933;
+			}
+			.redstatus {
+			    color: #cc3300;
+			}
 		</style>
 		<title>Wissen</title>
 	</head>
@@ -24,6 +33,32 @@
 		
 		<script>
 			$('.ui.dropdown').dropdown();
+			$.ajax({
+    	          type: 'GET',
+    	          url: "/api/plants/search/findTop1ByOrderByLastWaterDesc",
+    	          contentType: "application/json; charset=utf-8",
+    	          success: function(resultData) {
+    	              var x = document.getElementById("latest");
+    	              if(x != null){
+    	                  if(resultData._embedded.plants.length == 1){
+        	                  var lDate = new Date(resultData._embedded.plants[0].lastWater);
+        	                  var cDate = new Date();
+        	                  var diff = (cDate.getTime()-lDate.getTime())/1000/60/60;
+
+        	                  $("#latest").text(parseFloat(diff).toFixed(2) + " hours ago");
+        	                  if(diff > 48){
+        	                      $("#latest").addClass("redstatus");
+        	                  } else {
+        	                      $("#latest").addClass("greenstatus");
+        	                  }
+    	                  } else {
+    	                      $("#latest").text("no data available");
+    	                      $("#latest").addClass("redstatus");
+    	                  }
+
+    	              }
+    	          }   
+    	      });
 		</script>
 	</body>
 </html>

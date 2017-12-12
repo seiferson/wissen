@@ -22,6 +22,40 @@
 			<div class="ui black segment"><b><a href="/task">Task13</a></b></div>
 		</div>
 		</th:block>
+		
+		<th:block th:fragment="plant">
+		    <div class="ui center aligned container">
+		    <div class="ui card">
+		    <div class="ui content">
+		        <h2 class="ui icon header">
+		          <i class="leaf icon greenicon"></i>
+		          <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
+		        </h2>
+		        <p></p>
+		        <button class="circular ui big blue icon button" onclick="pushWaterToServer()"><i class="icon theme"></i></button>
+		    </div>
+            </div>
+		    </div>
+		    <script>
+		      function pushWaterToServer(){
+		      var xdata = { lastWater: (new Date()).getTime() };
+		      $.ajax({
+		          type: 'POST',
+		          url: "/api/plants",
+		          contentType: "application/json; charset=utf-8",
+		          dataType: 'json',
+		          data: JSON.stringify(xdata),
+		          success: function(resultData) {
+		              var cDate = new Date();
+		              $("#latest").removeClass("redstatus");
+		              $("#latest").addClass("greenstatus");
+		              $("#latest").text("0.00 hours ago");
+		          }   
+		      });
+	          }
+
+		    </script>
+		</th:block>
 	
 		<th:block th:fragment="task">
 		<div class="ui container">

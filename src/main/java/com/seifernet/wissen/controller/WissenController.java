@@ -28,6 +28,18 @@ import com.seifernet.wissen.util.WebResources;
  */
 @Controller
 public class WissenController {
+    
+    
+    @RequestMapping(URL.PLANT_STATUS)
+    private String plantStatus(Model model){
+        model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
+        model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
+        
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "plant");
+        
+        return WebResources.BASE_LAYOUT;
+    }
 	
 	/**
 	 * Home
