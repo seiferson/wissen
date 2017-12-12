@@ -1,5 +1,13 @@
 package com.seifernet.wissen.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */

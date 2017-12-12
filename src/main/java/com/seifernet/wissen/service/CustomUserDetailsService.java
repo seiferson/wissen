@@ -1,5 +1,15 @@
 package com.seifernet.wissen.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.seifernet.wissen.model.Account;
+import com.seifernet.wissen.repository.AccountRepository;
+
 /**
  * 
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -8,14 +18,12 @@ package com.seifernet.wissen.service;
 public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
-	private AuthorRepository authorRepository;
+	private AccountRepository accountRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Author account = authorRepository.findByNickname(username);
+		Account account = accountRepository.findByNickname(username);
 		if(account != null) {
-			System.out.println(account.getNickname());
-			System.out.println(account.getPassword());
 			return new User( 
 					account.getNickname(),
 					account.getPassword(),
@@ -28,6 +36,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 		} else {
 			throw new UsernameNotFoundException("User not found: '" + username + "'");
 		}
-	}*/
+	}
 
 }

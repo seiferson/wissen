@@ -37,7 +37,7 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	@Autowired
 	private CustomProperties properties;
 	
-		@Autowired
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Override
