@@ -12,9 +12,7 @@ import com.seifernet.wissen.configuration.CustomProperties;
 /**
  * Spring boot main class and annotation configuration
  * 
- * @author Seifer( Cuauhtemoc Herrera )
- * @version 0.0.1
- *
+ * @author Seiferson (Cuauhtemoc Herrera)
  */
 @Configuration
 @ComponentScan

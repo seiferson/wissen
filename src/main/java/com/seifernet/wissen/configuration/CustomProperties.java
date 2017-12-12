@@ -2,6 +2,12 @@ package com.seifernet.wissen.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * CustomProperties POJO
+ * Add new custom properties here
+ * 
+ * @author Seiferson (Cuauhtemoc Herrera)
+ */
 @ConfigurationProperties("wissen")
 public class CustomProperties {
 	
@@ -35,5 +41,4 @@ public class CustomProperties {
 	public void setMainClientAppSecret(String mainClientAppSecret) {
 		this.mainClientAppSecret = mainClientAppSecret;
 	}
-	
 }

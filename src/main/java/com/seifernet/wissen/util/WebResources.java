@@ -3,8 +3,7 @@ package com.seifernet.wissen.util;
 /**
  * Web resources definitions
  * 
- * @author Seifer (Cuauhtemoc Herrera)
- * @version 0.0.1
+ * @author Seiferson (Cuauhtemoc Herrera)
  */
 public class WebResources {
 	

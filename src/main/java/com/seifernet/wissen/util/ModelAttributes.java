@@ -3,9 +3,7 @@ package com.seifernet.wissen.util;
 /**
  * Model attribute names
  * 
- * @author Seifer (Cuauhtemoc Herrera)
- * @version 0.0.1
- *
+ * @author Seiferson (Cuauhtemoc Herrera)
  */
 public class ModelAttributes {
 	
