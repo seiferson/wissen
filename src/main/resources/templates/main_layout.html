@@ -8,8 +8,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.css" />
     <style type="text/css">
       body > .ui.container { margin-top: 3em; }
-      greenicon { color: #339933; }
-      greenstatus { color: #009933; }
+      i.leaf.icon.greenicon { color: #339933; }
+      span#latest.greenstatus { color: #009933; }
       span#latest.redstatus { color: #cc3300; }
     </style>
     <title>Wissen</title>
@@ -94,17 +94,19 @@
       
       $.ajax({
         type: 'GET',
-        url: "/api/plants/search/findTop1ByOrderByLastWaterDesc",
+        url: "/api/irrigationRecords/search/findTop1ByOrderByDateDesc",
         contentType: "application/json; charset=utf-8",
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           console.log(textStatus);
-          console.log("dafuq");
+          console.log(XMLHttpRequest);
+          $("#latest").text("no data available");
+          $("#latest").addClass("redstatus");
         },
         success: function(resultData) {
           var x = document.getElementById("latest");
           if(x != null){
-            if(resultData._embedded.plants.length == 1){
-              var lDate = new Date(resultData._embedded.plants[0].lastWater);
+            if(resultData != null){
+              var lDate = new Date(resultData.date);
               var cDate = new Date();
               var diff = (cDate.getTime()-lDate.getTime())/1000/60/60;
               
