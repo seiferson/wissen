@@ -1,64 +1,128 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.css" />
-		
-		<style type="text/css">
-			body > .ui.container {
-				margin-top: 3em;
-			}
-			.greenicon {
-			   color: #339933; 
-			}
-			.greenstatus {
-			    color: #009933;
-			}
-			.redstatus {
-			    color: #cc3300;
-			}
-		</style>
-		<title>Wissen</title>
-	</head>
-	<body>
-		<th:block th:include="${menuSource} :: ${menuFragment}"> </th:block>
-		
-		<th:block th:include="${contentSource} :: ${contentFragment}"></th:block>
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-		
-		<script>
-			$('.ui.dropdown').dropdown();
-			$.ajax({
-    	          type: 'GET',
-    	          url: "/api/plants/search/findTop1ByOrderByLastWaterDesc",
-    	          contentType: "application/json; charset=utf-8",
-    	          success: function(resultData) {
-    	              var x = document.getElementById("latest");
-    	              if(x != null){
-    	                  if(resultData._embedded.plants.length == 1){
-        	                  var lDate = new Date(resultData._embedded.plants[0].lastWater);
-        	                  var cDate = new Date();
-        	                  var diff = (cDate.getTime()-lDate.getTime())/1000/60/60;
-
-        	                  $("#latest").text(parseFloat(diff).toFixed(2) + " hours ago");
-        	                  if(diff > 48){
-        	                      $("#latest").addClass("redstatus");
-        	                  } else {
-        	                      $("#latest").addClass("greenstatus");
-        	                  }
-    	                  } else {
-    	                      $("#latest").text("no data available");
-    	                      $("#latest").addClass("redstatus");
-    	                  }
-
-    	              }
-    	          }   
-    	      });
-		</script>
-	</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.css" />
+    <style type="text/css">
+      body > .ui.container { margin-top: 3em; }
+      greenicon { color: #339933; }
+      greenstatus { color: #009933; }
+      span#latest.redstatus { color: #cc3300; }
+    </style>
+    <title>Wissen</title>
+  </head>
+  <body>
+    <th:block th:include="${menuSource} :: ${menuFragment}"> </th:block>
+    <th:block th:include="${contentSource} :: ${contentFragment}"></th:block>
+    
+    <div class="ui modal">
+      <i class="close icon"></i>
+      <div class="header">Authentication stage</div>
+      
+      <div class="content">
+        <div class="ui icon message">
+          <i class="id badge icon"></i>
+          <div class="content">
+            <div class="header">Hi! Stranger</div>
+            <p>
+              We have noticed that you are not logged in. This
+              can be an issue if you try to access some areas 
+              of the site that are not allowed to unidentified 
+              users. So in order to continue, please log in.
+              <i class="smile icon"></i>
+            </p>
+          </div>
+        </div>
+        <form class="ui form">
+          <div class="field">
+            <label>User</label>
+            <input type="text" id="user" name="user" placeholder="User" />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="passwd" name="passwd" placeholder="Password" />
+          </div>
+          <div class="center aligned">
+            <button class="ui button" type="button" onclick="authenticate()">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+      function authenticate(){
+        var user = $("#user").val();
+        var passwd = $("#passwd").val();
+        
+        $.ajax({
+          type: 'POST',
+          url: "/oauth/token",
+          headers: {
+            "Authorization" : "Basic bWFzdGVyOjEyMzQ1Ng==",
+            "Accept" : "application/json"
+          },
+          contentType: "application/x-www-form-urlencoded",
+          //<![CDATA[
+          data: {
+            password : passwd,
+            username : user,
+            grant_type : "password"
+          },
+          //]]>
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Error getting credentials")
+            console.log(textStatus);
+            console.log(XMLHttpRequest);
+            console.log(errorThrown);
+          },
+          success: function(resultData) {
+          	console.log(resultData.access_token);
+            $.cookie("userdata", resultData.access_token);
+            $('.ui.modal').modal('hide');
+          }
+        });
+      }
+      
+      $('.ui.dropdown').dropdown();
+      $('.ui.modal').modal();
+      
+      $.ajax({
+        type: 'GET',
+        url: "/api/plants/search/findTop1ByOrderByLastWaterDesc",
+        contentType: "application/json; charset=utf-8",
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          console.log(textStatus);
+          console.log("dafuq");
+        },
+        success: function(resultData) {
+          var x = document.getElementById("latest");
+          if(x != null){
+            if(resultData._embedded.plants.length == 1){
+              var lDate = new Date(resultData._embedded.plants[0].lastWater);
+              var cDate = new Date();
+              var diff = (cDate.getTime()-lDate.getTime())/1000/60/60;
+              
+              $("#latest").text(parseFloat(diff).toFixed(2) + " hours ago");
+              if(diff > 48){
+                $("#latest").addClass("redstatus");
+              }
+              else {
+                $("#latest").addClass("greenstatus");
+              }
+            }
+            else {
+              $("#latest").text("no data available");
+              $("#latest").addClass("redstatus");
+            }
+          }
+        }
+      });
+    </script>
+  </body>
 </html>

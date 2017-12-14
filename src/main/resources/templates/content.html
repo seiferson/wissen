@@ -1,49 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-	
-		<th:block th:fragment="todo">
-		<div class="ui container">
-			<div class="ui segment"><b><a href="/task">Task1</a></b></div>
-			<div class="ui orange segment"><b><a href="/task">Task2</a></b></div>
-			<div class="ui yellow segment"><b><a href="/task">Task3</a></b></div>
-			<div class="ui olive segment"><b><a href="/task">Task4</a></b></div>
-			<div class="ui green segment"><b><a href="/task">Task5</a></b></div>
-			<div class="ui teal segment"><b><a href="/task">Task6</a></b></div>
-			<div class="ui blue segment"><b><a href="/task">Task7</a></b></div>
-			<div class="ui violet segment"><b><a href="/task">Task8</a></b></div>
-			<div class="ui purple segment"><b><a href="/task">Task9</a></b></div>
-			<div class="ui pink segment"><b><a href="/task">Task10</a></b></div>
-			<div class="ui brown segment"><b><a href="/task">Task11</a></b></div>
-			<div class="ui grey segment"><b><a href="/task">Task12</a></b></div>
-			<div class="ui black segment"><b><a href="/task">Task13</a></b></div>
-		</div>
-		</th:block>
-		
-		<th:block th:fragment="plant">
-		    <div class="ui center aligned container">
-		    <div class="ui card">
-		    <div class="ui content">
-		        <h2 class="ui icon header">
-		          <i class="leaf icon greenicon"></i>
-		          <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
-		        </h2>
-		        <p></p>
-		        <button class="circular ui big blue icon button" onclick="pushWaterToServer()"><i class="icon theme"></i></button>
-		    </div>
-            </div>
-		    </div>
-		    <script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <th:block th:fragment="todo">
+    <div class="ui container">
+      <div class="ui segment"><b><a href="/task">Task1</a></b></div>
+      <div class="ui orange segment"><b><a href="/task">Task2</a></b></div>
+      <div class="ui yellow segment"><b><a href="/task">Task3</a></b></div>
+      <div class="ui olive segment"><b><a href="/task">Task4</a></b></div>
+      <div class="ui green segment"><b><a href="/task">Task5</a></b></div>
+      <div class="ui teal segment"><b><a href="/task">Task6</a></b></div>
+      <div class="ui blue segment"><b><a href="/task">Task7</a></b></div>
+      <div class="ui violet segment"><b><a href="/task">Task8</a></b></div>
+      <div class="ui purple segment"><b><a href="/task">Task9</a></b></div>
+      <div class="ui pink segment"><b><a href="/task">Task10</a></b></div>
+      <div class="ui brown segment"><b><a href="/task">Task11</a></b></div>
+      <div class="ui grey segment"><b><a href="/task">Task12</a></b></div>
+      <div class="ui black segment"><b><a href="/task">Task13</a></b></div>
+    </div>
+    </th:block>
+    
+    <th:block th:fragment="plant">
+    <div class="ui container">
+      <div class="ui one cards">
+        <div class="ui green card">
+          <div class="ui content">
+            <h2 class="ui icon header">
+              <i class="leaf icon greenicon"></i>
+              <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
+            </h2>
+            <p class="center aligned">
+              <button class="circular ui big blue icon button" onclick="pushWaterToServer()"><i class="icon theme"></i></button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
 		      function pushWaterToServer(){
+		       var credentials = $.cookie("userdata");
+		       if(credentials === undefined){
+		         $('.ui.modal').modal('show');
+		       } else {
+		      
 		      var xdata = { lastWater: (new Date()).getTime() };
 		      $.ajax({
 		          type: 'POST',
 		          url: "/api/plants",
 		          contentType: "application/json; charset=utf-8",
 		          dataType: 'json',
+		          headers: {
+            "Authorization" : "Bearer " + $.cookie("userdata"),
+          },
 		          data: JSON.stringify(xdata),
 		          success: function(resultData) {
 		              var cDate = new Date();
@@ -51,7 +61,7 @@
 		              $("#latest").addClass("greenstatus");
 		              $("#latest").text("0.00 hours ago");
 		          }   
-		      });
+		      });}
 	          }
 
 		    </script>

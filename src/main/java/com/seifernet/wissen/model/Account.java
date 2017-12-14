@@ -41,6 +41,10 @@ public class Account {
 		return grantedAuthorities;
 	}
 	
+	public void setAuthorities(List<String> authorities){
+		this.authorities = authorities;
+	}
+	
 	/**
 	 * @return the id
 	 */
