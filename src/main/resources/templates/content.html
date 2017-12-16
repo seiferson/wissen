@@ -32,45 +32,12 @@
               <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
             </h2>
             <p class="center aligned">
-              <button class="circular ui big blue icon button" onclick="pushWaterToServer()"><i class="icon theme"></i></button>
+              <button class="circular ui big blue icon button" onclick="irrigate()"><i class="icon theme"></i></button>
             </p>
           </div>
         </div>
       </div>
     </div>
-    <script>
-      function pushWaterToServer() {
-        if($.cookie("userdata") === undefined) {
-          $('.ui.modal').modal('show');
-        }
-        else {
-          var xdata = {
-            date: (new Date()).getTime(),
-            person : "seiferson",
-            plant : "office"
-          };
-          $.ajax({
-            type: 'POST',
-            url: "/api/irrigationRecords",
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            headers: {
-              "Authorization" : "Bearer " + $.cookie("userdata"),
-            },
-            data: JSON.stringify(xdata),
-            success: function(resultData) {
-              var cDate = new Date();
-              $("#latest").removeClass("redstatus");
-              $("#latest").addClass("greenstatus");
-              $("#latest").text("0.00 hours ago");
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              console.log(textStatus);
-              console.log(XMLHttpRequest);
-          });
-        }
-      }
-    </script>
     </th:block>
 	
 		<th:block th:fragment="task">
