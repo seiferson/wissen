@@ -36,6 +36,12 @@
             </p>
           </div>
         </div>
+        <div class="ui hidden negative message" id="wrongcredentials">
+          <i class="close icon"></i>
+          <div class="header">
+            Wrong credentials
+          </div>
+        </div>
         <form class="ui form">
           <div class="field">
             <label>User</label>
@@ -57,41 +63,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="/js/wissen.js"></script>
     <script>
-      function authenticate(){
-        var user = $("#user").val();
-        var passwd = $("#passwd").val();
-        
+      $('.ui.dropdown').dropdown();
+      $('.ui.modal').modal();
+      $('.message .close').on('click', function() {
+        $(this).closest('.message').transition('fade');
+      });
+      
+      //<![CDATA[
+      if($.cookie("authuser") != undefined && $.cookie("authtoken") != undefined) {
         $.ajax({
-          type: 'POST',
-          url: "/oauth/token",
+          type: 'GET',
+          url: "/oauth/check_token?token=" + $.cookie("authtoken"),
           headers: {
             "Authorization" : "Basic bWFzdGVyOjEyMzQ1Ng==",
             "Accept" : "application/json"
           },
-          contentType: "application/x-www-form-urlencoded",
-          //<![CDATA[
-          data: {
-            password : passwd,
-            username : user,
-            grant_type : "password"
+          success: function(response) {
+            $("#authuser").text(response.user_name);
           },
-          //]]>
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log("Error getting credentials")
-            console.log(textStatus);
-            console.log(XMLHttpRequest);
-            console.log(errorThrown);
-          },
-          success: function(resultData) {
-          	console.log(resultData.access_token);
-            $.cookie("userdata", resultData.access_token);
-            $('.ui.modal').modal('hide');
+          error: function(XMLHttpRequest) {
+            if(XMLHttpRequest.status == 400) {
+              $.removeCookie("authuser");
+              $.removeCookie("authtoken");
+              $("#authuser").text("Anonymous");
+            }
           }
         });
       }
-      
-      $('.ui.dropdown').dropdown();
-      $('.ui.modal').modal();
+      //]]>
       
       $.ajax({
         type: 'GET',

@@ -6,19 +6,6 @@
   <body>
     <th:block th:fragment="todo">
     <div class="ui container">
-      <div class="ui segment"><b><a href="/task">Task1</a></b></div>
-      <div class="ui orange segment"><b><a href="/task">Task2</a></b></div>
-      <div class="ui yellow segment"><b><a href="/task">Task3</a></b></div>
-      <div class="ui olive segment"><b><a href="/task">Task4</a></b></div>
-      <div class="ui green segment"><b><a href="/task">Task5</a></b></div>
-      <div class="ui teal segment"><b><a href="/task">Task6</a></b></div>
-      <div class="ui blue segment"><b><a href="/task">Task7</a></b></div>
-      <div class="ui violet segment"><b><a href="/task">Task8</a></b></div>
-      <div class="ui purple segment"><b><a href="/task">Task9</a></b></div>
-      <div class="ui pink segment"><b><a href="/task">Task10</a></b></div>
-      <div class="ui brown segment"><b><a href="/task">Task11</a></b></div>
-      <div class="ui grey segment"><b><a href="/task">Task12</a></b></div>
-      <div class="ui black segment"><b><a href="/task">Task13</a></b></div>
     </div>
     </th:block>
     
@@ -32,7 +19,7 @@
               <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
             </h2>
             <p class="center aligned">
-              <button class="circular ui big blue icon button" onclick="irrigate()"><i class="icon theme"></i></button>
+              <button class="circular ui big blue icon button" onclick="irrigate('office')"><i class="icon theme"></i></button>
             </p>
           </div>
         </div>
