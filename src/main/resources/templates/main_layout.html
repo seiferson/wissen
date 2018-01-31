@@ -11,6 +11,7 @@
       i.leaf.icon.greenicon { color: #339933; }
       span#latest.greenstatus { color: #009933; }
       span#latest.redstatus { color: #cc3300; }
+      .hiddenf { display: none; }
     </style>
     <title>Wissen</title>
   </head>
@@ -18,7 +19,7 @@
     <th:block th:include="${menuSource} :: ${menuFragment}"> </th:block>
     <th:block th:include="${contentSource} :: ${contentFragment}"></th:block>
     
-    <div class="ui modal">
+    <div class="ui modal" id="authmod">
       <i class="close icon"></i>
       <div class="header">Authentication stage</div>
       
@@ -58,6 +59,46 @@
       </div>
     </div>
     
+    <div class="ui modal" id="newtaskmod">
+      <i class="close icon"></i>
+      <div class="header">New Task</div>
+      <div class="scrolling content">
+        <form class="ui form">
+          <div class="field">
+            <label>Title</label>
+            <input type="text" name="tasktitlef" placeholder="Some task name" />
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="taskdescneededf" onchange="toggleNewTaskDesc()" checked="true" />
+              <label>Description needed?</label>
+            </div>
+          </div>
+          <div class="field" id="taskdescfieldf">
+            <label>Description</label>
+            <textarea rows="3" name="taskdescf"></textarea>
+          </div>
+          <div class="field">
+            <label>Due date</label>
+            <input type="datetime-local" name="taskduedatef" />
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="taskexpiresf" onchange="toggleExpireDate()" checked="true"/>
+              <label>Expires?</label>
+            </div>
+          </div>
+          <div class="field" id="taskexpirationdatefieldf">
+            <label>Expiration date</label>
+            <input type="datetime-local" name="taskexpirationdatef" />
+          </div>
+          <div class="right aligned">
+            <button class="ui button" type="button">Create task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -65,6 +106,7 @@
     <script>
       $('.ui.dropdown').dropdown();
       $('.ui.modal').modal();
+      $('.progress').progress();
       $('.message .close').on('click', function() {
         $(this).closest('.message').transition('fade');
       });

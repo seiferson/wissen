@@ -1,5 +1,6 @@
 package com.seifernet.wissen.scheduler;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,20 @@ public class Scheduler {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	//@Scheduled(cron="0 0 7 * * MON-FRI")
 	@Scheduled(fixedRate = 10000)
-	public void createTasks() {
-		Task t = new Task();
+	public void watchDog() {
 		
-		t.setTitle("Test task generated " + new Date());
-		t.setCompleted(false);
-		t.setDescription("Does not matter");
-		t.setExpires(false);
-		t.setDescriptionRequired(true);
-		t.setDueDate(new Date((new Date()).getTime()+(1000*60*60*24*3)));
-		
-		taskRepository.insert(t);
+		ArrayList<Task> expiredTasks = taskRepository.findAllByExpiresTrueAndExpirationDateLessThanAndCompletedFalseAndActiveTrueOrderByCreationDate(new Date());
+		for(Task expiredTask : expiredTasks){
+			expiredTask.setActive(false);
+			taskRepository.save(expiredTask);
+		}
 	}
+	
+	@Scheduled(cron="0 0 7 * * MON-FRI")
+	public void weekDayTaskCreator(){
+		
+	}
+	
+	
 }

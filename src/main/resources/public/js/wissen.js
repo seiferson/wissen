@@ -1,9 +1,25 @@
+function toggleNewTaskDesc(){
+	if($("#taskdescfieldf").hasClass("hiddenf")){
+		$("#taskdescfieldf").removeClass("hiddenf");
+	} else {
+		$("#taskdescfieldf").addClass("hiddenf");
+	}
+}
+
+function toggleExpireDate(){
+	if($("#taskexpirationdatefieldf").hasClass("hiddenf")){
+		$("#taskexpirationdatefieldf").removeClass("hiddenf");
+	} else {
+		$("#taskexpirationdatefieldf").addClass("hiddenf");
+	}
+}
+
 function irrigate(plantid) {
   if($.cookie("authtoken") === undefined) {
     $("#wrongcredentials").addClass("hidden");
     $("#user").val("");
     $("#passwd").val("");
-    $('.ui.modal').modal('show');
+    $("#authmod").modal("show");
   }
   else {
     var xdata = {
@@ -59,7 +75,7 @@ function authenticate(){
     success: function(resultData) {
       $.cookie("authtoken", resultData.access_token);
       $.cookie("authuser", user);
-      $('.ui.modal').modal('hide');
+      $("#authmod").modal("hide");
       $("#authuser").text(user);
       $("#wrongcredentials").addClass("hidden");
       $("#user").val("");
