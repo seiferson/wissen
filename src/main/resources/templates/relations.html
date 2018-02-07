@@ -1,7 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	
-	
+	<h4 class="ui top attached header">Tasks <div class="ui basic tiny teal label">A 24</div><div class="ui basic tiny red label">E 12</div><div class="ui basic tiny yellow label">NDD 3</div></h4>
+      <div class="ui attached segment">
+        <div class="ui relaxed divided list">
+          <div class="item">
+            <div class="middle aligned right floated content"><div class="ui tiny teal label">12/01/2018 23:50</div></div>
+            <div class="middle aligned content"><i class="large square outline icon"></i> Morning checklist</div>
+            <div class="ui blue bottom attached progress success" data-percent="85">
+              <div class="bar"></div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="middle aligned content"><i class="large checkmark box outline icon"></i> Clean the washroom</div>
+          </div>
+          <div class="item" onclick="$('#newtaskmod').modal('show');">
+            <div class="middle aligned content"><i class="large plus square outline icon"></i> Add a task</div>
+          </div>
+          <div class="item">
+            <div class="middle aligned content"><i class="large browser icon"></i> See all</div>
+          </div>
+        </div>
+      </div>
 	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

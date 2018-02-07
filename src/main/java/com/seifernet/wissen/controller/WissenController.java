@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.seifernet.wissen.model.rpg.Player;
-import com.seifernet.wissen.rpg.Dice;
 import com.seifernet.wissen.util.ModelAttributes;
 import com.seifernet.wissen.util.URL;
 import com.seifernet.wissen.util.WebResources;
@@ -17,18 +15,6 @@ import com.seifernet.wissen.util.WebResources;
  */
 @Controller
 public class WissenController {
-    
-    
-    @RequestMapping(URL.PLANT_STATUS)
-    private String plantStatus(Model model){
-        model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
-        model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
-        
-		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "plant");
-        
-        return WebResources.BASE_LAYOUT;
-    }
 	
 	/**
 	 * Home
@@ -38,12 +24,26 @@ public class WissenController {
 	 */
 	@RequestMapping(URL.INDEX)
 	private String index( Model model ){
-		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
 		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "index");
 		
-		model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "todo");
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "indexjs");
 		
+		return WebResources.BASE_LAYOUT;
+	}
+	
+	@RequestMapping(URL.PLANT_STATUS)
+	private String plantStatus(Model model){
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "plant");
+		
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "plantjs");
+		
+		return WebResources.BASE_LAYOUT;
+	}
+	
 		/**Player p1 = new Player("Seifer", 2);
 		while(p1.getCurrentHitPoints() > 0){
 			Player enemy = new Player("M"+Dice.rollDice(100000), 1);
@@ -55,24 +55,4 @@ public class WissenController {
 				System.out.println(enemy.getName() + " HP:" + enemy.getCurrentHitPoints() + "/" + enemy.getMaxHitPoints());
 			}
 		}**/
-		
-		return WebResources.BASE_LAYOUT;
-	}
-	
-	/**
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(URL.TASK)
-	private String task( Model model ){
-		model.addAttribute(ModelAttributes.MENU_SOURCE, WebResources.MENU);
-		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
-		
-		model.addAttribute(ModelAttributes.MENU_FRAGMENT, "topMenuAnonymous");
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "task");
-		
-		return WebResources.BASE_LAYOUT;
-	}
-	
 }

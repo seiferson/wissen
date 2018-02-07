@@ -32,6 +32,14 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
 				.antMatchers(HttpMethod.PUT, "/api/irrigationRecords/*", "/api/irrigationRecords")
 					.authenticated()
 				.antMatchers(HttpMethod.DELETE, "/api/irrigationRecords/*", "/api/irrigationRecords")
+					.authenticated()
+				.antMatchers(HttpMethod.GET, "/api/tasks/*", "/api/tasks")
+					.anonymous()
+				.antMatchers(HttpMethod.POST, "/api/tasks/*", "/api/tasks")
+					.authenticated()
+				.antMatchers(HttpMethod.PUT, "/api/tasks/*", "/api/tasks")
+					.authenticated()
+				.antMatchers(HttpMethod.DELETE, "/api/tasks/*", "/api/tasks")
 					.authenticated();
 	}
 }

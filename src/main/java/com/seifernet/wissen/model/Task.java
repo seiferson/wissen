@@ -1,7 +1,6 @@
 package com.seifernet.wissen.model;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
@@ -17,6 +16,8 @@ public class Task{
 	private String id;
 	
 	private String title;
+	
+	private String owner;
 	
 	private Boolean descriptionRequired;
 	
@@ -36,12 +37,6 @@ public class Task{
 	
 	private Boolean active;
 	
-	private Boolean containsSubTasks;
-	
-	private Boolean orderedSubTasks;
-	
-	private List<SubTask> subTaskList;
-
 	public String getId() {
 		return id;
 	}
@@ -50,28 +45,12 @@ public class Task{
 		this.id = id;
 	}
 	
-	public List<SubTask> getSubTaskList(){
-		return subTaskList;
+	public void setOwner(String owner){
+		this.owner = owner;
 	}
 	
-	public void setSubTaskList(List<SubTask> subTaskList){
-		this.subTaskList = subTaskList;
-	}
-	
-	public Boolean getContainsSubTasks(){
-		return this.containsSubTasks;
-	}
-	
-	public void setContainsSubTasks(Boolean containsSubTasks){
-		this.containsSubTasks = containsSubTasks;
-	}
-	
-	public Boolean getOrderedSubTasks(){
-		return this.orderedSubTasks;
-	}
-	
-	public void setOrderedSubTasks(Boolean orderedSubTasks){
-		this.orderedSubTasks = orderedSubTasks;
+	public String getOwner(){
+		return owner;
 	}
 
 	public String getTitle() {
