@@ -44,7 +44,7 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 			.inMemory()
 			.withClient(properties.getMainClientAppId())
 				.authorizedGrantTypes("password")
-				.authorities("ADMIN")
+				.authorities("USER")
 				.scopes("read", "write")
 				.resourceIds("restservice")
 				.secret(properties.getMainClientAppSecret());
@@ -54,7 +54,7 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 		oauthServer
 			.checkTokenAccess("isAuthenticated()");
-			}
+	}
 	
 	@Bean
 	@Primary

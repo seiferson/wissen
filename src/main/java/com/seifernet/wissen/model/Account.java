@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,16 +13,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */
+@Document
 public class Account {
 	
 	@Id
 	private String id;
 	
+	@Indexed(unique=true)
 	private String nickname;
 	
 	@JsonIgnore
 	private Boolean enabled;
 	
+	@Indexed(unique=true)
 	@JsonIgnore
 	private String email;
 	
@@ -59,6 +64,10 @@ public class Account {
 		this.id = id;
 	}
 
+	public String getIdentifier(){
+		return id;
+	}
+	
 	/**
 	 * @return the nickname
 	 */

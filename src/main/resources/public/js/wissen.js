@@ -48,7 +48,9 @@ $('.message .close').on('click', function() {
 
 
 
-
+function showTaskModal(){
+	$("#taskdetmod").modal("show");
+}
 
 
 /**

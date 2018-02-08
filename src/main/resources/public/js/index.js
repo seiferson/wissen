@@ -31,6 +31,7 @@ function refreshPageElements(tokenValidation){
 					item.append(content);
 					content.addClass("middle aligned content");
 					content.text(entry.title);
+					content.click(showTaskModal)
 					var icon = $("<i></i>");
 					content.prepend(icon);
 					icon.addClass("large square outline icon");

@@ -43,16 +43,4 @@ public class WissenController {
 		
 		return WebResources.BASE_LAYOUT;
 	}
-	
-		/**Player p1 = new Player("Seifer", 2);
-		while(p1.getCurrentHitPoints() > 0){
-			Player enemy = new Player("M"+Dice.rollDice(100000), 1);
-			System.out.println("New Enemy");
-			while(p1.getCurrentHitPoints() > 0 && enemy.getCurrentHitPoints() > 0){
-				enemy.takeDamage(p1.performBasicAttack());
-				p1.takeDamage(enemy.performBasicAttack());
-				System.out.println(p1.getName() + " HP:" + p1.getCurrentHitPoints() + "/" + p1.getMaxHitPoints());
-				System.out.println(enemy.getName() + " HP:" + enemy.getCurrentHitPoints() + "/" + enemy.getMaxHitPoints());
-			}
-		}**/
 }
