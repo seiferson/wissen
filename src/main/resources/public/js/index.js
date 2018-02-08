@@ -29,9 +29,17 @@ function refreshPageElements(tokenValidation){
 					$("#taskslist").append(item);
 					var content = $("<div></div>");
 					item.append(content);
+					var rcontent = $("<div></div>");
+					rcontent.addClass("middle aligned right floated content");
+					var tag = $("<div></div>");
+					tag.addClass("ui tiny label");
+					var ddate = new Date(entry.dueDate);
+					tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
+					rcontent.append(tag);
+					item.prepend(rcontent);
 					content.addClass("middle aligned content");
 					content.text(entry.title);
-					content.click(showTaskModal)
+					content.click({task: entry.identifier},showTaskModal);
 					var icon = $("<i></i>");
 					content.prepend(icon);
 					icon.addClass("large square outline icon");
@@ -103,6 +111,11 @@ function createTask(tokenValidation){
 
 function showNewTaskModal(){
 	$('#newtaskmod').modal('show');
+}
+
+function showTaskModal(task){
+	
+	$("#taskdetmod").modal("show");
 }
 
 validateToken(refreshPageElements);

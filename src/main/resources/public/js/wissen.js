@@ -1,3 +1,9 @@
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
+}
+
 /**
  * Session token validation
  */
@@ -48,9 +54,7 @@ $('.message .close').on('click', function() {
 
 
 
-function showTaskModal(){
-	$("#taskdetmod").modal("show");
-}
+
 
 
 /**

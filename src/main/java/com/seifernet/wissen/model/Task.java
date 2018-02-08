@@ -45,6 +45,10 @@ public class Task{
 		this.id = id;
 	}
 	
+	public String getIdentifier(){
+		return id;
+	}
+	
 	public void setOwner(String owner){
 		this.owner = owner;
 	}
