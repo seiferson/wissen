@@ -21,8 +21,8 @@ public class FlashcardsTest {
 	@Test
 	public void testBaseUser() throws Exception {
 		Account account = new Account();
-		account.setNickname("seiferson");
-		account.setEmail("seifer.ch@gmail.com");
+		account.setNickname("seifersonx");
+		account.setEmail("seifer.chx@gmail.com");
 		account.setEnabled(true);
 		account.setPassword("testpasswd");
 		
