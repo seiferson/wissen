@@ -31,15 +31,22 @@ function refreshPageElements(tokenValidation){
 					item.append(content);
 					var rcontent = $("<div></div>");
 					rcontent.addClass("middle aligned right floated content");
-					var tag = $("<div></div>");
-					tag.addClass("ui tiny label");
 					var ddate = new Date(entry.dueDate);
+					var tag = $("<div></div>");
+					if(ddate.getTime() - (new Date()).getTime() > 18000000){
+						tag.addClass("ui teal tiny label");
+					} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
+						tag.addClass("ui yellow tiny label");
+					} else {
+						tag.addClass("ui red tiny label");
+					}
 					tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
 					rcontent.append(tag);
 					item.prepend(rcontent);
 					content.addClass("middle aligned content");
 					content.text(entry.title);
-					content.click({task: entry.identifier},showTaskModal);
+					console.log(entry.identifier);
+					content.click(function(){showTaskModal(entry.identifier)});
 					var icon = $("<i></i>");
 					content.prepend(icon);
 					icon.addClass("large square outline icon");
@@ -54,6 +61,60 @@ function refreshPageElements(tokenValidation){
 		$("#taskssegment").addClass("hiddenf");
 	}
 }
+
+
+function toggleNewTaskDesc(){
+  if($("#taskdescfieldf").hasClass("hiddenf")){
+    $("#taskdescfieldf").removeClass("hiddenf");
+  } else {
+    $("#taskdescfieldf").addClass("hiddenf");
+  }
+}
+
+function toggleExpireDate(){
+  if($("#taskexpirationdatefieldf").hasClass("hiddenf")){
+    $("#taskexpirationdatefieldf").removeClass("hiddenf");
+  } else {
+    $("#taskexpirationdatefieldf").addClass("hiddenf");
+  }
+}
+
+function irrigate(plantid) {
+  if($.cookie("authtoken") === undefined) {
+    $("#wrongcredentials").addClass("hidden");
+    $("#user").val("");
+    $("#passwd").val("");
+    $("#authmod").modal("show");
+  }
+  else {
+    var xdata = {
+      date: (new Date()).getTime(),
+      person : $.cookie("authuser"),
+      plant : plantid
+    };
+    $.ajax({
+      type: 'POST',
+      url: "/api/irrigationRecords",
+      contentType: "application/json; charset=utf-8",
+      dataType: 'json',
+      headers: {
+        "Authorization" : "Bearer " + $.cookie("authtoken"),
+      },
+      data: JSON.stringify(xdata),
+        success: function(resultData) {
+        var cDate = new Date();
+        $("#latest").removeClass("redstatus");
+        $("#latest").addClass("greenstatus");
+        $("#latest").text("0.00 hours ago");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(XMLHttpRequest.status);
+      }
+    });
+  }
+}
+
 
 /**
  * Process task creation
@@ -114,8 +175,52 @@ function showNewTaskModal(){
 }
 
 function showTaskModal(task){
-	
-	$("#taskdetmod").modal("show");
+	$.ajax({
+		type: 'GET',
+		url: "/api/tasks/" + task,
+		headers: {
+			"Authorization" : "Bearer " + $.cookie("authtoken"),
+			"Accept" : "application/json"
+		},
+		success: function(response) {
+			$("#tasktitle").text(response.title);
+			var cdate = new Date(response.creationDate);
+			$("#taskcreationdate").text("Created " + (cdate.getMonth()+1).pad(2) + "/"+(cdate.getDate()).pad(2)+"/"+cdate.getFullYear() + " " + (cdate.getHours()).pad(2) + ":"+(cdate.getMinutes()).pad(2))
+			if(response.descriptionRequired){
+				var descontent = $("<p></p>");
+				descontent.text(response.description);
+				$("#taskdescription").empty();
+				$("#taskdescription").append(descontent);
+			}else{
+				$("#taskdescription").empty();
+			}
+			var ddate = new Date(response.dueDate);
+			var tag = $("<div></div>");
+			if(ddate.getTime() - (new Date()).getTime() > 18000000){
+				tag.addClass("ui teal tiny label");
+			} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
+				tag.addClass("ui yellow tiny label");
+			} else {
+				tag.addClass("ui red tiny label");
+			}
+			tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
+			$("#tasktags").append(tag);
+			
+			if(response.expires){
+				var edate = new Date(response.dueDate);
+				var taged = $("<div></div>");
+				taged.addClass("ui tiny label");
+				taged.text("DD " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
+				$("#tasktags").append(taged);
+			}
+			
+			$("#taskdetmod").modal("show");
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(textStatus);
+			console.log(XMLHttpRequest);
+		}
+	});
 }
 
 validateToken(refreshPageElements);

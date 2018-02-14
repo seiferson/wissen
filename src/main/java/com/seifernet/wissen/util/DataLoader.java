@@ -16,7 +16,6 @@ import com.seifernet.wissen.repository.TaskRepository;
 @Component
 public class DataLoader implements ApplicationRunner{
 	
-	
 	@Autowired
 	private AccountRepository repository;
 	

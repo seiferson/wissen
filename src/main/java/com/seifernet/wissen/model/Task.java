@@ -2,6 +2,8 @@ package com.seifernet.wissen.model;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,6 +17,8 @@ public class Task{
 	@Id
 	private String id;
 	
+	@NotBlank
+	@Length(max=24)
 	private String title;
 	
 	private String owner;

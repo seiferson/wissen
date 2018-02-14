@@ -1,8 +1,8 @@
 Number.prototype.pad = function(size) {
-  var s = String(this);
-  while (s.length < (size || 2)) {s = "0" + s;}
-  return s;
-}
+	var s = String(this);
+	while (s.length < (size || 2)) {s = "0" + s;}
+	return s;
+};
 
 /**
  * Session token validation
@@ -41,21 +41,6 @@ $('.progress').progress();
 $('.message .close').on('click', function() {
 	$(this).closest('.message').transition('fade');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Used to raise the modal for authentication
@@ -117,57 +102,5 @@ function authenticate(){
 
 
 
-
-function toggleNewTaskDesc(){
-  if($("#taskdescfieldf").hasClass("hiddenf")){
-    $("#taskdescfieldf").removeClass("hiddenf");
-  } else {
-    $("#taskdescfieldf").addClass("hiddenf");
-  }
-}
-
-function toggleExpireDate(){
-  if($("#taskexpirationdatefieldf").hasClass("hiddenf")){
-    $("#taskexpirationdatefieldf").removeClass("hiddenf");
-  } else {
-    $("#taskexpirationdatefieldf").addClass("hiddenf");
-  }
-}
-
-function irrigate(plantid) {
-  if($.cookie("authtoken") === undefined) {
-    $("#wrongcredentials").addClass("hidden");
-    $("#user").val("");
-    $("#passwd").val("");
-    $("#authmod").modal("show");
-  }
-  else {
-    var xdata = {
-      date: (new Date()).getTime(),
-      person : $.cookie("authuser"),
-      plant : plantid
-    };
-    $.ajax({
-      type: 'POST',
-      url: "/api/irrigationRecords",
-      contentType: "application/json; charset=utf-8",
-      dataType: 'json',
-      headers: {
-        "Authorization" : "Bearer " + $.cookie("authtoken"),
-      },
-      data: JSON.stringify(xdata),
-        success: function(resultData) {
-        var cDate = new Date();
-        $("#latest").removeClass("redstatus");
-        $("#latest").addClass("greenstatus");
-        $("#latest").text("0.00 hours ago");
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log(textStatus);
-        console.log(XMLHttpRequest.status);
-      }
-    });
-  }
-}
 
 
