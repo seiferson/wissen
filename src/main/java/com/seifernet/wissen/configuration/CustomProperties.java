@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * CustomProperties POJO
  * Add new custom properties here
  * 
- * 
  * @author Seiferson (Cuauhtemoc Herrera)
  */
 @ConfigurationProperties("wissen")

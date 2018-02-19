@@ -132,8 +132,8 @@ function createTask(tokenValidation){
 	var expiresf = false;
 	var expirationdatef = null;
 	if($("#taskexpiresf").is(":checked")){
-		expires = true;
-		expirationdate = $("#taskexpirationdatef").val();
+		expiresf = true;
+		expirationdatef = $("#taskexpirationdatef").val();
 	}
 	
 	//TODO data validation
@@ -150,6 +150,8 @@ function createTask(tokenValidation){
 			active : true,
 			owner : $.cookie("authuser")
 		};
+	
+	console.log(JSON.stringify(datax));
 	
 	$.ajax({
 		type: 'POST',
@@ -194,6 +196,7 @@ function showTaskModal(task){
 			}else{
 				$("#taskdescription").empty();
 			}
+			$("#tasktags").empty();
 			var ddate = new Date(response.dueDate);
 			var tag = $("<div></div>");
 			if(ddate.getTime() - (new Date()).getTime() > 18000000){
@@ -205,12 +208,12 @@ function showTaskModal(task){
 			}
 			tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
 			$("#tasktags").append(tag);
-			
+			console.log(response);
 			if(response.expires){
 				var edate = new Date(response.dueDate);
 				var taged = $("<div></div>");
 				taged.addClass("ui tiny label");
-				taged.text("DD " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
+				taged.text("ED " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
 				$("#tasktags").append(taged);
 			}
 			

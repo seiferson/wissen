@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   </head>
   <body>
+  
     <th:block th:fragment="index">
     <div class="ui container">
       <h4 class="ui top attached header hiddenf" id="tasksheader">Tasks</h4>
@@ -14,63 +15,5 @@
     </div>
     </th:block>
     
-    <th:block th:fragment="plant">
-    <div class="ui container">
-      <div class="ui one cards">
-        <div class="ui green card">
-          <div class="ui content">
-            <h2 class="ui icon header">
-              <i class="leaf icon greenicon"></i>
-              <div class="content">Office plant<div class="sub header">Last time it was watered: <span id="latest"></span></div></div>
-            </h2>
-            <p class="center aligned">
-              <button class="circular ui big blue icon button" onclick="irrigate('office')"><i class="icon theme"></i></button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    </th:block>
-    
-    <th:block th:fragment="task">
-    <div class="ui container">
-      <div class="ui one cards">
-        <div class="card">
-          <div class="ui top attached progress" id="taskcard">
-            <div class="bar"></div>
-          </div>
-          <div class="content">
-            <div class="header"><span id="tasktitle"></span></div>
-              <div class="meta">
-                <span id="taskcreationdate"></span>
-              </div>
-              <div class="description">
-                <p id="taskdescription"></p>
-                <div class="ui segment">
-                  <div class="ui checkbox">
-                    <input type="checkbox" name="example"/>
-                    <label>Make my profile visible</label>
-                  </div>
-                  <div class="ui checkbox">
-                    <input type="checkbox" name="example"/>
-                    <label>Make my profile visible</label>
-                  </div>
-                  <div class="ui checkbox">
-                    <input type="checkbox" name="example"/>
-                    <label>Make my profile visible</label>
-                  </div>
-                  <div class="ui checkbox">
-                    <input type="checkbox" name="example"/>
-                    <label>Make my profile visible</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="extra content">
-            </div>
-          </div>
-        </div>
-      </div>
-    </th:block>
   </body>
 </html>

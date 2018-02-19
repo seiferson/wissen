@@ -23,6 +23,9 @@ public class DataLoader implements ApplicationRunner{
 	private TaskRepository taskRepository; 
 	
 	public void run(ApplicationArguments args) {
+		/**
+		repository.deleteAll();
+		taskRepository.deleteAll();
 		
 		ArrayList<String> authorities = new ArrayList<String>();
 		authorities.add("USER");
@@ -44,12 +47,13 @@ public class DataLoader implements ApplicationRunner{
 		t.setCreationDate(new Date());
 		t.setDescription("Take care of the dirty dishes, is not good for health to keep them with food more than one day, also it stinks.");
 		t.setDescriptionRequired(true);
-		t.setDueDate(new Date());
+		t.setDueDate(new Date(new Date().getTime() + 3*24*60*60*1000) );
 		t.setExpirationDate(null);
 		t.setExpires(false);
 		t.setOwner("seiferson");
 		t.setTitle("Wash the dishes");
 		
 		taskRepository.insert(t);
+		**/
 	}
 }
