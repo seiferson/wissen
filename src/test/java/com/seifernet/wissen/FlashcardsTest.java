@@ -20,19 +20,19 @@ public class FlashcardsTest {
 	
 	@Test
 	public void testBaseUser() throws Exception {
+		
 		Account account = new Account();
 		account.setNickname("seifersonx");
 		account.setEmail("seifer.chx@gmail.com");
 		account.setEnabled(true);
 		account.setPassword("testpasswd");
 		
-		repository.insert(account);
-		assertThat(true).isTrue();
+		assertThat(repository.insert(account).getIdentifier()).isNotNull();
 	}
 	
 	@Test
 	public void testInsert() throws Exception {
-		Account account = repository.findByNickname("seiferson");
+		Account account = repository.findByNickname("seifersonx");
 		
 		assertThat(account).isNotNull();
 	}
