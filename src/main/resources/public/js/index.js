@@ -5,8 +5,25 @@
 function refreshPageElements(tokenValidation){
 	if(tokenValidation){
 		$("#authuser").text($.cookie("authuser"));
+		//document.getElementById('authuseritem').removeAttribute("onclick");
+		$("#authuseritem").attr('onclick','').unbind('click');
+		var usermenu = $("<div></div>");
+		$("#authuseritem").children("div").remove();
+		usermenu.addClass("menu");
+		$("#authuseritem").append(usermenu);
+		var itemtest = $("<div></div>");
+		itemtest.addClass("item");
+		itemtest.text("Item test tyfyt ytf tyf yt");
+		usermenu.append(itemtest);
+		$("#authuseritem").addClass("dropdown");
+		$('.ui.dropdown').dropdown();
+		
+		
+		
 		$("#tasksheader").removeClass("hiddenf");
 		$("#taskssegment").removeClass("hiddenf");
+		$("#messagenoauthy").addClass("hidden");
+		$("#messagenoauthx").addClass("hidden");
 		
 		$.ajax({
 			type: 'GET',
@@ -59,6 +76,8 @@ function refreshPageElements(tokenValidation){
 		$("#authuser").text("Anonymous");
 		$("#tasksheader").addClass("hiddenf");
 		$("#taskssegment").addClass("hiddenf");
+		$("#messagenoauthy").removeClass("hidden");
+		$("#messagenoauthx").removeClass("hidden");
 	}
 }
 
@@ -227,4 +246,3 @@ function showTaskModal(task){
 }
 
 validateToken(refreshPageElements);
-

@@ -7,9 +7,31 @@
   
     <th:block th:fragment="index">
     <div class="ui container">
-      <h4 class="ui top attached header hiddenf" id="tasksheader">Tasks</h4>
-      <div class="ui attached segment hiddenf" id="taskssegment">
-        <div class="ui relaxed divided list" id="taskslist">
+      <div class="ui one column grid">
+        <div class="column">
+          <h4 class="ui top attached header hiddenf" id="tasksheader">Tasks</h4>
+          <div class="ui attached segment hiddenf" id="taskssegment">
+            <div class="ui relaxed divided list" id="taskslist"></div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui icon info message hidden" id="messagenoauthy">
+            <i class="sticky note outline icon"></i>
+            <div class="content">
+              <div class="header">Welcome to wissen</div>
+              <p>A spring boot application with no sense.</p>
+              <p>This is just a silly message not to present an empty screen to the newcomers.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui icon warning message hidden" id="messagenoauthx">
+            <i class="warning sign icon"></i>
+            <div class="content">
+              <div class="header">This site is still under development!</div>
+              <p>Everything related to the system and its development can be tracked on the <a href="https://github.com/seiferxx/wissen/">github page</a>.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

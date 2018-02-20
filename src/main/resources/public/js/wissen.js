@@ -30,6 +30,8 @@ function validateToken(callback){
 				//TODO implement other error status handling
 			}
 		});
+	} else {
+		callback(false);
 	}
 }
 //]]>
