@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+
+body > .ui.container {
+	margin-top: 3em; 
+}
+
+i.leaf.icon.greenicon {
+	color: #339933; 
+}
+
+span#latest.greenstatus {
+	color: #009933; 
+}
+
+span#latest.redstatus {
+	color: #cc3300; 
+}
+
+.hiddenf {
+	display: none; 
+}

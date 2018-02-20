@@ -1,51 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-	
-		<th:block th:fragment="todo">
-		<div class="ui container">
-			<div class="ui segment"><b><a href="/task">Task1</a></b></div>
-			<div class="ui orange segment"><b><a href="/task">Task2</a></b></div>
-			<div class="ui yellow segment"><b><a href="/task">Task3</a></b></div>
-			<div class="ui olive segment"><b><a href="/task">Task4</a></b></div>
-			<div class="ui green segment"><b><a href="/task">Task5</a></b></div>
-			<div class="ui teal segment"><b><a href="/task">Task6</a></b></div>
-			<div class="ui blue segment"><b><a href="/task">Task7</a></b></div>
-			<div class="ui violet segment"><b><a href="/task">Task8</a></b></div>
-			<div class="ui purple segment"><b><a href="/task">Task9</a></b></div>
-			<div class="ui pink segment"><b><a href="/task">Task10</a></b></div>
-			<div class="ui brown segment"><b><a href="/task">Task11</a></b></div>
-			<div class="ui grey segment"><b><a href="/task">Task12</a></b></div>
-			<div class="ui black segment"><b><a href="/task">Task13</a></b></div>
-		</div>
-		</th:block>
-	
-		<th:block th:fragment="task">
-		<div class="ui container">
-			<div class="ui one cards">
-				<div class="card">
-					<div class="ui top attached progress" id="taskcard">
-						<div class="bar"></div>
-					</div>
-					<div class="content">
-						<div class="header">Laundry</div>
-						<div class="meta">
-							<span>2 days ago</span>
-						</div>
-						<div class="description">
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu turpis vel est porttitor pellentesque vel ac eros. Aenean egestas orci in mauris malesuada ultrices. Maecenas euismod lorem id ullamcorper varius
-							</p>
-						</div>
-					</div>
-					<div class="extra content">
-					</div>
-				</div>
-			</div>
-		</div>
-		</th:block>
-	</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+  
+    <th:block th:fragment="index">
+    <div class="ui container">
+      <div class="ui one column grid">
+        <div class="column">
+          <h4 class="ui top attached header hiddenf" id="tasksheader">Tasks</h4>
+          <div class="ui attached segment hiddenf" id="taskssegment">
+            <div class="ui relaxed divided list" id="taskslist"></div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui icon info message hidden" id="messagenoauthy">
+            <i class="sticky note outline icon"></i>
+            <div class="content">
+              <div class="header">Welcome to wissen</div>
+              <p>A spring boot application with no sense.</p>
+              <p>This is just a silly message not to present an empty screen to the newcomers.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui icon warning message hidden" id="messagenoauthx">
+            <i class="warning sign icon"></i>
+            <div class="content">
+              <div class="header">This site is still under development!</div>
+              <p>Everything related to the system and its development can be tracked on the <a href="https://github.com/seiferxx/wissen/">github page</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </th:block>
+    
+  </body>
 </html>

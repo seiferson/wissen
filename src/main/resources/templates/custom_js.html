@@ -1,37 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		
-		<!-- INDEX CUSTOMJS-->
-		<div th:fragment="indexCustomjs">
-		<script type="text/javascript">
-			function createFlashcard(  ){
-				var jsonData = {};
-				jsonData[ 'question' ] = $( '#question' ).val( );
-				jsonData[ 'answer' ] = $( '#answer' ).val( );
-				jsonData[ 'keywords' ] = $( '#keywords' ).val( );
-				
-				console.log( jsonData );
-				
-				$.ajax({
-					url: '/api/flashcards',
-					type: 'POST',
-					data: JSON.stringify(jsonData),
-					contentType: "application/json",
-			        dataType: "json",
-					success: function( rData ){
-						console.log( rData );
-					},
-					error: function( errorThrown ){
-						console.log( errorThrown );
-					}
-				});
-			}
-		</script>
-		</div>
-		
-	</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <div th:fragment="plantjs">
+    <script src="/js/plant.js"></script>
+    </div>
+    
+    <div th:fragment="indexjs">
+    <script src="/js/index.js"></script>
+    </div>
+  </body>
 </html>

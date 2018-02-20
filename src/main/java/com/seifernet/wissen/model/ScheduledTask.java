@@ -2,28 +2,26 @@ package com.seifernet.wissen.model;
 
 import org.springframework.data.annotation.Id;
 
-/**
- * 
- */
 public class ScheduledTask {
-    
-    @Id
-    private String id;
-    
-    private String title;
+
+	@Id
+	private String id;
 	
-	private Boolean descriptionRequired;
+	private Task task;
 	
-	private String description;
+	public void setId(String id){
+		this.id = id;
+	}
 	
-	private Long dueTime;
+	public String getId(){
+		return this.id;
+	}
 	
-	private Boolean completed;
+	public Task getTask(){
+		return this.task;
+	}
 	
-	private Long completionTime;
-	
-	private Boolean expires;
-	
-	private Long expirationTime;
-    
+	public void setTask(Task task){
+		this.task = task;
+	}
 }

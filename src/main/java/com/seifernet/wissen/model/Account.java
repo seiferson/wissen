@@ -1,0 +1,126 @@
+package com.seifernet.wissen.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+/**
+ * @author Seiferson (Cuauhtemoc Herrera)
+ */
+@Document
+public class Account {
+	
+	@Id
+	private String id;
+	
+	@Indexed(unique=true)
+	private String nickname;
+	
+	@JsonIgnore
+	private Boolean enabled;
+	
+	@Indexed(unique=true)
+	@JsonIgnore
+	private String email;
+	
+	@JsonIgnore
+	private String password;
+	
+	@JsonIgnore
+	private List<String> authorities;
+	
+	@JsonIgnore
+	public List<GrantedAuthority> getGrantedAuthorities(){
+		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+		
+		for(String authority : this.authorities){
+			grantedAuthorities.add(new AccountGrantedAuthority(authority));
+		}
+		
+		return grantedAuthorities;
+	}
+	
+	public void setAuthorities(List<String> authorities){
+		this.authorities = authorities;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getIdentifier(){
+		return id;
+	}
+	
+	/**
+	 * @return the nickname
+	 */
+	public String getNickname() {
+		return nickname;
+	}
+
+	/**
+	 * @param nickname the nickname to set
+	 */
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}

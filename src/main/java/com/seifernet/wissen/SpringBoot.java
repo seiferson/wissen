@@ -6,21 +6,21 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import com.seifernet.wissen.configuration.CustomProperties;
 
 /**
  * Spring boot main class and annotation configuration
  * 
- * @author Seifer( Cuauhtemoc Herrera )
- * @version 0.0.1
- *
+ * @author Seiferson (Cuauhtemoc Herrera)
  */
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 @EnableConfigurationProperties(CustomProperties.class)
 @EnableScheduling
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringBoot {
 
 	/**
