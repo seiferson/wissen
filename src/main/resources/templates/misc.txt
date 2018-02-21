@@ -1,3 +1,66 @@
+<div class="one column row">
+  <div class="column">
+    <div class="ui checkbox">
+      <input type="checkbox" name="task1" />
+      <label>Wash</label>
+    </div>
+    <div class="ui basic label floatfright">DD 25h</div>
+  </div>
+</div>
+          	  <div class="one column row" style="padding-bottom: 7px; padding-top: 7px;">
+          	    <div class="column" style="margin-bottom:0px; margin-top:0px;">
+          	      <div class="ui checkbox" style="float: left;" >
+          	        <input type="checkbox" name="task1" />
+                    <label>Wash</label>
+                  </div>
+                  <button class="ui mini icon button" style="float:right;"><i class="cloud icon"></i></button>
+                  <button class="ui mini icon button" style="float:right;"><i class="cloud icon"></i></button>
+          	    </div>
+          	  </div>
+          	  <div class='one column row'><div class='column'><button class='ui mini icon button floatfright'><i class='plus icon'></i>Add a task</button></div></div>
+
+
+
+
+
+
+
+function irrigate(plantid) {
+  if($.cookie("authtoken") === undefined) {
+    $("#wrongcredentials").addClass("hidden");
+    $("#user").val("");
+    $("#passwd").val("");
+    $("#authmod").modal("show");
+  }
+  else {
+    var xdata = {
+      date: (new Date()).getTime(),
+      person : $.cookie("authuser"),
+      plant : plantid
+    };
+    $.ajax({
+      type: 'POST',
+      url: "/api/irrigationRecords",
+      contentType: "application/json; charset=utf-8",
+      dataType: 'json',
+      headers: {
+        "Authorization" : "Bearer " + $.cookie("authtoken"),
+      },
+      data: JSON.stringify(xdata),
+        success: function(resultData) {
+        var cDate = new Date();
+        $("#latest").removeClass("redstatus");
+        $("#latest").addClass("greenstatus");
+        $("#latest").text("0.00 hours ago");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(XMLHttpRequest.status);
+      }
+    });
+  }
+}
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>

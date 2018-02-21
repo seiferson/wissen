@@ -1,11 +1,10 @@
 /**
  * Refresh page elements based on token validation results
- * TODO change parameter name
  */
-function refreshPageElements(tokenValidation){
-	if(tokenValidation){
+function refreshPageElements(validToken){
+	if(validToken){
+		
 		$("#authuser").text($.cookie("authuser"));
-		//document.getElementById('authuseritem').removeAttribute("onclick");
 		$("#authuseritem").attr('onclick','').unbind('click');
 		var usermenu = $("<div></div>");
 		$("#authuseritem").children("div").remove();
@@ -13,13 +12,14 @@ function refreshPageElements(tokenValidation){
 		$("#authuseritem").append(usermenu);
 		var itemtest = $("<div></div>");
 		itemtest.addClass("item");
-		itemtest.text("Item test tyfyt ytf tyf yt");
+		itemtest.append($("<a href='#'>User profile</a>"));
+		usermenu.append(itemtest);
+		itemtest = $("<div></div>");
+		itemtest.addClass("item");
+		itemtest.append($("<a href='#'>Logout</a>"));
 		usermenu.append(itemtest);
 		$("#authuseritem").addClass("dropdown");
 		$('.ui.dropdown').dropdown();
-		
-		
-		
 		$("#tasksheader").removeClass("hiddenf");
 		$("#taskssegment").removeClass("hiddenf");
 		$("#messagenoauthy").addClass("hidden");
@@ -40,35 +40,40 @@ function refreshPageElements(tokenValidation){
 			},
 			success: function(responseData) {
 				$("#taskslist").empty();
+				var firstElem = true;
 				responseData._embedded.tasks.forEach(function(entry){
-					var item = $("<div></div>");
-					item.addClass("item");
-					$("#taskslist").append(item);
-					var content = $("<div></div>");
-					item.append(content);
-					var rcontent = $("<div></div>");
-					rcontent.addClass("middle aligned right floated content");
+					var row = $("<div></div>");
+					var column = $("<div></div>");
+					var checkboxContainer = $("<div></div>");
+					var checkbox = $("<input type='checkbox' name='" + entry.id + "tsk'/>");
+					var checkboxLabel = $("<label></label>");
+					var ddLabel = $("<div></div>");
 					var ddate = new Date(entry.dueDate);
-					var tag = $("<div></div>");
-					if(ddate.getTime() - (new Date()).getTime() > 18000000){
-						tag.addClass("ui teal tiny label");
-					} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
-						tag.addClass("ui yellow tiny label");
+					
+					if(firstElem){
+						firstElem = false;
+						column.addClass("column tlistfcol");
+						row.addClass("one column row tlistfelem");
 					} else {
-						tag.addClass("ui red tiny label");
+						row.addClass("one column row tlistelem");
+						column.addClass("column tlistcol");
 					}
-					tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
-					rcontent.append(tag);
-					item.prepend(rcontent);
-					content.addClass("middle aligned content");
-					content.text(entry.title);
-					console.log(entry.identifier);
-					content.click(function(){showTaskModal(entry.identifier)});
-					var icon = $("<i></i>");
-					content.prepend(icon);
-					icon.addClass("large square outline icon");
+					
+					checkboxContainer.addClass("ui checkbox");
+					checkboxLabel.text(entry.title);
+					checkboxLabel.click(function(){showTaskModal(entry.identifier)});
+					ddLabel.addClass("ui basic label floatfright");
+					ddLabel.addClass(getLabelColor(ddate));
+					ddLabel.text("DD " + dateToStringCompact(ddate));
+					
+					$("#taskslist").append(row);
+					row.append(column);
+					column.append(checkboxContainer);
+					checkboxContainer.append(checkbox);
+					checkboxContainer.append(checkboxLabel);
+					column.append(ddLabel);
 				});
-				$("#taskslist").append('<div class="item"><div class="middle aligned content" onclick="showNewTaskModal()"><i class="large plus square outline icon"></i> Add a task</div></div>');
+				$("#taskslist").append("<div class='one column row'><div class='column tlistaddcol'><button class='ui mini icon button floatfright' onclick='showNewTaskModal()'><i class='plus icon'></i>Add a task</button></div></div>");
 			}
 		});
 	} 
@@ -97,43 +102,6 @@ function toggleExpireDate(){
     $("#taskexpirationdatefieldf").addClass("hiddenf");
   }
 }
-
-function irrigate(plantid) {
-  if($.cookie("authtoken") === undefined) {
-    $("#wrongcredentials").addClass("hidden");
-    $("#user").val("");
-    $("#passwd").val("");
-    $("#authmod").modal("show");
-  }
-  else {
-    var xdata = {
-      date: (new Date()).getTime(),
-      person : $.cookie("authuser"),
-      plant : plantid
-    };
-    $.ajax({
-      type: 'POST',
-      url: "/api/irrigationRecords",
-      contentType: "application/json; charset=utf-8",
-      dataType: 'json',
-      headers: {
-        "Authorization" : "Bearer " + $.cookie("authtoken"),
-      },
-      data: JSON.stringify(xdata),
-        success: function(resultData) {
-        var cDate = new Date();
-        $("#latest").removeClass("redstatus");
-        $("#latest").addClass("greenstatus");
-        $("#latest").text("0.00 hours ago");
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log(textStatus);
-        console.log(XMLHttpRequest.status);
-      }
-    });
-  }
-}
-
 
 /**
  * Process task creation

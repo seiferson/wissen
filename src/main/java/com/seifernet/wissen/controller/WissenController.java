@@ -33,9 +33,4 @@ public class WissenController {
 		
 		return WebResources.BASE_LAYOUT;
 	}
-	
-	@ExceptionHandler(Exception.class)
-	private void error(Exception ex) {
-		
-	}
 }
