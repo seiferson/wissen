@@ -17,7 +17,7 @@ span#latest.redstatus {
 }
 
 .hiddenf {
-	display: none; 
+	display: none !important; 
 }
 
 .tlistfelem {
@@ -45,4 +45,11 @@ span#latest.redstatus {
 
 .floatfright{
 	float:right;
+}
+
+.unselectablef{
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }

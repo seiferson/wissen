@@ -49,14 +49,18 @@ function refreshPageElements(validToken){
 					var checkboxLabel = $("<label></label>");
 					var ddLabel = $("<div></div>");
 					var ddate = new Date(entry.dueDate);
+					var deleteButton = $("<button></button>");
+					var editButton = $("<button></button>");
+					var editIcon = $("<i></i>");
+					var deleteIcon = $("<i></i>");
 					
 					if(firstElem){
 						firstElem = false;
 						column.addClass("column tlistfcol");
-						row.addClass("one column row tlistfelem");
+						row.addClass("one column row tlistfelem unselectablef");
 					} else {
 						row.addClass("one column row tlistelem");
-						column.addClass("column tlistcol");
+						column.addClass("column tlistcol unselectablef");
 					}
 					
 					checkboxContainer.addClass("ui checkbox");
@@ -65,6 +69,15 @@ function refreshPageElements(validToken){
 					ddLabel.addClass("ui basic label floatfright");
 					ddLabel.addClass(getLabelColor(ddate));
 					ddLabel.text("DD " + dateToStringCompact(ddate));
+					column.bind('touchstart',function(){catchTaskHold(entry.identifier)});
+					column.bind('touchend',function(){catchTaskRelease(entry.identifier)});
+					column.attr("id", "col" + entry.identifier);
+					deleteButton.addClass("ui mini icon basic button floatfright transition hidden");
+					editButton.addClass("ui mini icon basic button floatfright transition hidden");
+					editIcon.addClass("pencil icon");
+					deleteIcon.addClass("trash icon");
+					
+					
 					
 					$("#taskslist").append(row);
 					row.append(column);
@@ -72,6 +85,10 @@ function refreshPageElements(validToken){
 					checkboxContainer.append(checkbox);
 					checkboxContainer.append(checkboxLabel);
 					column.append(ddLabel);
+					editButton.append(editIcon);
+					deleteButton.append(deleteIcon);
+					column.append(editButton);
+					column.append(deleteButton);
 				});
 				$("#taskslist").append("<div class='one column row'><div class='column tlistaddcol'><button class='ui mini icon button floatfright' onclick='showNewTaskModal()'><i class='plus icon'></i>Add a task</button></div></div>");
 			}
@@ -86,6 +103,41 @@ function refreshPageElements(validToken){
 	}
 }
 
+function showTaskButtons(id){
+	var elem = $("#col" + id);
+	elem.unbind('touchstart');
+	elem.children(".ui.checkbox").children("label").unbind('click');
+	elem.children(".label").transition('fade left');
+	setTimeout(function(){
+		elem.children(".button").transition('fade left');
+	}, 270);
+}
+
+function hideTaskButtons(id){
+	var elem = $("#col" + id);
+	elem.bind('touchstart', function(){catchTaskHold(id)});
+	elem.bind('touchend',function(){catchTaskRelease(id)});
+	elem.unbind('click');
+	elem.children(".button").transition('fade left');
+	setTimeout(function(){
+		elem.children(".label").transition('fade left');
+	}, 270);
+	elem.children(".ui.checkbox").children("label").click(function(){showTaskModal(id)});
+}
+
+function catchTaskHold(id){
+	globalTimeOut = setTimeout(function(){showTaskButtons(id)}, 1500);
+}
+
+function catchTaskRelease(id){
+	var elem = $("#col" + id);
+	if(elem.children(".label").hasClass("hidden")){
+		elem.unbind('touchend');
+		elem.unbind('click');
+		setTimeout(function(){elem.click(function(){hideTaskButtons(id)});}, 10);
+	}
+	clearTimeout(globalTimeOut);
+}
 
 function toggleNewTaskDesc(){
   if($("#taskdescfieldf").hasClass("hiddenf")){

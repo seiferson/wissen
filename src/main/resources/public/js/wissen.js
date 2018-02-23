@@ -99,6 +99,7 @@ $('.progress').progress();
 $('.message .close').on('click', function() {
 	$(this).closest('.message').transition('fade');
 });
+var globalTimeOut = null;
 
 /**
  * Used to raise the modal for authentication
