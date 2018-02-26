@@ -3,7 +3,6 @@
  */
 function refreshPageElements(validToken){
 	if(validToken){
-		
 		$("#authuser").text($.cookie("authuser"));
 		$("#authuseritem").attr('onclick','').unbind('click');
 		var usermenu = $("<div></div>");
@@ -77,8 +76,6 @@ function refreshPageElements(validToken){
 					editIcon.addClass("pencil icon");
 					deleteIcon.addClass("trash icon");
 					
-					
-					
 					$("#taskslist").append(row);
 					row.append(column);
 					column.append(checkboxContainer);
@@ -90,7 +87,6 @@ function refreshPageElements(validToken){
 					column.append(editButton);
 					column.append(deleteButton);
 				});
-				$("#taskslist").append("<div class='one column row'><div class='column tlistaddcol'><button class='ui mini icon button floatfright' onclick='showNewTaskModal()'><i class='plus icon'></i>Add a task</button></div></div>");
 			}
 		});
 	} 
