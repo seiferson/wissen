@@ -21,6 +21,7 @@ function refreshPageElements(validToken){
 		$('.ui.dropdown').dropdown();
 		$("#tasksheader").removeClass("hiddenf");
 		$("#taskssegment").removeClass("hiddenf");
+		$("#taskfooter").removeClass("hiddenf");
 		$("#messagenoauthy").addClass("hidden");
 		$("#messagenoauthx").addClass("hidden");
 		
@@ -76,6 +77,36 @@ function refreshPageElements(validToken){
 					editIcon.addClass("pencil icon");
 					deleteIcon.addClass("trash icon");
 					
+					checkbox.change(function() {
+						if (this.checked) {
+							var datax = {
+								completed : true
+							};
+							$.ajax({
+								type: 'PATCH',
+								url: "/api/tasks/"+entry.identifier,
+								data: JSON.stringify(datax),
+								headers: {
+									"Authorization" : "Bearer " + $.cookie("authtoken"),
+									"Accept" : "application/json"
+								},
+								contentType: "application/json; charset=utf-8",
+								success: function(response) {
+									console.log("updated");
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									console.log(textStatus);
+									console.log(XMLHttpRequest);
+								}
+							});
+
+
+
+						} else {
+							console.log("oposite");
+						}
+					});
+					
 					$("#taskslist").append(row);
 					row.append(column);
 					column.append(checkboxContainer);
@@ -96,6 +127,7 @@ function refreshPageElements(validToken){
 		$("#taskssegment").addClass("hiddenf");
 		$("#messagenoauthy").removeClass("hidden");
 		$("#messagenoauthx").removeClass("hidden");
+		$("#taskfooter").addClass("hiddenf");
 	}
 }
 
@@ -186,7 +218,6 @@ function createTask(tokenValidation){
 			owner : $.cookie("authuser")
 		};
 	
-	console.log(JSON.stringify(datax));
 	
 	$.ajax({
 		type: 'POST',
@@ -203,6 +234,7 @@ function createTask(tokenValidation){
 		success: function(resultData) {
 			validateToken(refreshPageElements);
 			$('#newtaskmod').modal('hide');
+			
 		}
 	});
 }
