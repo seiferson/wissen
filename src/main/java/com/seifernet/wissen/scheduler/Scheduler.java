@@ -21,9 +21,9 @@ public class Scheduler {
 
 	@Scheduled(fixedRate = 10000)
 	public void watchDog() {
-		ArrayList<Task> expiredTasks = taskRepository.findAllByExpiresTrueAndExpirationDateLessThanAndCompletedFalseAndActiveTrueOrderByCreationDate(new Date());
+		ArrayList<Task> expiredTasks = taskRepository.findByExpirationDateLessThanAndExpiredFalseAndExpiresTrueAndCompletedFalse(new Date());
 		for(Task expiredTask : expiredTasks){
-			expiredTask.setActive(false);
+			expiredTask.setExpired(true);
 			taskRepository.save(expiredTask);
 		}
 	}

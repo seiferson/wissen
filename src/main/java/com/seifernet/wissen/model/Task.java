@@ -2,7 +2,6 @@ package com.seifernet.wissen.model;
 
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 
@@ -18,7 +17,6 @@ public class Task{
 	private String id;
 	
 	@NotBlank
-	@Length(max=24)
 	private String title;
 	
 	private String owner;
@@ -39,8 +37,18 @@ public class Task{
 	
 	private Date expirationDate;
 	
-	private Boolean active;
+	private Boolean expired;
 	
+	private Long priority;
+	
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Long priority) {
+		this.priority = priority;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -125,19 +133,19 @@ public class Task{
 		this.expirationDate = expirationDate;
 	}
 	
-	public void setActive(Boolean active){
-		this.active = active;
-	}
-	
-	public Boolean isActive(){
-		return active;
-	}
-	
 	public Date getCreationDate(){
 		return creationDate;
 	}
 	
 	public void setCreationDate(Date creationDate){
 		this.creationDate = creationDate;
+	}
+
+	public Boolean getExpired() {
+		return expired;
+	}
+
+	public void setExpired(Boolean expired) {
+		this.expired = expired;
 	}
 }

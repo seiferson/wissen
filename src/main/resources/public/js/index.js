@@ -27,7 +27,7 @@ function refreshPageElements(validToken){
 		
 		$.ajax({
 			type: 'GET',
-			url: "/api/tasks/search/findAllByOwnerAndCompletedFalseAndActiveTrueOrderByCreationDate" +
+			url: "/api/tasks/search/mytasks" +
 					"?owner=" + $.cookie("authuser") + 
 					"&page=0&size=30",
 			contentType: "application/json; charset=utf-8",
@@ -215,7 +215,9 @@ function createTask(tokenValidation){
 			expires : expiresf,
 			expirationDate : (new Date(expirationdatef)).getTime(),
 			active : true,
-			owner : $.cookie("authuser")
+			owner : $.cookie("authuser"),
+			expired : false,
+			priority : "-1"
 		};
 	
 	
