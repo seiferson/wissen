@@ -1,3 +1,68 @@
+
+
+
+public void takeDamage(Damage damage){
+		int finalDamage = damage.getAmount();
+		
+		if(Dice.rollDice(20) == Dice.rollDice(20)){
+			finalDamage = (int) Math.round(damage.getCriticalRate() * damage.getAmount());
+			System.out.println("Crit");
+		}
+		
+		if(currentHitPoints - finalDamage < 0){
+			currentHitPoints = 0;
+			System.out.println("GameOver");
+		} else {
+			currentHitPoints -= finalDamage;
+		}
+	}
+	
+	public Damage performBasicAttack(){
+		int damageAmount = level * 5 + strength * 10 + ATK_BASE;
+		return new Damage(DamageType.PHYSICAL, damageAmount, element, criticalRate);
+	}
+	
+	public int getMaxHitPoints(){
+		return (HP_BASE+level*20);
+	}
+	
+	public int getCurrentHitPoints(){
+		return this.currentHitPoints;
+	}
+	
+	public int getCurrentSkillPoints(){
+		return currentSkillPoints;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getId(){
+		return id;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setId(String id){
+		this.id = id;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="one column row">
   <div class="column">
     <div class="ui checkbox">

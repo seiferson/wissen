@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.seifernet.wissen.model.rpg.Player;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -31,6 +32,9 @@ public class Account {
 	
 	@JsonIgnore
 	private String password;
+	
+	@JsonIgnore
+	private List<Player> characters;
 	
 	@JsonIgnore
 	private List<String> authorities;
@@ -122,5 +126,13 @@ public class Account {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Player> getCharacters() {
+		return characters;
+	}
+
+	public void setCharacters(List<Player> characters) {
+		this.characters = characters;
 	}
 }
