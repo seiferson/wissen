@@ -1,4 +1,4 @@
-git <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -6,36 +6,15 @@ git <!DOCTYPE html>
   <body>
   
     <th:block th:fragment="index">
-    <div class="ui container">
-      <canvas id="map" width="330" height="100"></canvas>
-      <div class="ui one column grid">
-        <div class="column">
-        <div class="ui three tiny statistics">
-          <div class="teal statistic">
-            <div class="value">5</div>
-            <div class="label">Completed</div>
-          </div>
-          <div class="yellow statistic">
-            <div class="value">22</div>
-            <div class="label">Due</div>
-          </div>
-          <div class="red statistic">
-            <div class="value">10</div>
-            <div class="label">Expiring</div>
-          </div>
-        </div>
-        </div>
-        <div class="column">
-          <h4 class="ui top attached header hiddenf" id="tasksheader">Tasks</h4>
-          <div class="ui attached segment hiddenf" id="taskssegment">
-          	<div class="ui vertically divided grid" id="taskslist">
-          	</div>
-          </div>
-          <div class="ui clearing bottom attached segment hiddenf" id="taskfooter">
-            <button class='ui mini icon button right floated' onclick='showNewTaskModal()'><i class='plus icon'></i>Add a task</button>
-          </div>
-        </div>
-        <div class="column">
+    <div class="ui container hiddenf" id="maincontainer">
+      <div class="ui segment">
+        <h2 class="ui center aligned icon header">
+          <i class="circular chess rook icon"></i>
+          Wissen
+        </h2>
+      </div>
+      <div class="ui stackable centered grid">
+        <div class="eight wide column">
           <div class="ui icon info message hidden" id="messagenoauthy">
             <i class="sticky note outline icon"></i>
             <div class="content">
@@ -44,8 +23,6 @@ git <!DOCTYPE html>
               <p>This is just a silly message not to present an empty screen to the newcomers.</p>
             </div>
           </div>
-        </div>
-        <div class="column">
           <div class="ui icon warning message hidden" id="messagenoauthx">
             <i class="warning sign icon"></i>
             <div class="content">
@@ -53,6 +30,109 @@ git <!DOCTYPE html>
               <p>Everything related to the system and its development can be tracked on the <a href="https://github.com/seiferxx/wissen/">github page</a>.</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui container" id="maincontainerauth">
+      <div class="ui segment">
+        <h2 class="ui center aligned icon header">
+          <i class="circular chess rook icon"></i>
+          Wissen
+        </h2>
+      </div>
+      <div class="ui stackable centered grid">
+        <div class="five wide column">
+          
+        </div>
+        <div class="eleven wide column">
+          <p></p>
+		  <div class="ui three column stackable grid">
+		  <div class="stretched row">
+		  <div class="column">
+		  <div class="ui fluid card">
+  <div class="content">
+    <i class="right floated like icon"></i>
+    <i class="right floated star icon"></i>
+    <div class="header">Cute Dog</div>
+    <div class="description">
+      <p></p>
+    </div>
+  </div>
+  <div class="extra content">
+    <span class="left floated like">
+      <i class="like icon"></i>
+      Like
+    </span>
+    <span class="right floated star">
+      <i class="star icon"></i>
+      Favorite
+    </span>
+  </div>
+</div></div>
+<div class="column">
+		  <div class="ui card">
+  <div class="content">
+    <i class="right floated like icon"></i>
+    <i class="right floated star icon"></i>
+    <div class="header">Cute Dog</div>
+    <div class="description">
+      <p></p>
+    </div>
+  </div>
+  <div class="extra content">
+    <span class="left floated like">
+      <i class="like icon"></i>
+      Like
+    </span>
+    <span class="right floated star">
+      <i class="star icon"></i>
+      Favorite
+    </span>
+  </div>
+</div>
+<div class="ui card">
+  <div class="content">
+    <i class="right floated like icon"></i>
+    <i class="right floated star icon"></i>
+    <div class="header">Wash the dishes</div>
+    <div class="description">
+      <p>Take care of the dirty dishes, is not good for health to keep them with food more than one day, also it stinks.</p>
+    </div>
+  </div>
+  <div class="extra content">
+    <span class="left floated like">
+      <i class="like icon"></i>
+      Like
+    </span>
+    <span class="right floated star">
+      <i class="star icon"></i>
+      Favorite
+    </span>
+  </div>
+</div></div>
+<div class="column">
+		  <div class="ui card">
+  <div class="content">
+    <i class="right floated like icon"></i>
+    <i class="right floated star icon"></i>
+    <div class="header">Cute Dog</div>
+    <div class="description">
+      <p></p>
+    </div>
+  </div>
+  <div class="extra content">
+    <span class="left floated like">
+      <i class="like icon"></i>
+      Like
+    </span>
+    <span class="right floated star">
+      <i class="star icon"></i>
+      Favorite
+    </span>
+  </div>
+</div></div>
+</div>
+		  </div> 
         </div>
       </div>
     </div>

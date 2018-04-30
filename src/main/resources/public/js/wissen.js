@@ -7,6 +7,8 @@ Number.prototype.pad = function(size) {
 	return s;
 };
 
+
+
 /**
  *  Utility function to format date values to compact 3 digit time difference from current date
  */
