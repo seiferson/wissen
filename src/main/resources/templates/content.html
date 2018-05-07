@@ -6,16 +6,17 @@
   <body>
   
     <th:block th:fragment="index">
-    <div class="ui container hiddenf" id="maincontainer">
+    <div class="ui container">
+    
       <div class="ui segment">
         <h2 class="ui center aligned icon header">
           <i class="circular chess rook icon"></i>
           Wissen
         </h2>
       </div>
-      <div class="ui stackable centered grid">
+      <div class="ui stackable centered grid" id="maingrid">
         <div class="eight wide column">
-          <div class="ui icon info message hidden" id="messagenoauthy">
+          <div class="ui icon info message" id="messagenoauthy">
             <i class="sticky note outline icon"></i>
             <div class="content">
               <div class="header">Welcome to wissen</div>
@@ -23,7 +24,7 @@
               <p>This is just a silly message not to present an empty screen to the newcomers.</p>
             </div>
           </div>
-          <div class="ui icon warning message hidden" id="messagenoauthx">
+          <div class="ui icon warning message" id="messagenoauthx">
             <i class="warning sign icon"></i>
             <div class="content">
               <div class="header">This site is still under development!</div>
@@ -32,106 +33,70 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="ui container" id="maincontainerauth">
-      <div class="ui segment">
-        <h2 class="ui center aligned icon header">
-          <i class="circular chess rook icon"></i>
-          Wissen
-        </h2>
-      </div>
-      <div class="ui stackable centered grid">
+      <div class="ui stackable centered grid hiddenf" id="maingridauth">
         <div class="five wide column">
-          
+          <p></p>
         </div>
         <div class="eleven wide column">
           <p></p>
-		  <div class="ui three column stackable grid">
-		  <div class="stretched row">
-		  <div class="column">
-		  <div class="ui fluid card">
-  <div class="content">
-    <i class="right floated like icon"></i>
-    <i class="right floated star icon"></i>
-    <div class="header">Cute Dog</div>
-    <div class="description">
-      <p></p>
-    </div>
-  </div>
-  <div class="extra content">
-    <span class="left floated like">
-      <i class="like icon"></i>
-      Like
-    </span>
-    <span class="right floated star">
-      <i class="star icon"></i>
-      Favorite
-    </span>
-  </div>
-</div></div>
-<div class="column">
-		  <div class="ui card">
-  <div class="content">
-    <i class="right floated like icon"></i>
-    <i class="right floated star icon"></i>
-    <div class="header">Cute Dog</div>
-    <div class="description">
-      <p></p>
-    </div>
-  </div>
-  <div class="extra content">
-    <span class="left floated like">
-      <i class="like icon"></i>
-      Like
-    </span>
-    <span class="right floated star">
-      <i class="star icon"></i>
-      Favorite
-    </span>
-  </div>
-</div>
-<div class="ui card">
-  <div class="content">
-    <i class="right floated like icon"></i>
-    <i class="right floated star icon"></i>
-    <div class="header">Wash the dishes</div>
-    <div class="description">
-      <p>Take care of the dirty dishes, is not good for health to keep them with food more than one day, also it stinks.</p>
-    </div>
-  </div>
-  <div class="extra content">
-    <span class="left floated like">
-      <i class="like icon"></i>
-      Like
-    </span>
-    <span class="right floated star">
-      <i class="star icon"></i>
-      Favorite
-    </span>
-  </div>
-</div></div>
-<div class="column">
-		  <div class="ui card">
-  <div class="content">
-    <i class="right floated like icon"></i>
-    <i class="right floated star icon"></i>
-    <div class="header">Cute Dog</div>
-    <div class="description">
-      <p></p>
-    </div>
-  </div>
-  <div class="extra content">
-    <span class="left floated like">
-      <i class="like icon"></i>
-      Like
-    </span>
-    <span class="right floated star">
-      <i class="star icon"></i>
-      Favorite
-    </span>
-  </div>
-</div></div>
-</div>
+		  <div class="ui two column stackable grid">
+		    <div class="stretched row" id="xtasks">
+		    </div>
+		    <div class="stretched row">
+		      <div class="column">
+		        <div class="ui teal fluid card">
+		          <div class="content">
+		            <i class="right floated trash alternate outline icon"></i>
+		            <i class="right floated edit outline icon"></i>
+		            <i class="right floated circle outline icon"></i>
+		            <div class="header">TDP365835</div>
+		            <div class="meta"><span class="right floated">5 minutes ago</span></div>
+		            <div class="description">
+		              <p>Duplicated key on CM</p>
+		            </div>
+		          </div>
+		        </div>
+		        
+		      </div>
+		      <div class="column">
+		        <div class="ui segment">
+		           <form class="ui form">
+		             <h4 class="ui dividing header">New task</h4>
+		               <div class="field">
+		                 <input type="text" name="tasktitlef" id="tasktitlef" placeholder="Title" maxlength="24"/>
+		               </div>
+		               <div class="two fields">
+		                 <div class="field">
+		                   <div class="ui checkbox">
+		                     <input type="checkbox" name="taskdescneededf" id="taskdescneededf" onchange="toggleNewTaskDesc()" checked="true" />
+		                     <label>Description needed?</label>
+		                   </div>
+		                 </div>
+		                 <div class="field">
+		                   <div class="ui checkbox">
+		                     <input type="checkbox" name="taskexpiresf" id="taskexpiresf" onchange="toggleExpireDate()" checked="true"/>
+		                     <label>Expires?</label>
+		                   </div>
+		                 </div>
+		               </div>
+		               <div class="field" id="taskdescfieldf">
+		                 <textarea rows="2" name="taskdescf" id="taskdescf" placeholder="Details"></textarea>
+		               </div>
+		               <div class="two fields" id="datefield">
+		                 <div class="field">
+		                   <label>Due date</label>
+		                   <input type="datetime-local" name="taskduedatef" id="taskduedatef" />
+		                 </div>
+		                 <div class="field" id="taskexpirationdatefieldf">
+		                   <label>Expiration date</label>
+		                   <input type="datetime-local" name="taskexpirationdatef" id="taskexpirationdatef()" />
+		                 </div>
+		               </div>
+		               <button class="ui right floated small button" type="button" onclick="createTask()">Create task</button>
+		             </form>
+		        </div>
+		      </div>
+		    </div>
 		  </div> 
         </div>
       </div>

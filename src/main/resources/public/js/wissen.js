@@ -8,14 +8,11 @@ Number.prototype.pad = function(size) {
 };
 
 
-
 /**
  *  Utility function to format date values to compact 3 digit time difference from current date
  */
-function dateToStringCompact(fdate){
-	var actualDate = new Date();
-	var providedDate = fdate;
-	var milis = providedDate.getTime() - actualDate.getTime();
+function dateToStringCompact(a,b){
+	var milis = a.getTime() - b.getTime();
 	
 	if(milis > 31536000000) {
 		return (Math.trunc(milis/31536000000)).pad(2) + "y";
@@ -33,6 +30,47 @@ function dateToStringCompact(fdate){
 }
 
 /**
+ *  Utility function to format date values to compact 3 digit time difference from current date
+ */
+function dateToString(a,b){
+	var milis = a.getTime() - b.getTime();
+	
+	if(milis > 31536000000) {
+		if(Math.trunc(milis/31536000000) > 1){
+			return  (Math.trunc(milis/31536000000)) + " years"
+		} else {
+			return "1 year";
+		}
+	} else if(milis > 2592000000) {
+		if(Math.trunc(milis/2592000000) > 1){
+			return  (Math.trunc(milis/2592000000)) + " months"
+		} else {
+			return "1 month";
+		}
+	} else if(milis > 86400000) {
+		if(Math.trunc(milis/86400000) > 1){
+			return  (Math.trunc(milis/86400000)) + " days"
+		} else {
+			return "1 day";
+		}
+	} else if(milis > 3600000){
+		if(Math.trunc(milis/3600000) > 1){
+			return  (Math.trunc(milis/3600000)) + " hours"
+		} else {
+			return "1 hour";
+		}
+	} else if(milis > 60000){
+		if(Math.trunc(milis/60000) > 1){
+			return  (Math.trunc(milis/60000)) + " minutes"
+		} else {
+			return "1 minute";
+		}
+	} else {
+		return "seconds";
+	}
+}
+
+/**
  * Utility function to get label color based on due date
  * 
  * @param fdate
@@ -40,7 +78,7 @@ function dateToStringCompact(fdate){
  */
 function getLabelColor(fdate){
 	var actualDate = new Date();
-	var providedDate = fdate;
+	var providedDate = new Date(fdate);
 	var milis = providedDate.getTime() - actualDate.getTime();
 	
 	if(milis > 18000000){
@@ -59,7 +97,8 @@ function getLabelColor(fdate){
  * @returns
  */
 function formatDate(fdate){
-	return (fdate.getMonth()+1).pad(2) + "/"+(fdate.getDate()).pad(2)+"/"+fdate.getFullYear() + " " + (fdate.getHours()).pad(2) + ":"+(fdate.getMinutes()).pad(2);
+	var providedDate = new Date(fdate);
+	return (providedDate.getMonth()+1).pad(2) + "/"+(providedDate.getDate()).pad(2)+"/"+providedDate.getFullYear() + " " + (providedDate.getHours()).pad(2) + ":"+(providedDate.getMinutes()).pad(2);
 }
 
 /**
@@ -101,6 +140,7 @@ $('.progress').progress();
 $('.message .close').on('click', function() {
 	$(this).closest('.message').transition('fade');
 });
+$('.ui.accordion').accordion();
 var globalTimeOut = null;
 
 /**

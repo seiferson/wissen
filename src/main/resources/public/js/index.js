@@ -19,16 +19,14 @@ function refreshPageElements(validToken){
 		usermenu.append(itemtest);
 		$("#authuseritem").addClass("dropdown");
 		$('.ui.dropdown').dropdown();
-		$("#tasksheader").removeClass("hiddenf");
-		$("#taskssegment").removeClass("hiddenf");
-		$("#taskfooter").removeClass("hiddenf");
-		$("#messagenoauthy").addClass("hidden");
-		$("#messagenoauthx").addClass("hidden");
+		$("#maingridauth").removeClass("hiddenf");
+		$("#maingrid").addClass("hiddenf");
 		
 		$.ajax({
 			type: 'GET',
 			url: "/api/tasks/search/mytasks" +
-					"?owner=" + $.cookie("authuser") + 
+					"?owner=" + 
+					$.cookie("authuser") + 
 					"&page=0&size=30",
 			contentType: "application/json; charset=utf-8",
 			headers: {
@@ -39,95 +37,43 @@ function refreshPageElements(validToken){
 				console.log(XMLHttpRequest);
 			},
 			success: function(responseData) {
-				$("#taskslist").empty();
-				var firstElem = true;
+				var columns = [];
+				columns[0] = createColumn();
+				columns[1] = createColumn();
+				
+				var colCount = 0;
 				responseData._embedded.tasks.forEach(function(entry){
-					var row = $("<div></div>");
-					var column = $("<div></div>");
-					var checkboxContainer = $("<div></div>");
-					var checkbox = $("<input type='checkbox' name='" + entry.id + "tsk'/>");
-					var checkboxLabel = $("<label></label>");
-					var ddLabel = $("<div></div>");
-					var ddate = new Date(entry.dueDate);
-					var deleteButton = $("<button></button>");
-					var editButton = $("<button></button>");
-					var editIcon = $("<i></i>");
-					var deleteIcon = $("<i></i>");
+					var labels = [];
+					var dueDateLabel = createTag(getLabelColor(entry.dueDate), "DD " + formatDate(entry.dueDate), "tiny");
+					labels.push(dueDateLabel);
 					
-					if(firstElem){
-						firstElem = false;
-						column.addClass("column tlistfcol");
-						row.addClass("one column row tlistfelem unselectablef");
-					} else {
-						row.addClass("one column row tlistelem");
-						column.addClass("column tlistcol unselectablef");
+					if(entry.expires){
+						var expireDateLabel = createTag(getLabelColor(entry.expirationDate), "ED " + formatDate(entry.expirationDate), "tiny");
+						labels.push(expireDateLabel);
 					}
 					
-					checkboxContainer.addClass("ui checkbox");
-					checkboxLabel.text(entry.title);
-					checkboxLabel.click(function(){showTaskModal(entry.identifier)});
-					ddLabel.addClass("ui basic label floatfright");
-					ddLabel.addClass(getLabelColor(ddate));
-					ddLabel.text("DD " + dateToStringCompact(ddate));
-					column.bind('touchstart',function(){catchTaskHold(entry.identifier)});
-					column.bind('touchend',function(){catchTaskRelease(entry.identifier)});
-					column.attr("id", "col" + entry.identifier);
-					deleteButton.addClass("ui mini icon basic button floatfright transition hidden");
-					editButton.addClass("ui mini icon basic button floatfright transition hidden");
-					editIcon.addClass("pencil icon");
-					deleteIcon.addClass("trash icon");
+					var description = null;
+					if(entry.descriptionRequired){
+						description = createParagraph(entry.description);
+					}
 					
-					checkbox.change(function() {
-						if (this.checked) {
-							var datax = {
-								completed : true
-							};
-							$.ajax({
-								type: 'PATCH',
-								url: "/api/tasks/"+entry.identifier,
-								data: JSON.stringify(datax),
-								headers: {
-									"Authorization" : "Bearer " + $.cookie("authtoken"),
-									"Accept" : "application/json"
-								},
-								contentType: "application/json; charset=utf-8",
-								success: function(response) {
-									console.log("updated");
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) {
-									console.log(textStatus);
-									console.log(XMLHttpRequest);
-								}
-							});
-
-
-
-						} else {
-							console.log("oposite");
-						}
-					});
-					
-					$("#taskslist").append(row);
-					row.append(column);
-					column.append(checkboxContainer);
-					checkboxContainer.append(checkbox);
-					checkboxContainer.append(checkboxLabel);
-					column.append(ddLabel);
-					editButton.append(editIcon);
-					deleteButton.append(deleteIcon);
-					column.append(editButton);
-					column.append(deleteButton);
+					var metaText = dateToString(new Date(), new Date(entry.creationDate)) + " ago";
+					var card = createCard(null, entry.title, metaText, description);
+					columns[colCount%2].append(card);
+					colCount++;
 				});
+				
+				var row = $("#xtasks");
+				row.empty();
+				row.append(columns[0]);
+				row.append(columns[1]);
 			}
 		});
 	} 
 	else {
 		$("#authuser").text("Anonymous");
-		$("#tasksheader").addClass("hiddenf");
-		$("#taskssegment").addClass("hiddenf");
-		$("#messagenoauthy").removeClass("hidden");
-		$("#messagenoauthx").removeClass("hidden");
-		$("#taskfooter").addClass("hiddenf");
+		$("#maingrid").removeClass("hidden");
+		$("#maingridauth").addClass("hiddenf");
 	}
 }
 
@@ -220,7 +166,7 @@ function createTask(tokenValidation){
 			priority : "-1"
 		};
 	
-	
+	console.log(datax);
 	$.ajax({
 		type: 'POST',
 		url: "/api/tasks",
@@ -243,56 +189,6 @@ function createTask(tokenValidation){
 
 function showNewTaskModal(){
 	$('#newtaskmod').modal('show');
-}
-
-function showTaskModal(task){
-	$.ajax({
-		type: 'GET',
-		url: "/api/tasks/" + task,
-		headers: {
-			"Authorization" : "Bearer " + $.cookie("authtoken"),
-			"Accept" : "application/json"
-		},
-		success: function(response) {
-			$("#tasktitle").text(response.title);
-			var cdate = new Date(response.creationDate);
-			$("#taskcreationdate").text("Created " + (cdate.getMonth()+1).pad(2) + "/"+(cdate.getDate()).pad(2)+"/"+cdate.getFullYear() + " " + (cdate.getHours()).pad(2) + ":"+(cdate.getMinutes()).pad(2))
-			if(response.descriptionRequired){
-				var descontent = $("<p></p>");
-				descontent.text(response.description);
-				$("#taskdescription").empty();
-				$("#taskdescription").append(descontent);
-			}else{
-				$("#taskdescription").empty();
-			}
-			$("#tasktags").empty();
-			var ddate = new Date(response.dueDate);
-			var tag = $("<div></div>");
-			if(ddate.getTime() - (new Date()).getTime() > 18000000){
-				tag.addClass("ui teal tiny label");
-			} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
-				tag.addClass("ui yellow tiny label");
-			} else {
-				tag.addClass("ui red tiny label");
-			}
-			tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
-			$("#tasktags").append(tag);
-			console.log(response);
-			if(response.expires){
-				var edate = new Date(response.dueDate);
-				var taged = $("<div></div>");
-				taged.addClass("ui tiny label");
-				taged.text("ED " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
-				$("#tasktags").append(taged);
-			}
-			
-			$("#taskdetmod").modal("show");
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(textStatus);
-			console.log(XMLHttpRequest);
-		}
-	});
 }
 
 validateToken(refreshPageElements);

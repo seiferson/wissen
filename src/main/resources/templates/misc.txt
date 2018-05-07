@@ -1,3 +1,121 @@
+success: function(response) {
+			$("#tasktitle").text(response.title);
+			var cdate = new Date(response.creationDate);
+			$("#taskcreationdate").text("Created " + (cdate.getMonth()+1).pad(2) + "/"+(cdate.getDate()).pad(2)+"/"+cdate.getFullYear() + " " + (cdate.getHours()).pad(2) + ":"+(cdate.getMinutes()).pad(2))
+			if(response.descriptionRequired){
+				var descontent = $("<p></p>");
+				descontent.text(response.description);
+				$("#taskdescription").empty();
+				$("#taskdescription").append(descontent);
+			}else{
+				$("#taskdescription").empty();
+			}
+			$("#tasktags").empty();
+			var ddate = new Date(response.dueDate);
+			var tag = $("<div></div>");
+			if(ddate.getTime() - (new Date()).getTime() > 18000000){
+				tag.addClass("ui teal tiny label");
+			} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
+				tag.addClass("ui yellow tiny label");
+			} else {
+				tag.addClass("ui red tiny label");
+			}
+			tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
+			$("#tasktags").append(tag);
+			console.log(response);
+			if(response.expires){
+				var edate = new Date(response.dueDate);
+				var taged = $("<div></div>");
+				taged.addClass("ui tiny label");
+				taged.text("ED " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
+				$("#tasktags").append(taged);
+			}
+			
+			$("#taskdetmod").modal("show");
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(textStatus);
+			console.log(XMLHttpRequest);
+		}
+
+
+					var row = $("<div></div>");
+					var column = $("<div></div>");
+					var checkboxContainer = $("<div></div>");
+					var checkbox = $("<input type='checkbox' name='" + entry.id + "tsk'/>");
+					var checkboxLabel = $("<label></label>");
+					var ddLabel = $("<div></div>");
+					var ddate = new Date(entry.dueDate);
+					var deleteButton = $("<button></button>");
+					var editButton = $("<button></button>");
+					var editIcon = $("<i></i>");
+					var deleteIcon = $("<i></i>");
+					
+					if(firstElem){
+						firstElem = false;
+						column.addClass("column tlistfcol");
+						row.addClass("one column row tlistfelem unselectablef");
+					} else {
+						row.addClass("one column row tlistelem");
+						column.addClass("column tlistcol unselectablef");
+					}
+					
+					checkboxContainer.addClass("ui checkbox");
+					checkboxLabel.text(entry.title);
+					checkboxLabel.click(function(){showTaskModal(entry.identifier)});
+					ddLabel.addClass("ui basic label floatfright");
+					ddLabel.addClass(getLabelColor(ddate));
+					ddLabel.text("DD " + dateToStringCompact(ddate));
+					column.bind('touchstart',function(){catchTaskHold(entry.identifier)});
+					column.bind('touchend',function(){catchTaskRelease(entry.identifier)});
+					column.attr("id", "col" + entry.identifier);
+					deleteButton.addClass("ui mini icon basic button floatfright transition hidden");
+					editButton.addClass("ui mini icon basic button floatfright transition hidden");
+					editIcon.addClass("pencil icon");
+					deleteIcon.addClass("trash icon");
+					
+					checkbox.change(function() {
+						if (this.checked) {
+							var datax = {
+								completed : true
+							};
+							$.ajax({
+								type: 'PATCH',
+								url: "/api/tasks/"+entry.identifier,
+								data: JSON.stringify(datax),
+								headers: {
+									"Authorization" : "Bearer " + $.cookie("authtoken"),
+									"Accept" : "application/json"
+								},
+								contentType: "application/json; charset=utf-8",
+								success: function(response) {
+									console.log("updated");
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									console.log(textStatus);
+									console.log(XMLHttpRequest);
+								}
+							});
+
+
+
+						} else {
+							console.log("oposite");
+						}
+					});
+					
+					$("#taskslist").append(row);
+					row.append(column);
+					column.append(checkboxContainer);
+					checkboxContainer.append(checkbox);
+					checkboxContainer.append(checkboxLabel);
+					column.append(ddLabel);
+					editButton.append(editIcon);
+					deleteButton.append(deleteIcon);
+					column.append(editButton);
+					column.append(deleteButton);
+
+
  <canvas id="map" width="330" height="100"></canvas>
       <div class="ui one column grid">
         <div class="column">
