@@ -73,10 +73,10 @@
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <!-- dependency>
+    <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
-    </dependency -->
+    </dependency>
   </dependencies>
   
   <build>
