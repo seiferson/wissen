@@ -29,7 +29,7 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 	
 	@RestResource(path = "duedatecountbydaterange")
 	@PreAuthorize("authentication.name == #owner")
-	public long countByOwnerAndDueDateGreaterThanAndDueDateLessThan(
+	public long countByOwnerAndDueDateBetween(
 		@Param("owner") String owner, 
 		@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate, 
 		@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate

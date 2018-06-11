@@ -22,6 +22,28 @@ function refreshPageElements(validToken){
 		$("#maingridauth").removeClass("hiddenf");
 		$("#maingrid").addClass("hiddenf");
 		
+		
+		
+		$.ajax({
+			type: 'GET',
+			url: "/api/tasks/search/duedatecountbydaterange" +
+					"?owner=" + $.cookie("authuser") + 
+					"&startdate=06-11-2018/00-00"+
+					"&enddate=06-11-2018/23-59",
+					
+			contentType: "application/json; charset=utf-8",
+			headers: {
+				"Authorization" : "Bearer " + $.cookie("authtoken"),
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(textStatus);
+				console.log(XMLHttpRequest);
+			},
+			success: function(responseData) {
+				console.log(responseData);
+			}
+		});
+		
 		$.ajax({
 			type: 'GET',
 			url: "/api/tasks/search/mytasks" +
@@ -41,7 +63,8 @@ function refreshPageElements(validToken){
 				columns[0] = createColumn();
 				columns[1] = createColumn();
 				
-				var colCount = 0;
+				var colCount = 1;
+				columns[0].append(createNewTaskForm());
 				responseData._embedded.tasks.forEach(function(entry){
 					var labels = [];
 					var dueDateLabel = createTag(getLabelColor(entry.dueDate), "DD " + formatDate(entry.dueDate), "tiny");
@@ -58,8 +81,12 @@ function refreshPageElements(validToken){
 					}
 					
 					var metaText = dateToString(new Date(), new Date(entry.creationDate)) + " ago";
-					var card = createCard(null, entry.title, metaText, description);
-					columns[colCount%2].append(card);
+					var card = createCard(null, entry.title, metaText, description, entry.identifier);
+					if(colCount < 3){
+						columns[1].append(card);
+					} else{ 
+						columns[colCount%2].append(card);
+					}
 					colCount++;
 				});
 				
@@ -75,6 +102,25 @@ function refreshPageElements(validToken){
 		$("#maingrid").removeClass("hidden");
 		$("#maingridauth").addClass("hiddenf");
 	}
+}
+
+function completeActivity(id){
+	$.ajax({
+		type: 'PATCH',
+		url: "/api/tasks/"+id,
+		headers: {
+			"Authorization" : "Bearer " + $.cookie("authtoken")
+		},
+		contentType: "application/json; charset=utf-8",
+		data: '{"completed":"true"}',
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(textStatus);
+			console.log(XMLHttpRequest);
+		},
+		success: function(resultData) {
+			validateToken(refreshPageElements);
+		}
+	});
 }
 
 function showTaskButtons(id){
@@ -192,3 +238,4 @@ function showNewTaskModal(){
 }
 
 validateToken(refreshPageElements);
+$('.progress').progress();

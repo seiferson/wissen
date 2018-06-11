@@ -36,66 +36,19 @@
       <div class="ui stackable centered grid hiddenf" id="maingridauth">
         <div class="five wide column">
           <p></p>
+          <div class="ui small indicating progress" data-percent="74">
+            <div class="bar"></div>
+          	<div class="label">Today's progress</div>
+          </div>
+          <div class="ui small indicating progress" data-percent="52">
+            <div class="bar"></div>
+          	<div class="label">Overall progress</div>
+          </div>
         </div>
         <div class="eleven wide column">
           <p></p>
 		  <div class="ui two column stackable grid">
 		    <div class="stretched row" id="xtasks">
-		    </div>
-		    <div class="stretched row">
-		      <div class="column">
-		        <div class="ui teal fluid card">
-		          <div class="content">
-		            <i class="right floated trash alternate outline icon"></i>
-		            <i class="right floated edit outline icon"></i>
-		            <i class="right floated circle outline icon"></i>
-		            <div class="header">TDP365835</div>
-		            <div class="meta"><span class="right floated">5 minutes ago</span></div>
-		            <div class="description">
-		              <p>Duplicated key on CM</p>
-		            </div>
-		          </div>
-		        </div>
-		        
-		      </div>
-		      <div class="column">
-		        <div class="ui segment">
-		           <form class="ui form">
-		             <h4 class="ui dividing header">New task</h4>
-		               <div class="field">
-		                 <input type="text" name="tasktitlef" id="tasktitlef" placeholder="Title" maxlength="24"/>
-		               </div>
-		               <div class="two fields">
-		                 <div class="field">
-		                   <div class="ui checkbox">
-		                     <input type="checkbox" name="taskdescneededf" id="taskdescneededf" onchange="toggleNewTaskDesc()" checked="true" />
-		                     <label>Description needed?</label>
-		                   </div>
-		                 </div>
-		                 <div class="field">
-		                   <div class="ui checkbox">
-		                     <input type="checkbox" name="taskexpiresf" id="taskexpiresf" onchange="toggleExpireDate()" checked="true"/>
-		                     <label>Expires?</label>
-		                   </div>
-		                 </div>
-		               </div>
-		               <div class="field" id="taskdescfieldf">
-		                 <textarea rows="2" name="taskdescf" id="taskdescf" placeholder="Details"></textarea>
-		               </div>
-		               <div class="two fields" id="datefield">
-		                 <div class="field">
-		                   <label>Due date</label>
-		                   <input type="datetime-local" name="taskduedatef" id="taskduedatef" />
-		                 </div>
-		                 <div class="field" id="taskexpirationdatefieldf">
-		                   <label>Expiration date</label>
-		                   <input type="datetime-local" name="taskexpirationdatef" id="taskexpirationdatef()" />
-		                 </div>
-		               </div>
-		               <button class="ui right floated small button" type="button" onclick="createTask()">Create task</button>
-		             </form>
-		        </div>
-		      </div>
 		    </div>
 		  </div> 
         </div>
