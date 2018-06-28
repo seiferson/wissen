@@ -15,6 +15,10 @@ function refreshPageElements(validToken){
 		usermenu.append(itemtest);
 		itemtest = $("<div></div>");
 		itemtest.addClass("item");
+		itemtest.append($("<a href='/knowledge'>Knowledge</a>"));
+		usermenu.append(itemtest);
+		itemtest = $("<div></div>");
+		itemtest.addClass("item");
 		itemtest.append($("<a href='#'>Logout</a>"));
 		usermenu.append(itemtest);
 		$("#authuseritem").addClass("dropdown");
@@ -22,14 +26,12 @@ function refreshPageElements(validToken){
 		$("#maingridauth").removeClass("hiddenf");
 		$("#maingrid").addClass("hiddenf");
 		
-		
-		
 		$.ajax({
 			type: 'GET',
-			url: "/api/tasks/search/duedatecountbydaterange" +
+			url: "/api/tasks/search/taskscompletedtoday" +
 					"?owner=" + $.cookie("authuser") + 
-					"&startdate=06-11-2018/00-00"+
-					"&enddate=06-11-2018/23-59",
+					"&startdate=06-12-2018/00-00"+
+					"&enddate=06-12-2018/23-59",
 					
 			contentType: "application/json; charset=utf-8",
 			headers: {
@@ -40,9 +42,33 @@ function refreshPageElements(validToken){
 				console.log(XMLHttpRequest);
 			},
 			success: function(responseData) {
-				console.log(responseData);
+				var ctasks = responseData;
+				console.log(ctasks);
+				$.ajax({
+					type: 'GET',
+					url: "/api/tasks/search/duedatecountbydaterange" +
+							"?owner=" + $.cookie("authuser") + 
+							"&startdate=06-13-2018/00-00"+
+							"&enddate=06-13-2018/23-59",
+							
+					contentType: "application/json; charset=utf-8",
+					headers: {
+						"Authorization" : "Bearer " + $.cookie("authtoken"),
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log(textStatus);
+						console.log(XMLHttpRequest);
+					},
+					success: function(responseData) {
+						console.log(responseData);
+						console.log((100/responseData)*ctasks);
+						$('.progress').progress({percent:((100/responseData)*ctasks)});
+					}
+				});
 			}
 		});
+		
+		
 		
 		$.ajax({
 			type: 'GET',

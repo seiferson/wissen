@@ -34,9 +34,6 @@ public class Account {
 	private String password;
 	
 	@JsonIgnore
-	private List<Player> characters;
-	
-	@JsonIgnore
 	private List<String> authorities;
 	
 	@JsonIgnore
@@ -126,13 +123,5 @@ public class Account {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public List<Player> getCharacters() {
-		return characters;
-	}
-
-	public void setCharacters(List<Player> characters) {
-		this.characters = characters;
 	}
 }

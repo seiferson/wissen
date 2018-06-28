@@ -33,8 +33,7 @@ public class Scheduler {
 		}
 	}
 	
-	@Scheduled(fixedRate = 60000)
-	//@Scheduled(cron="0 0 7 * * MON-FRI")
+	@Scheduled(cron="0 0 5 * * MON-FRI")
 	public void weekDayTaskCreator(){
 		ArrayList<ScheduledTask> scheduledTasks = new ArrayList<>(scheduledTaskRepository.findAll());
 		for(ScheduledTask sTask : scheduledTasks) {

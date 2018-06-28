@@ -18,6 +18,14 @@ import com.seifernet.wissen.model.Task;
  * @author Seiferson (Cuauhtemoc Herrera)
  */
 public interface TaskRepository extends MongoRepository<Task, String>{
+	
+	@RestResource(path = "taskscompletedtoday")
+	@PreAuthorize("authentication.name == #owner")
+	public long countByOwnerAndDueDateBetweenAndCompletedTrue(
+		@Param("owner") String owner, 
+		@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate, 
+		@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
+	);
 
 	@RestResource(path = "expiredcountbydaterange")
 	@PreAuthorize("authentication.name == #owner")
@@ -29,7 +37,7 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 	
 	@RestResource(path = "duedatecountbydaterange")
 	@PreAuthorize("authentication.name == #owner")
-	public long countByOwnerAndDueDateBetween(
+	public long countByOwnerAndDueDateBetweenAndExpiredFalse(
 		@Param("owner") String owner, 
 		@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate, 
 		@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
