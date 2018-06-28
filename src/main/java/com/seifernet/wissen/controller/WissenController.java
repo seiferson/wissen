@@ -3,6 +3,7 @@ package com.seifernet.wissen.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.seifernet.wissen.util.ModelAttributes;
 import com.seifernet.wissen.util.URL;
@@ -34,6 +35,7 @@ public class WissenController {
 		return WebResources.BASE_LAYOUT;
 	}
 	
+	@ResponseBody
 	@RequestMapping("/integrations/dice")
 	private Integer dice(Model model){
 		return Dice.rollDice(6);
