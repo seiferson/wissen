@@ -32,4 +32,15 @@ public class WissenController {
 		
 		return WebResources.BASE_LAYOUT;
 	}
+	
+	@RequestMapping(URL.KNOWLEDGE)
+	private String knowledge( Model model ) {
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "knowledge");
+		
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "knowledgejs");
+		
+		return WebResources.BASE_LAYOUT;
+	}
 }
