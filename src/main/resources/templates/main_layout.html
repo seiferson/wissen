@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.css" />
     <link rel="stylesheet" type="text/css" href="/css/wissen.css" />
     <title>Wissen</title>
   </head>
@@ -35,11 +35,9 @@
               can be an issue if you try to access some areas 
               of the site that are not allowed to unidentified 
               users. So in order to continue, please log in.
-              <i class="smile icon"></i>
             </p>
             <p id="welcomeNotex">
               Welcome to wissen, please provide your credentials.
-              <i class="smile icon"></i>
             </p>
           </div>
         </div>
@@ -63,69 +61,11 @@
       </div>
     </div>
     
-    <div class="ui modal" id="newtaskmod">
-      <i class="close icon"></i>
-      <div class="header">New Task</div>
-      <div class="scrolling content">
-        <form class="ui form">
-          <div class="field">
-            <label>Title</label>
-            <input type="text" name="tasktitlef" id="tasktitlef" placeholder="Some task name" maxlength="24"/>
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" name="taskdescneededf" id="taskdescneededf" onchange="toggleNewTaskDesc()" checked="true" />
-              <label>Description needed?</label>
-            </div>
-          </div>
-          <div class="field" id="taskdescfieldf">
-            <label>Description</label>
-            <textarea rows="3" name="taskdescf" id="taskdescf"></textarea>
-          </div>
-          <div class="field">
-            <label>Due date</label>
-            <input type="datetime-local" name="taskduedatef" id="taskduedatef" />
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" name="taskexpiresf" id="taskexpiresf" onchange="toggleExpireDate()" checked="true"/>
-              <label>Expires?</label>
-            </div>
-          </div>
-          <div class="field" id="taskexpirationdatefieldf">
-            <label>Expiration date</label>
-            <input type="datetime-local" name="taskexpirationdatef" id="taskexpirationdatef()" />
-          </div>
-          <div class="right aligned">
-            <button class="ui button" type="button" onclick="createTask()">Create task</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    
-    <div class="ui basic modal" id="taskdetmod">
-      <div class="content">
-        <div class="ui one cards">
-        <div class="card">
-          <div class="content">
-            <div class="header"><span id="tasktitle"></span></div>
-              <div class="meta">
-                <span id="taskcreationdate"></span>
-              </div>
-              <div class="description" id="taskdescription">
-              </div>
-            </div>
-            <div class="extra content" id="tasktags">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="/js/wissen.js"></script>
+    <script src="/js/uiux.js"></script>
     <th:block th:include="${customjsSource} :: ${customjsFragment}"></th:block>
   </body>
 </html>

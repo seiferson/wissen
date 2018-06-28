@@ -17,5 +17,39 @@ span#latest.redstatus {
 }
 
 .hiddenf {
-	display: none; 
+	display: none !important; 
+}
+
+.tlistfelem {
+	padding-bottom: 7px !important;
+}
+
+.tlistelem {
+	padding-bottom: 7px !important; 
+	padding-top: 7px !important;
+}
+
+.tlistfcol{
+	margin-bottom:0px !important;
+}
+
+.tlistaddcol{
+	margin-bottom:0px !important;
+	margin-top:0px !important;
+}
+
+.tlistcol {
+	margin-bottom:0px !important; 
+	margin-top:0px !important
+}
+
+.floatfright{
+	float:right;
+}
+
+.unselectablef{
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }

@@ -1,11 +1,9 @@
 /**
  * Refresh page elements based on token validation results
- * TODO change parameter name
  */
-function refreshPageElements(tokenValidation){
-	if(tokenValidation){
+function refreshPageElements(validToken){
+	if(validToken){
 		$("#authuser").text($.cookie("authuser"));
-		//document.getElementById('authuseritem').removeAttribute("onclick");
 		$("#authuseritem").attr('onclick','').unbind('click');
 		var usermenu = $("<div></div>");
 		$("#authuseritem").children("div").remove();
@@ -13,22 +11,70 @@ function refreshPageElements(tokenValidation){
 		$("#authuseritem").append(usermenu);
 		var itemtest = $("<div></div>");
 		itemtest.addClass("item");
-		itemtest.text("Item test tyfyt ytf tyf yt");
+		itemtest.append($("<a href='#'>User profile</a>"));
+		usermenu.append(itemtest);
+		itemtest = $("<div></div>");
+		itemtest.addClass("item");
+		itemtest.append($("<a href='/knowledge'>Knowledge</a>"));
+		usermenu.append(itemtest);
+		itemtest = $("<div></div>");
+		itemtest.addClass("item");
+		itemtest.append($("<a href='#'>Logout</a>"));
 		usermenu.append(itemtest);
 		$("#authuseritem").addClass("dropdown");
 		$('.ui.dropdown').dropdown();
-		
-		
-		
-		$("#tasksheader").removeClass("hiddenf");
-		$("#taskssegment").removeClass("hiddenf");
-		$("#messagenoauthy").addClass("hidden");
-		$("#messagenoauthx").addClass("hidden");
+		$("#maingridauth").removeClass("hiddenf");
+		$("#maingrid").addClass("hiddenf");
 		
 		$.ajax({
 			type: 'GET',
-			url: "/api/tasks/search/findAllByOwnerAndCompletedFalseAndActiveTrueOrderByCreationDate" +
+			url: "/api/tasks/search/taskscompletedtoday" +
 					"?owner=" + $.cookie("authuser") + 
+					"&startdate=06-12-2018/00-00"+
+					"&enddate=06-12-2018/23-59",
+					
+			contentType: "application/json; charset=utf-8",
+			headers: {
+				"Authorization" : "Bearer " + $.cookie("authtoken"),
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log(textStatus);
+				console.log(XMLHttpRequest);
+			},
+			success: function(responseData) {
+				var ctasks = responseData;
+				console.log(ctasks);
+				$.ajax({
+					type: 'GET',
+					url: "/api/tasks/search/duedatecountbydaterange" +
+							"?owner=" + $.cookie("authuser") + 
+							"&startdate=06-13-2018/00-00"+
+							"&enddate=06-13-2018/23-59",
+							
+					contentType: "application/json; charset=utf-8",
+					headers: {
+						"Authorization" : "Bearer " + $.cookie("authtoken"),
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log(textStatus);
+						console.log(XMLHttpRequest);
+					},
+					success: function(responseData) {
+						console.log(responseData);
+						console.log((100/responseData)*ctasks);
+						$('.progress').progress({percent:((100/responseData)*ctasks)});
+					}
+				});
+			}
+		});
+		
+		
+		
+		$.ajax({
+			type: 'GET',
+			url: "/api/tasks/search/mytasks" +
+					"?owner=" + 
+					$.cookie("authuser") + 
 					"&page=0&size=30",
 			contentType: "application/json; charset=utf-8",
 			headers: {
@@ -39,48 +85,105 @@ function refreshPageElements(tokenValidation){
 				console.log(XMLHttpRequest);
 			},
 			success: function(responseData) {
-				$("#taskslist").empty();
+				var columns = [];
+				columns[0] = createColumn();
+				columns[1] = createColumn();
+				
+				var colCount = 1;
+				columns[0].append(createNewTaskForm());
 				responseData._embedded.tasks.forEach(function(entry){
-					var item = $("<div></div>");
-					item.addClass("item");
-					$("#taskslist").append(item);
-					var content = $("<div></div>");
-					item.append(content);
-					var rcontent = $("<div></div>");
-					rcontent.addClass("middle aligned right floated content");
-					var ddate = new Date(entry.dueDate);
-					var tag = $("<div></div>");
-					if(ddate.getTime() - (new Date()).getTime() > 18000000){
-						tag.addClass("ui teal tiny label");
-					} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
-						tag.addClass("ui yellow tiny label");
-					} else {
-						tag.addClass("ui red tiny label");
+					var labels = [];
+					var dueDateLabel = createTag(getLabelColor(entry.dueDate), "DD " + formatDate(entry.dueDate), "tiny");
+					labels.push(dueDateLabel);
+					
+					if(entry.expires){
+						var expireDateLabel = createTag(getLabelColor(entry.expirationDate), "ED " + formatDate(entry.expirationDate), "tiny");
+						labels.push(expireDateLabel);
 					}
-					tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
-					rcontent.append(tag);
-					item.prepend(rcontent);
-					content.addClass("middle aligned content");
-					content.text(entry.title);
-					console.log(entry.identifier);
-					content.click(function(){showTaskModal(entry.identifier)});
-					var icon = $("<i></i>");
-					content.prepend(icon);
-					icon.addClass("large square outline icon");
+					
+					var description = null;
+					if(entry.descriptionRequired){
+						description = createParagraph(entry.description);
+					}
+					
+					var metaText = dateToString(new Date(), new Date(entry.creationDate)) + " ago";
+					var card = createCard(null, entry.title, metaText, description, entry.identifier);
+					if(colCount < 3){
+						columns[1].append(card);
+					} else{ 
+						columns[colCount%2].append(card);
+					}
+					colCount++;
 				});
-				$("#taskslist").append('<div class="item"><div class="middle aligned content" onclick="showNewTaskModal()"><i class="large plus square outline icon"></i> Add a task</div></div>');
+				
+				var row = $("#xtasks");
+				row.empty();
+				row.append(columns[0]);
+				row.append(columns[1]);
 			}
 		});
 	} 
 	else {
 		$("#authuser").text("Anonymous");
-		$("#tasksheader").addClass("hiddenf");
-		$("#taskssegment").addClass("hiddenf");
-		$("#messagenoauthy").removeClass("hidden");
-		$("#messagenoauthx").removeClass("hidden");
+		$("#maingrid").removeClass("hidden");
+		$("#maingridauth").addClass("hiddenf");
 	}
 }
 
+function completeActivity(id){
+	$.ajax({
+		type: 'PATCH',
+		url: "/api/tasks/"+id,
+		headers: {
+			"Authorization" : "Bearer " + $.cookie("authtoken")
+		},
+		contentType: "application/json; charset=utf-8",
+		data: '{"completed":"true"}',
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(textStatus);
+			console.log(XMLHttpRequest);
+		},
+		success: function(resultData) {
+			validateToken(refreshPageElements);
+		}
+	});
+}
+
+function showTaskButtons(id){
+	var elem = $("#col" + id);
+	elem.unbind('touchstart');
+	elem.children(".ui.checkbox").children("label").unbind('click');
+	elem.children(".label").transition('fade left');
+	setTimeout(function(){
+		elem.children(".button").transition('fade left');
+	}, 270);
+}
+
+function hideTaskButtons(id){
+	var elem = $("#col" + id);
+	elem.bind('touchstart', function(){catchTaskHold(id)});
+	elem.bind('touchend',function(){catchTaskRelease(id)});
+	elem.unbind('click');
+	elem.children(".button").transition('fade left');
+	setTimeout(function(){
+		elem.children(".label").transition('fade left');
+	}, 270);
+	elem.children(".ui.checkbox").children("label").click(function(){showTaskModal(id)});
+}
+
+function catchTaskHold(id){
+	globalTimeOut = setTimeout(function(){showTaskButtons(id)}, 1500);
+}
+
+function catchTaskRelease(id){
+	var elem = $("#col" + id);
+	if(elem.children(".label").hasClass("hidden")){
+		elem.unbind('touchend');
+		elem.unbind('click');
+		setTimeout(function(){elem.click(function(){hideTaskButtons(id)});}, 10);
+	}
+	clearTimeout(globalTimeOut);
+}
 
 function toggleNewTaskDesc(){
   if($("#taskdescfieldf").hasClass("hiddenf")){
@@ -97,43 +200,6 @@ function toggleExpireDate(){
     $("#taskexpirationdatefieldf").addClass("hiddenf");
   }
 }
-
-function irrigate(plantid) {
-  if($.cookie("authtoken") === undefined) {
-    $("#wrongcredentials").addClass("hidden");
-    $("#user").val("");
-    $("#passwd").val("");
-    $("#authmod").modal("show");
-  }
-  else {
-    var xdata = {
-      date: (new Date()).getTime(),
-      person : $.cookie("authuser"),
-      plant : plantid
-    };
-    $.ajax({
-      type: 'POST',
-      url: "/api/irrigationRecords",
-      contentType: "application/json; charset=utf-8",
-      dataType: 'json',
-      headers: {
-        "Authorization" : "Bearer " + $.cookie("authtoken"),
-      },
-      data: JSON.stringify(xdata),
-        success: function(resultData) {
-        var cDate = new Date();
-        $("#latest").removeClass("redstatus");
-        $("#latest").addClass("greenstatus");
-        $("#latest").text("0.00 hours ago");
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log(textStatus);
-        console.log(XMLHttpRequest.status);
-      }
-    });
-  }
-}
-
 
 /**
  * Process task creation
@@ -167,11 +233,12 @@ function createTask(tokenValidation){
 			expires : expiresf,
 			expirationDate : (new Date(expirationdatef)).getTime(),
 			active : true,
-			owner : $.cookie("authuser")
+			owner : $.cookie("authuser"),
+			expired : false,
+			priority : "-1"
 		};
 	
-	console.log(JSON.stringify(datax));
-	
+	console.log(datax);
 	$.ajax({
 		type: 'POST',
 		url: "/api/tasks",
@@ -187,6 +254,7 @@ function createTask(tokenValidation){
 		success: function(resultData) {
 			validateToken(refreshPageElements);
 			$('#newtaskmod').modal('hide');
+			
 		}
 	});
 }
@@ -195,54 +263,5 @@ function showNewTaskModal(){
 	$('#newtaskmod').modal('show');
 }
 
-function showTaskModal(task){
-	$.ajax({
-		type: 'GET',
-		url: "/api/tasks/" + task,
-		headers: {
-			"Authorization" : "Bearer " + $.cookie("authtoken"),
-			"Accept" : "application/json"
-		},
-		success: function(response) {
-			$("#tasktitle").text(response.title);
-			var cdate = new Date(response.creationDate);
-			$("#taskcreationdate").text("Created " + (cdate.getMonth()+1).pad(2) + "/"+(cdate.getDate()).pad(2)+"/"+cdate.getFullYear() + " " + (cdate.getHours()).pad(2) + ":"+(cdate.getMinutes()).pad(2))
-			if(response.descriptionRequired){
-				var descontent = $("<p></p>");
-				descontent.text(response.description);
-				$("#taskdescription").empty();
-				$("#taskdescription").append(descontent);
-			}else{
-				$("#taskdescription").empty();
-			}
-			$("#tasktags").empty();
-			var ddate = new Date(response.dueDate);
-			var tag = $("<div></div>");
-			if(ddate.getTime() - (new Date()).getTime() > 18000000){
-				tag.addClass("ui teal tiny label");
-			} else if (ddate.getTime() - (new Date()).getTime() > 7200000){
-				tag.addClass("ui yellow tiny label");
-			} else {
-				tag.addClass("ui red tiny label");
-			}
-			tag.text("DD " + (ddate.getMonth()+1).pad(2) + "/"+(ddate.getDate()).pad(2)+"/"+ddate.getFullYear() + " " + (ddate.getHours()).pad(2) + ":"+(ddate.getMinutes()).pad(2));
-			$("#tasktags").append(tag);
-			console.log(response);
-			if(response.expires){
-				var edate = new Date(response.dueDate);
-				var taged = $("<div></div>");
-				taged.addClass("ui tiny label");
-				taged.text("ED " + (edate.getMonth()+1).pad(2) + "/"+(edate.getDate()).pad(2)+"/"+edate.getFullYear() + " " + (edate.getHours()).pad(2) + ":"+(edate.getMinutes()).pad(2));
-				$("#tasktags").append(taged);
-			}
-			
-			$("#taskdetmod").modal("show");
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(textStatus);
-			console.log(XMLHttpRequest);
-		}
-	});
-}
-
 validateToken(refreshPageElements);
+$('.progress').progress();

@@ -1,84 +1,96 @@
 package com.seifernet.wissen.model.rpg;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.seifernet.wissen.rpg.Damage;
-import com.seifernet.wissen.rpg.DamageType;
-import com.seifernet.wissen.rpg.Dice;
-import com.seifernet.wissen.rpg.Element;
+import com.seifernet.wissen.model.rpg.Equipment.EquipmentType;
 
-public class Player {
-	
-	private static final int HP_BASE = 80;
-	private static final int ATK_BASE = 10;
+@Document
+public class Player extends Character{
 	
 	@Id
 	private String id;
-	private String name;
 	
-	private int level;
-	private int currentHitPoints;
-	private int currentSkillPoints;
+	private int experience;
+	private int goldCoins;
 	
-	private int strength;
-	private double criticalRate;
-	private Element element;
+	private Equipment shoes;
+	private Equipment garment;
+	private Equipment armor;
+	private Equipment gloves;
+	private Equipment necklace;
+	private Equipment rightRing;
+	private Equipment leftRing;
 	
-	public Player(String name, int level){
-		this.name = name;
-		this.level = level;
-		criticalRate = 1.05;
-		element = Element.NEUTRAL;
-		strength = 1;
-		currentHitPoints = HP_BASE+level*20;
-	}
-	
-	public void takeDamage(Damage damage){
-		int finalDamage = damage.getAmount();
-		
-		if(Dice.rollDice(20) == Dice.rollDice(20)){
-			finalDamage = (int) Math.round(damage.getCriticalRate() * damage.getAmount());
-			System.out.println("Crit");
-		}
-		
-		if(currentHitPoints - finalDamage < 0){
-			currentHitPoints = 0;
-			System.out.println("GameOver");
-		} else {
-			currentHitPoints -= finalDamage;
-		}
-	}
-	
-	public Damage performBasicAttack(){
-		int damageAmount = level * 5 + strength * 10 + ATK_BASE;
-		return new Damage(DamageType.PHYSICAL, damageAmount, element, criticalRate);
-	}
-	
-	public int getMaxHitPoints(){
-		return (HP_BASE+level*20);
-	}
-	
-	public int getCurrentHitPoints(){
-		return this.currentHitPoints;
-	}
-	
-	public int getCurrentSkillPoints(){
-		return currentSkillPoints;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public String getId(){
+	public String getId() {
 		return id;
 	}
-	
-	public void setName(String name){
-		this.name = name;
-	}
-	
-	public void setId(String id){
+	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public int getExperience() {
+		return experience;
+	}
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+	public int getGoldCoins() {
+		return goldCoins;
+	}
+	public void setGoldCoins(int goldCoins) {
+		this.goldCoins = goldCoins;
+	}
+	public Equipment getShoes() {
+		return shoes;
+	}
+	public void setShoes(Equipment shoes) {
+		if(shoes!=null && shoes.getType() == EquipmentType.SHOES)
+			this.shoes = shoes;
+	}
+	public Equipment getGarment() {
+		return garment;
+	}
+	public void setGarment(Equipment garment) {
+		if(garment!=null && garment.getType() == EquipmentType.GARMENT)
+			this.garment = garment;
+	}
+	public Equipment getArmor() {
+		return armor;
+	}
+	public void setArmor(Equipment armor) {
+		if(armor!=null && armor.getType() == EquipmentType.ARMOR)
+			this.armor = armor;
+	}
+	public Equipment getGloves() {
+		return gloves;
+	}
+	public void setGloves(Equipment gloves) {
+		if(gloves!=null && gloves.getType() == EquipmentType.GLOVES)
+			this.gloves = gloves;
+	}
+	public Equipment getNecklace() {
+		return necklace;
+	}
+	public void setNecklace(Equipment necklace) {
+		if(necklace!=null && necklace.getType() == EquipmentType.NECKLACE)
+			this.necklace = necklace;
+	}
+	public Equipment getRightRing() {
+		return rightRing;
+	}
+	public void setRightRing(Equipment rightRing) {
+		if(rightRing!=null && rightRing.getType() == EquipmentType.RING)
+			this.rightRing = rightRing;
+	}
+	public Equipment getLeftRing() {
+		return leftRing;
+	}
+	public void setLeftRing(Equipment leftRing) {
+		if(leftRing!=null && leftRing.getType() == EquipmentType.RING)
+			this.leftRing = leftRing;
+	}
+	
+	
+	
 }
