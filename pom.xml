@@ -73,11 +73,11 @@
       <scope>runtime</scope>
     </dependency>
     
-    <!--Testing env only
+    <!--Testing env only-->
     <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
-    </dependency>-->
+    </dependency>
   </dependencies>
   
   <build>

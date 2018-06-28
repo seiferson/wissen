@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.seifernet.wissen.util.ModelAttributes;
 import com.seifernet.wissen.util.URL;
 import com.seifernet.wissen.util.WebResources;
+import com.seifernet.wissen.rpg.Dice;
 
 /**
  * Application controller
@@ -33,6 +34,12 @@ public class WissenController {
 		return WebResources.BASE_LAYOUT;
 	}
 	
+	@RequestMapping("/integrations/dice")
+	private Integer dice(Model model){
+		return Dice.rollDice(6);
+	}
+	
+
 	@RequestMapping(URL.KNOWLEDGE)
 	private String knowledge( Model model ) {
 		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
@@ -43,4 +50,5 @@ public class WissenController {
 		
 		return WebResources.BASE_LAYOUT;
 	}
+	
 }
