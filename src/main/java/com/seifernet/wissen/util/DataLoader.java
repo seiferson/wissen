@@ -1,6 +1,7 @@
 package com.seifernet.wissen.util;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -36,6 +37,9 @@ public class DataLoader implements ApplicationRunner{
 	}
 	
 	private void accountLoader(){
+		ArrayList<String> authorities = new ArrayList<String>();
+		authorities.add("USER");
+		
 		Account a = new Account();
 		
 		a.setEmail("seifer.ch@gmail.com");
@@ -43,6 +47,7 @@ public class DataLoader implements ApplicationRunner{
 		a.setEnabled(true);
 		logger.info("Test account :" + a.getNickname());
 		a.setPassword("testpasswd");
+		a.setAuthorities(authorities);
 		
 		accrepo.insert(a);
 	}
