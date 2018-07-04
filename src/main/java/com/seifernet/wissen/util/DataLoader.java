@@ -42,19 +42,7 @@ public class DataLoader implements ApplicationRunner{
 		a.setNickname("seiferson");
 		a.setEnabled(true);
 		logger.info("Test account :" + a.getNickname());
-		
-		try{
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update("testPasswd13".getBytes());
-			byte[] digest = md.digest();
-			a.setPassword(DatatypeConverter.printHexBinary(digest).toUpperCase());
-			logger.info("Test password : testPasswd13");
-		} catch (Exception e){
-			logger.error("Error on data initialization: account-password");
-			logger.debug(e.getStackTrace().toString());
-			a.setPassword("4101bef8794fed986e95dfb54850c68b");
-			logger.info("Test password : nope");
-		}
+		a.setPassword("testpasswd");
 		
 		accrepo.insert(a);
 	}

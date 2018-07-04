@@ -53,8 +53,7 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 		oauthServer
-			.checkTokenAccess("isAuthenticated()")
-			.passwordEncoder(null);
+			.checkTokenAccess("isAuthenticated()");
 	}
 	
 	@Bean
