@@ -35,9 +35,6 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	@Autowired
 	private CustomProperties properties;
 	
-	@Autowired
-	private CustomUserDetailsService userDetailsService;
-	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients ) throws Exception {
 		clients
@@ -69,7 +66,6 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.tokenStore(this.tokenStore)
-			.authenticationManager(this.authenticationManager)
-			.userDetailsService(this.userDetailsService);
+			.authenticationManager(this.authenticationManager);
 	}
 }

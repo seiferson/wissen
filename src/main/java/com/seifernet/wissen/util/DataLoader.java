@@ -1,15 +1,13 @@
 package com.seifernet.wissen.util;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.seifernet.wissen.configuration.CustomProperties;
@@ -26,6 +24,9 @@ public class DataLoader implements ApplicationRunner{
 	private CustomProperties properties;
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private AccountRepository accrepo;
 	
 	private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
@@ -37,6 +38,7 @@ public class DataLoader implements ApplicationRunner{
 	}
 	
 	private void accountLoader(){
+		accrepo.deleteAll();
 		ArrayList<String> authorities = new ArrayList<String>();
 		authorities.add("USER");
 		
@@ -46,7 +48,7 @@ public class DataLoader implements ApplicationRunner{
 		a.setNickname("seiferson");
 		a.setEnabled(true);
 		logger.info("Test account :" + a.getNickname());
-		a.setPassword("testpasswd");
+		a.setPassword(passwordEncoder.encode("testpasswd"));
 		a.setAuthorities(authorities);
 		
 		accrepo.insert(a);
