@@ -15,8 +15,6 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
-import com.seifernet.wissen.service.CustomUserDetailsService;
-
 /**
  * OAuth2 authorization server configuration
  * 

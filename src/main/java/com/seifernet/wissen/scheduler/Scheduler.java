@@ -30,6 +30,7 @@ public class Scheduler {
 		for(Task expiredTask : expiredTasks){
 			expiredTask.setExpired(true);
 			taskRepository.save(expiredTask);
+			logger.info("Expired task: " + expiredTask.getId());
 		}
 	}
 	
