@@ -40,9 +40,9 @@ function render(context){
 }
 
 function init(context){
-	objects["maincharacter"].init(context);
-	objects["cauldron"].init(context);
-	objects["background"].init(context);
+	objects.forEach(function(element){
+		element.init(context);
+	});
 }
 
 $("body").keypress(
@@ -58,5 +58,5 @@ $("body").keypress(
 
 $("body").keyup(function(event) {
 	event.preventDefault();
-	objects["maincharacter"].reset();
+	objects[MAIN_CHARACTER].reset();
 });

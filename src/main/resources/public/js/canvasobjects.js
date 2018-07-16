@@ -1,61 +1,61 @@
+var MAIN_CHARACTER = 0;
+var BACKGROUND_TILE = 1;
+var CAULDRON_SPRITE = 2;
+
 var objects = [];
 
-objects["maincharacter"] = {
+objects[MAIN_CHARACTER] = {
 	context : null,
-	resource : "character",
+	resource : CHARACTER,
 	sizeX : 84,
 	sizeY : 84,
-	srcPosX : 0,
-	srcPosY : 0,
 	currentPosX : 32,
 	currentPosY : 32,
 	ticksPerFrame : 7,
 	frameIndex : 0,
-	frameSize : 3,
 	tickCount : 0,
+	currentmap : null,
 	direction : "center",
 	init : function(context){
 		this.context = context;
 		var that = this;
 		layers[OBJECTS].push(this);
+		this.currentmap = resources[this.resource].spritemap.standing;
 		
 		events[A_KEY].push(function(){
 			if(that.currentPosX > BORDER_SIZE)
 				that.currentPosX -= STEP_SIZE;
-			that.srcPosX = 336;
-			that.srcPosY = 168;
+			
 			if(that.direction != "left"){
 				that.direction = "left";
+				that.currentmap = resources[that.resource].spritemap.left;
 				that.frameIndex = 0;
 			}
 		});
 		events[W_KEY].push(function(){
 			if(that.currentPosY > BORDER_SIZE)
 				that.currentPosY -= STEP_SIZE;
-			that.srcPosX = 84;
-			that.srcPosY = 84;
 			if(that.direction != "up"){
 				that.direction = "up";
+				that.currentmap = resources[that.resource].spritemap.up;
 				that.frameIndex = 0;
 			}
 		});
 		events[D_KEY].push(function(){
 			if(that.currentPosX < MAP_SIZE_X - that.sizeX - BORDER_SIZE)
 				that.currentPosX += STEP_SIZE;
-			that.srcPosX = 0;
-			that.srcPosY = 168;
 			if(that.direction != "right"){
 				that.direction = "right";
+				that.currentmap = resources[that.resource].spritemap.right;
 				that.frameIndex = 0;
 			}
 		});
 		events[S_KEY].push(function(){
 			if(that.currentPosY < MAP_SIZE_Y - that.sizeY - BORDER_SIZE)
 				that.currentPosY += STEP_SIZE;
-			that.srcPosX = 336;
-			that.srcPosY = 0;
 			if(that.direction != "down"){
 				that.direction = "down";
+				that.currentmap = resources[that.resource].spritemap.down;
 				that.frameIndex = 0;
 			}
 		});
@@ -63,9 +63,8 @@ objects["maincharacter"] = {
 	reset: function(){
 		var that = this;
 		setTimeout(function(){
-			that.srcPosX = 0;
-			that.srcPosY = 0;
 			that.frameIndex = 0;
+			that.currentmap = resources[that.resource].spritemap.standing;
 			that.direction = "center";
 		}, 200);
 	},
@@ -73,21 +72,22 @@ objects["maincharacter"] = {
 		if(resources[this.resource].loaded)
 			this.context.drawImage(
 				resources[this.resource].object, 
-				this.srcPosX + (this.frameIndex * this.sizeX), 
-				this.srcPosY,
+				this.currentmap[this.frameIndex][0], 
+				this.currentmap[this.frameIndex][1],
 				this.sizeX,
 				this.sizeY,
 				this.currentPosX,
 				this.currentPosY,
-				64,
-				64
+				80,
+				80
 			);
 	},
 	update : function() {
 		this.tickCount += 1;
 		if (this.tickCount > this.ticksPerFrame) {
 			this.tickCount = 0;
-			if (this.frameIndex < this.frameSize) {
+			console.log(this.currentmap.length)
+			if (this.frameIndex < this.currentmap.length - 1) {
 				this.frameIndex += 1;
 			} else {
 				this.frameIndex = 0;
@@ -96,9 +96,9 @@ objects["maincharacter"] = {
 	}
 };
 
-objects["background"] = {
+objects[BACKGROUND_TILE] = {
 	context : null,
-	resource : "tileset",
+	resource : TILESET,
 	init : function(context){
 		this.context = context;
 		layers[BACKGROUND].push(this);
@@ -129,9 +129,9 @@ objects["background"] = {
 	update : function() {}
 };
 
-objects["cauldron"] = {
+objects[CAULDRON_SPRITE] = {
 	context : null,
-	resource : "cauldron",
+	resource : CAULDRON,
 	init : function(context){
 		this.context = context;
 		layers[FOREGROUND].push(this);

@@ -1,20 +1,62 @@
+const CHARACTER = 0;
+const TILESET = 1;
+const CAULDRON = 2;
+
 var resources = [];
 
-resources["character"] = {
+resources[CHARACTER] = {
 	type : "image",
 	src : "/img/character.png",
 	loaded : false,
-	object : null
+	object : null,
+	spritemap : {
+		standing : [ 
+			[0,0],
+			[84,0],
+			[168,0],
+			[252,0]
+		],
+		down : [
+			[336,0],
+			[420,0],
+			[504,0],
+			[588,0],
+			[0,84]
+		],
+		up : [
+			[84,84],
+			[168,84],
+			[252,84],
+			[336,84],
+			[420,84]
+		],
+		right : [
+			[504,84],
+			[588,84],
+			[0,168],
+			[84,168],
+			[168,168],
+			[252,168]
+		],
+		left : [
+			[336,168],
+			[420,168],
+			[504,168],
+			[588,168],
+			[0,252],
+			[84,252]
+		]
+	}
 };
 
-resources["tileset"] = {
+resources[TILESET] = {
 	type : "image",
 	src : "/img/tileset.png",
 	loaded : false,
 	object : null
 };
 
-resources["cauldron"] = {
+resources[CAULDRON] = {
 	type : "image",
 	src : "/img/boil.png",
 	loaded : false,
@@ -22,32 +64,14 @@ resources["cauldron"] = {
 };
 
 function loadResources(){
-	
-	resources["character"].object = new Image();
-	resources["character"].object.src = resources["character"].src;
-	resources["character"].object.addEventListener("load", function(){
-		resources["character"].loaded = true;
+	resources.forEach(function(element){
+		if(element.type == "image"){
+			element.object = new Image();
+			element.object.src = element.src;
+			element.object.addEventListener("load", function(){	
+				element.loaded = true;
+			});
+		}
 	});
-	resources["tileset"].object = new Image();
-	resources["tileset"].object.src = resources["tileset"].src;
-	resources["tileset"].object.addEventListener("load", function(){	
-		resources["tileset"].loaded = true;
-	});
-	resources["cauldron"].object = new Image();
-	resources["cauldron"].object.src = resources["cauldron"].src;
-	resources["cauldron"].object.addEventListener("load", function(){	
-		resources["cauldron"].loaded = true;
-	});
-	
-//	resources.forEach(function(element){
-//		if(element.type == "image"){
-//			console.log("ok");
-//			element.object = new Image();
-//			element.object.src = element.src;
-//			element.addEventListener("load", function(){	
-//				element.loaded = true;
-//			});
-//		}
-//	});
 }
 	
