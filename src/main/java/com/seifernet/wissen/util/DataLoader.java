@@ -41,6 +41,7 @@ public class DataLoader implements ApplicationRunner{
 		accrepo.deleteAll();
 		ArrayList<String> authorities = new ArrayList<String>();
 		authorities.add("USER");
+		authorities.add("ACTUATOR");
 		
 		Account a = new Account();
 		
