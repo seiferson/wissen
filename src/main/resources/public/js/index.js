@@ -19,6 +19,10 @@ function refreshPageElements(validToken){
 		usermenu.append(itemtest);
 		itemtest = $("<div></div>");
 		itemtest.addClass("item");
+		itemtest.append($("<a href='/sysdashboard'>System dashboard</a>"));
+		usermenu.append(itemtest);
+		itemtest = $("<div></div>");
+		itemtest.addClass("item");
 		itemtest.append($("<a href='#'>Logout</a>"));
 		usermenu.append(itemtest);
 		$("#authuseritem").addClass("dropdown");

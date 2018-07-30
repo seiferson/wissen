@@ -41,6 +41,16 @@ public class WissenController {
 		return Dice.rollDice(6);
 	}
 	
+	@RequestMapping(URL.SYS_DASHBOARD)
+	private String sysDashboard( Model model ) {
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.CONTENT);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "sysdashboard");
+		
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "empty");
+		
+		return WebResources.BASE_LAYOUT;
+	}
 
 	@RequestMapping(URL.KNOWLEDGE)
 	private String knowledge( Model model ) {
