@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -58,8 +57,8 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 	public Page<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(@Param("owner") String owner, Pageable pageable);
 	
 	public ArrayList<Task> findByExpirationDateLessThanAndExpiredFalseAndExpiresTrueAndCompletedFalse(Date currentDate);
-	
-	//@PostAuthorize("authentication.name == returnObject.owner")
-	
-	
+
+	@PostAuthorize("authentication.name == returnObject.owner")
+	@Override
+	public Optional<Task> findById(String id);
 }
