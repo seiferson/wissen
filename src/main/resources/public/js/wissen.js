@@ -135,7 +135,10 @@ function validateToken(callback){
 
 /*eslint-disable no-undef */
 $('.ui.dropdown').dropdown();
-$('.ui.modal').modal();
+$('.ui.modal').modal({
+	allowMultiple: false
+});
+$('#regmod').modal('attach events', '#tgrm');
 $('.progress').progress();
 $('.message .close').on('click', function() {
 	$(this).closest('.message').transition('fade');

@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.text.SimpleDateFormat;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,7 +18,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.seifernet.wissen.model.Account;
+import com.seifernet.wissen.model.finance.Asset;
+import com.seifernet.wissen.model.finance.Debt;
 import com.seifernet.wissen.repository.AccountRepository;
+import com.seifernet.wissen.repository.finance.AssetRepository;
 import com.seifernet.wissen.util.DataLoader;
 
 @RunWith(SpringRunner.class)
@@ -30,6 +35,26 @@ public class WissenTest {
 	
 	@Autowired
     private TestRestTemplate client;
+	
+	@Autowired
+	private AssetRepository assetRepo;
+	
+	@Test
+	public void testFinanceModule() {
+		Account account = repository.findByNickname("seifersonx");
+		assertThat(account, notNullValue());
+		
+		Asset bankAccount = new Asset();
+		bankAccount.setDescription("Bank account");
+		bankAccount.setOwner(account.getNickname());
+		bankAccount.setValue(10000.00);
+		
+		assertThat(assetRepo.insert(bankAccount), notNullValue());
+		
+		Debt creditCard1 = new Debt();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-YYYY");
+		
+	}
 	
 	@Test
 	public void testServerHealth() throws Exception {
