@@ -7,39 +7,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.css" />
     
-    <title>Static</title>
+    <title>Finance</title>
   </head>
   <body>
-	
-	<canvas id="myCanvas" width="640" height="480" style="border:3px solid #979797; margin-left: 200px; margin-top: 20px"></canvas>
+    <p></p>
+    <div class="ui fluid container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="one wide column"></div>
+          
+          <div class="two wide column">
+              <div class="ui vertical fluid menu">
+                <div class="item">
+    <div class="ui input"><input type="text" placeholder="Search..."></div>
+  </div>
+  <div class="item">
+    Home
+    <div class="menu">
+      <a class="active item">Search</a>
+      <a class="item">Add</a>
+      <a class="item">Remove</a>
+    </div>
+  </div>
+  <a class="item">
+    <i class="grid layout icon"></i> Browse
+  </a>
+  <a class="item">
+    Messages
+  </a>
+  <div class="ui dropdown item">
+    More
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item"><i class="edit icon"></i> Edit Profile</a>
+      <a class="item"><i class="globe icon"></i> Choose Language</a>
+      <a class="item"><i class="settings icon"></i> Account Settings</a>
+    </div>
+  </div>
+</div>
+                </div>
+                <div class="eleven wide column">
+                    <table class="ui celled compact striped table">
+  <thead>
+    <tr><th colspan="3">
+      Git Repository
+    </th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="collapsing">
+        <i class="folder icon"></i> node_modules
+      </td>
+      <td>Initial commit</td>
+      <td class="right aligned collapsing">10 hours ago</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="folder icon"></i> test
+      </td>
+      <td>Initial commit</td>
+      <td class="right aligned">10 hours ago</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="folder icon"></i> build
+      </td>
+      <td>Initial commit</td>
+      <td class="right aligned">10 hours ago</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="file outline icon"></i> package.json
+      </td>
+      <td>Initial commit</td>
+      <td class="right aligned">10 hours ago</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="file outline icon"></i> Gruntfile.js
+      </td>
+      <td>Initial commit</td>
+      <td class="right aligned">10 hours ago</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+            </div>
+        </div>
+    </div>
+    
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="/js/canvasengine.js"></script>
-	<script src="/js/canvasresources.js"></script>
-	<script src="/js/canvasobjects.js"></script>
-	<script>
-	
-	$('document').ready(function(){
-		var canvas = document.getElementById('myCanvas');
-		var ctx = canvas.getContext('2d');
-		
-		ctx.beginPath();
-		ctx.rect(0, 0, 640, 480);
-		ctx.fillStyle = "black";
-		ctx.fill();
-		
-		loadResources();
-		init(ctx);
-		
-		function gameLoop () {
-			window.requestAnimationFrame(gameLoop);
-			render(ctx);  
-		}
-		
-		gameLoop();
-		
-	});
-	
-	</script>
   </body>
 </html>

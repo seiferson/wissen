@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+  
+    <th:block th:fragment="content">
+    <div class="ui modal" id="authmod">
+      <i class="close icon"></i>
+      <div class="header">Authentication stage</div>
+      <div class="content">
+        <div class="ui icon message">
+          <i class="id badge icon"></i>
+          <div class="content">
+            <div class="header">Hi! Stranger</div>
+            <p id="usageNotex">
+              We have noticed that you are not logged in. This
+              can be an issue if you try to access some areas 
+              of the site that are not allowed to unidentified 
+              users. So in order to continue, please log in.
+            </p>
+            <p id="welcomeNotex">
+              Welcome to wissen, please provide your credentials.
+            </p>
+          </div>
+        </div>
+        <div class="ui hidden negative message" id="wrongcredentials">
+          <i class="close icon"></i>
+          <div class="header">
+            Wrong credentials
+          </div>
+        </div>
+        <form class="ui form">
+          <div class="field">
+            <label>User</label>
+            <input type="text" id="user" name="user"/>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="passwd" name="passwd"/>
+          </div>
+          <div class="ui two buttons">
+            <button class="ui button" type="button" onclick="authenticate()">Login</button>
+            <div class="or"></div>
+            <button class="ui button" type="button" id="tgrm">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </th:block>
+    
+  </body>
+</html>

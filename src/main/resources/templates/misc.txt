@@ -1112,3 +1112,37 @@ function irrigate(plantid) {
 		</script>
 	</body>
 </html>
+
+
+
+
+
+	<canvas id="myCanvas" width="640" height="480" style="border:3px solid #979797; margin-left: 200px; margin-top: 20px"></canvas>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/canvasengine.js"></script>
+	<script src="/js/canvasresources.js"></script>
+	<script src="/js/canvasobjects.js"></script>
+	<script>
+	
+	$('document').ready(function(){
+		var canvas = document.getElementById('myCanvas');
+		var ctx = canvas.getContext('2d');
+		
+		ctx.beginPath();
+		ctx.rect(0, 0, 640, 480);
+		ctx.fillStyle = "black";
+		ctx.fill();
+		
+		loadResources();
+		init(ctx);
+		
+		function gameLoop () {
+			window.requestAnimationFrame(gameLoop);
+			render(ctx);  
+		}
+		
+		gameLoop();
+		
+	});
+	
