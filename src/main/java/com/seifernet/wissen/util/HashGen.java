@@ -4,6 +4,9 @@ import java.security.MessageDigest;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.springframework.stereotype.Component;
+
+@Component(value="hashgen")
 public class HashGen {
 	
 	public static String md5gen(String input) throws Exception{

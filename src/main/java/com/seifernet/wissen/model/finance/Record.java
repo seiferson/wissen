@@ -11,7 +11,7 @@ public class Record {
 	public enum RecordType{
 		DEBT,
 		RECURRENT_INCOME,
-		ASSET
+		ASSET_BANK_ACCOUNT
 	}
 	
 	public Record(String owner, Double value, String description, RecordType type, Date date, Integer effectiveDay, Integer period) {

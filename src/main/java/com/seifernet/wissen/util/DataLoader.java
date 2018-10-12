@@ -49,7 +49,7 @@ public class DataLoader implements ApplicationRunner{
 			try {
 				financeLoader();
 			} catch(Exception e) {
-				
+				e.printStackTrace();
 			}
 		}
 	}
@@ -65,7 +65,6 @@ public class DataLoader implements ApplicationRunner{
 		a.setEmail("seifer.ch@gmail.com");
 		a.setNickname("seiferson");
 		a.setEnabled(true);
-		logger.info("Test account :" + a.getNickname());
 		a.setPassword(passwordEncoder.encode("testpasswd"));
 		a.setAuthorities(authorities);
 		
@@ -75,42 +74,6 @@ public class DataLoader implements ApplicationRunner{
 	private void financeLoader() throws Exception{
 		financialrepo.deleteAll();
 		recordrepo.deleteAll();
-		
-		String owner = HashGen.md5gen("seiferson");
-		
-		Record bankaccount = new Record(owner, 25000.00, "Bank account", Record.RecordType.ASSET, new Date(), null, null);
-		Record salary1 = new Record(owner, 12000.00, "Salary 1st", Record.RecordType.RECURRENT_INCOME, new Date(), 1, null);
-		Record salary2 = new Record(owner, 12000.00, "Salary 15th", Record.RecordType.RECURRENT_INCOME, new Date(), 15, null);
-		
-		recordrepo.insert(bankaccount);
-		recordrepo.insert(salary1);
-		recordrepo.insert(salary2);
-		
-		Record iphone5 = new Record(owner, 30000.00, "Iphone 5", Record.RecordType.DEBT, new Date(), 8, 12);
-		
-		recordrepo.insert(iphone5);
-		
-		ArrayList<Transaction> x = generateCurrentIncome(new Date(), "asd");
-		for(Transaction t : x) {
-			logger.error(t.toString());
-		}
-	}
-	
-	private ArrayList<Transaction> generateCurrentIncome(Date d, String owner) throws Exception{
-		ArrayList<Transaction> incomeList = new ArrayList<>();
-		Calendar cal = Calendar.getInstance();
-		
-		ArrayList<Record> data = recordrepo.findByOwner(HashGen.md5gen("seiferson"));
-		for(Record t : data) {
-			if(t.getType().equals(Record.RecordType.RECURRENT_INCOME)) {
-				cal.setTime(d);
-				cal.set(Calendar.DAY_OF_MONTH, t.getEffectiveDay());
-				Transaction n = new Transaction(t.getOwner(), t.getValue(), t.getDescription(), Transaction.TransactionType.INCOME, cal.getTime());
-				incomeList.add(n);
-			}
-		}
-		
-		return incomeList;
 	}
 	
 }

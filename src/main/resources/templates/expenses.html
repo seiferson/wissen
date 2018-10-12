@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+  
+    <th:block th:fragment="content">
+    <div class="ui container">
+      <div class="ui stackable grid">
+        
+        <div class="row">
+          
+          <div class="ten wide column">
+           <p></p>
+            <h1 class="ui center aligned header">
+              <i class="chart bar outline icon"></i>
+              <div class="content">Expenses report October 2018</div>
+            </h1>
+          </div>
+          
+          <div class="six wide column">
+            <div class="ui yellow center aligned segment">
+              <div class="ui yellow small statistic">
+                <div class="value">
+                  0.00
+                </div>
+                <div class="label">Balance MXN</div>
+              </div>
+            </div>
+    	  </div>
+    	</div>
+    	
+    	<div class="row">
+    	  
+    	  <div class="four wide column">
+    	  
+    	    <div class="ui icon fluid buttons mobile hidden">
+    	      <button class="ui button"><i class="plus circle icon"></i></button>
+    	      <button class="ui button"><i class="calendar alternate outline icon"></i></button>
+    	      <button class="ui button"><i class="download icon"></i></button>
+    	    </div>
+    	    
+    	    <div class="ui teal center aligned segment" id="banksegment">
+    	      <h3 class="ui header"> <i class="money bill alternate outline icon"></i>Bank account</h3>
+    	      <p><b id="bankaccount">-</b></p>
+    	    </div>
+    	  </div>
+    	  
+    	  <div class="twelve wide column">
+    	    <div class="ui positive icon message">
+    	      <i class="check square outline icon"></i>
+    	      <div class="content">
+    	        Looks like you don't have expenses this month
+    	      </div>
+    	    </div>
+    	    <table class="ui striped compact table">
+    	      <thead>
+    	        <tr>
+    	          <th colspan="3">Expenses</th>
+    	        </tr>
+    	      </thead>
+    	      <tbody>
+    	        <tr>
+    	          <td class="collapsing"><i class="shopping cart icon"></i> Walmart Galerias</td>
+    	          <td>456.50 MXN</td>
+    	          <td class="right aligned collapsing">26th August 2018</td>
+    	        </tr>
+    	        <tr>
+    	          <td class="collapsing"><i class="mobile alternate icon"></i> ATT Plan</td>
+    	          <td>730.00 MXN</td>
+    	          <td class="right aligned collapsing">26th August 2018</td>
+    	        </tr>
+    	        <tr>
+    	          <td class="collapsing"><i class="building outline icon"></i> Rent</td>
+    	          <td>3600.00 MXN</td>
+    	          <td class="right aligned collapsing">26th August 2018</td>
+    	        </tr>
+    	      </tbody>
+    	    </table>
+    	  </div>
+    	</div>
+    	
+      </div>
+    </div>
+    
+    <div class="ui basic modal" id="bankmodal">
+      <div class="ui icon header">
+        <i class="money bill alternate outline icon"></i>
+        Bank account
+      </div>
+      <div class="content">
+        <form class="ui form">
+          <div class="field">
+            <label style="color: white;">Bank account balance</label>
+            <input type="text" name="bankbalance">
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <div class="ui green ok inverted button">
+          <i class="checkmark icon"></i> Submit
+        </div>
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i> Cancel
+        </div>
+      </div>
+    </div>
+    
+    <button class="ui mobile only circular teal big icon button floatxbutton"><i class="icon plus"></i></button>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    </th:block>
+
+  </body>
+</html>

@@ -32,4 +32,21 @@ public class WissenController {
 		
 		return WebResources.BASE_LAYOUT;
 	}
+	
+	/**
+	 * Expenses report
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(URL.EXPENSES)
+	private String expenses(Model model) {
+		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.EXPENSES);
+		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "content");
+		
+		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
+		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "expensesjs");
+		
+		return WebResources.BASE_LAYOUT;
+	}
 }

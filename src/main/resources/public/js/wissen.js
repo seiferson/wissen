@@ -8,10 +8,19 @@ function refreshGenericPageElements(validToken){
 		$("#authuseritem").children("div").remove();
 		usermenu.addClass("menu");
 		$("#authuseritem").append(usermenu);
+		
+		var expensesItem = $("<div></div>");
+		expensesItem.addClass("item");
+		expensesItem.append($("<a href='/expenses'>Expenses</a>"));
+		usermenu.append(expensesItem);
+		
+		usermenu.append("<div class='divider'></div>");
+		
 		var logoutItem = $("<div></div>");
 		logoutItem.addClass("item");
 		logoutItem.append($("<span onclick='logout()'>Logout</span>"));
 		usermenu.append(logoutItem);
+		
 		$("#authuseritem").addClass("dropdown");
 		$('.ui.dropdown').dropdown();
 		
@@ -126,6 +135,7 @@ function authenticate(){
 		success: function(resultData) {
 			$.cookie("authtoken", resultData.access_token);
 			$.cookie("authuser", user);
+			$.cookie("hashuser", (md5(user)).toUpperCase());
 			$("#authmod").modal("hide");
 			refreshGenericPageElements(true)
 			loadAuthContent();
