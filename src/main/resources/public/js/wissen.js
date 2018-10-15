@@ -103,6 +103,7 @@ function showAuthModal(origin){
 function logout(){
 	$.removeCookie("authuser");
 	$.removeCookie("authtoken");
+	$.removeCookie("hashuser");
 	refreshGenericPageElements(false);
 	loadAnonContent();
 }
