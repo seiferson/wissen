@@ -29,7 +29,7 @@ function refreshGenericPageElements(validToken){
 		var bck = $('<div id="authuseritem"></div>');
 		bck.addClass('ui right item');
 		bck.click(function(){showAuthModal("menuButton")});
-		bck.append('<i class="large user circle outline icon"></i><span id="authuser">Anonymoux</span>');
+		bck.append('<i class="large user circle outline icon"></i><span id="authuser">Anonymous</span>');
 		$("#authuseritem").replaceWith(bck);
 	}
 }

@@ -1,7 +1,6 @@
 package com.seifernet.wissen.util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -74,6 +73,19 @@ public class DataLoader implements ApplicationRunner{
 	private void financeLoader() throws Exception{
 		financialrepo.deleteAll();
 		recordrepo.deleteAll();
+		
+		Record r1 = new Record(HashGen.md5gen("seiferson"), 10000.00, "Bancomer savings account", Record.RecordType.ASSET_BANK_ACCOUNT, new Date(), null, null);
+		recordrepo.insert(r1);
+		
+		Record r2 = new Record(HashGen.md5gen("seiferson"), 24000.00, "Gibson SG guitar", Record.RecordType.DEBT, new Date(), null, 12);
+		
+		Transaction t1 = new Transaction(HashGen.md5gen("seiferson"), 12.5, "Sears chocolates", Transaction.TransactionType.EXPENSE, new Date());
+		Transaction t2 = new Transaction(HashGen.md5gen("seiferson"), 300.0, "Fuel", Transaction.TransactionType.EXPENSE, new Date());
+		Transaction t3 = new Transaction(HashGen.md5gen("seiferson"), 130.0, "Uber", Transaction.TransactionType.EXPENSE, new Date());
+		
+		financialrepo.insert(t1);
+		financialrepo.insert(t2);
+		financialrepo.insert(t3);
 	}
 	
 }
