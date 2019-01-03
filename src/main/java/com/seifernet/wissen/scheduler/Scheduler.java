@@ -1,7 +1,7 @@
 package com.seifernet.wissen.scheduler;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,50 +9,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.seifernet.wissen.model.ScheduledTask;
-import com.seifernet.wissen.model.Task;
-import com.seifernet.wissen.repository.ScheduledTaskRepository;
-import com.seifernet.wissen.repository.TaskRepository;
+import com.seifernet.wissen.model.scheduler.ScheduledActivity;
+import com.seifernet.wissen.model.scheduler.SchedulerLog;
+import com.seifernet.wissen.repository.scheduler.ScheduledActivityRepository;
+import com.seifernet.wissen.repository.scheduler.SchedulerLogRepository;
 
 @Component
 public class Scheduler {
+	
 	private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
+	private static final String LOG_DATA = "logData";
 	
 	@Autowired
-	private TaskRepository taskRepository;
+	private ScheduledActivityRepository repo;
 	
 	@Autowired
-	private ScheduledTaskRepository scheduledTaskRepository;
-
+	private SchedulerLogRepository logRepo;
+	
 	@Scheduled(fixedRate = 10000)
-	public void watchDog() {
-		ArrayList<Task> expiredTasks = taskRepository.findByExpirationDateLessThanAndExpiredFalseAndExpiresTrueAndCompletedFalse(new Date());
-		for(Task expiredTask : expiredTasks){
-			expiredTask.setExpired(true);
-			taskRepository.save(expiredTask);
-			logger.info("Expired task: " + expiredTask.getId());
+	public void manager() {
+		logger.info("Starting scheduler execution");
+		ArrayList<ScheduledActivity> itinerary = new ArrayList<ScheduledActivity>(repo.findAllByOrderByPriorityDesc());
+		
+		logger.info("Activities on itinerary: " + itinerary.size());
+		for(ScheduledActivity activity : itinerary) {
+			logger.info("Executing activity " + activity.getName());
+			switch(activity.getActivityId()) {
+				case LOG_DATA:
+					SchedulerLog executionData = getLog(LOG_DATA);
+					TaskPerformer.logData(executionData, activity);
+					saveLog(executionData);
+					break;
+				default:
+					
+			}
 		}
 	}
 	
-	@Scheduled(cron="0 0 5 * * MON-FRI")
-	public void weekDayTaskCreator(){
-		ArrayList<ScheduledTask> scheduledTasks = new ArrayList<>(scheduledTaskRepository.findAll());
-		for(ScheduledTask sTask : scheduledTasks) {
-			Task t = new Task();
-			t.setTitle(sTask.getTitle());
-			t.setOwner(sTask.getOwner());
-			t.setDescriptionRequired(true);
-			t.setDescription(sTask.getDescription());
-			t.setDueDate(new Date(new Date().getTime()+sTask.getDueTime()));
-			t.setCompleted(false);
-			t.setCreationDate(new Date());
-			t.setExpires(true);
-			t.setExpired(false);
-			t.setExpirationDate(new Date(new Date().getTime()+sTask.getExpirationTime()));
-			
-			taskRepository.insert(t);
+	private SchedulerLog getLog(String activityId) {
+		SchedulerLog executionData = null;
+		Optional<SchedulerLog> optData = logRepo.findByActivityId(LOG_DATA);
+		if(!optData.isPresent()) {
+			executionData = new SchedulerLog();
+			executionData.setActivityId(activityId);
+			executionData.setGlobalCount(0);
+			executionData.setErrorCount(0);
+			executionData = logRepo.insert(executionData);
+		} else {
+			executionData = optData.get();
 		}
+		return executionData;
 	}
 	
+	private void saveLog(SchedulerLog executionData) {
+		logRepo.save(executionData);
+	}
 	
 }

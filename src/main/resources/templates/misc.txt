@@ -1,3 +1,40 @@
+@Autowired
+	private TaskRepository taskRepository;
+	
+	@Autowired
+	private ScheduledTaskRepository scheduledTaskRepository;
+
+	@Scheduled(fixedRate = 10000)
+	public void watchDog() {
+		ArrayList<Task> expiredTasks = taskRepository.findByExpirationDateLessThanAndExpiredFalseAndExpiresTrueAndCompletedFalse(new Date());
+		for(Task expiredTask : expiredTasks){
+			expiredTask.setExpired(true);
+			taskRepository.save(expiredTask);
+			logger.info("Expired task: " + expiredTask.getId());
+		}
+	}
+	
+	@Scheduled(cron="0 0 5 * * MON-FRI")
+	public void weekDayTaskCreator(){
+		ArrayList<ScheduledTask> scheduledTasks = new ArrayList<>(scheduledTaskRepository.findAll());
+		for(ScheduledTask sTask : scheduledTasks) {
+			Task t = new Task();
+			t.setTitle(sTask.getTitle());
+			t.setOwner(sTask.getOwner());
+			t.setDescriptionRequired(true);
+			t.setDescription(sTask.getDescription());
+			t.setDueDate(new Date(new Date().getTime()+sTask.getDueTime()));
+			t.setCompleted(false);
+			t.setCreationDate(new Date());
+			t.setExpires(true);
+			t.setExpired(false);
+			t.setExpirationDate(new Date(new Date().getTime()+sTask.getExpirationTime()));
+			
+			taskRepository.insert(t);
+		}
+	}
+
+
 		
 //		ScheduledTask st = new ScheduledTask();
 //		st.setOwner("seiferson");

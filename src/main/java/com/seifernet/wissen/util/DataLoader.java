@@ -15,9 +15,11 @@ import com.seifernet.wissen.configuration.CustomProperties;
 import com.seifernet.wissen.model.Account;
 import com.seifernet.wissen.model.finance.Record;
 import com.seifernet.wissen.model.finance.Transaction;
+import com.seifernet.wissen.model.scheduler.ScheduledActivity;
 import com.seifernet.wissen.repository.AccountRepository;
 import com.seifernet.wissen.repository.finance.RecordRepository;
 import com.seifernet.wissen.repository.finance.TransactionRepository;
+import com.seifernet.wissen.repository.scheduler.ScheduledActivityRepository;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -40,11 +42,22 @@ public class DataLoader implements ApplicationRunner{
 	@Autowired
 	private RecordRepository recordrepo;
 	
+	@Autowired
+	private ScheduledActivityRepository schedulerRepo;
+	
 	private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 	
 	public void run(ApplicationArguments args) {
 		if(properties.getProfile().equals("DEVENV")){
 			accountLoader();
+			schedulerRepo.deleteAll();
+			ScheduledActivity activity = new ScheduledActivity();
+			activity.setEnabled(true);
+			activity.setActivityId("logData");
+			activity.setName("Log activity");
+			activity.setPriority(0);
+			activity.setData("random data");
+			schedulerRepo.insert(activity);
 			try {
 				financeLoader();
 			} catch(Exception e) {
