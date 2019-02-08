@@ -51,13 +51,6 @@ public class DataLoader implements ApplicationRunner{
 		if(properties.getProfile().equals("DEVENV")){
 			accountLoader();
 			schedulerRepo.deleteAll();
-			ScheduledActivity activity = new ScheduledActivity();
-			activity.setEnabled(true);
-			activity.setActivityId("logData");
-			activity.setName("Log activity");
-			activity.setPriority(0);
-			activity.setData("random data");
-			schedulerRepo.insert(activity);
 			try {
 				financeLoader();
 			} catch(Exception e) {

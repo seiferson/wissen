@@ -1,8 +1,9 @@
-package com.seifernet.wissen.model;
+package com.seifernet.wissen.model.tracker;
 
 import java.util.Date;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

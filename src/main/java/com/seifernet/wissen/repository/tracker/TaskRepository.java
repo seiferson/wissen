@@ -1,4 +1,4 @@
-package com.seifernet.wissen.repository;
+package com.seifernet.wissen.repository.tracker;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import com.seifernet.wissen.model.Task;
+import com.seifernet.wissen.model.tracker.Task;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)

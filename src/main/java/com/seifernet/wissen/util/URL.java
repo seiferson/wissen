@@ -9,4 +9,5 @@ public class URL {
 	
 	public static final String INDEX = "/";
 	public static final String EXPENSES = "/expenses";
+	public static final String DASHBOARD = "/dashboard";
 }

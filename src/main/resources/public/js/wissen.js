@@ -14,6 +14,11 @@ function refreshGenericPageElements(validToken){
 		expensesItem.append($("<a href='/expenses'>Expenses</a>"));
 		usermenu.append(expensesItem);
 		
+		var dashboardItem = $("<div></div>");
+		dashboardItem.addClass("item");
+		dashboardItem.append($("<a href='/dashboard'>Dashboard</a>"));
+		usermenu.append(dashboardItem);
+		
 		usermenu.append("<div class='divider'></div>");
 		
 		var logoutItem = $("<div></div>");
