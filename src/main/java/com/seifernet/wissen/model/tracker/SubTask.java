@@ -1,4 +1,4 @@
-package com.seifernet.wissen.model;
+package com.seifernet.wissen.model.tracker;
 
 import org.springframework.data.annotation.Id;
 

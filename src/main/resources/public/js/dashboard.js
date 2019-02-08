@@ -1,5 +1,5 @@
 function loadAuthContent(){
-	
+	retrieveActiveGoals();
 }
 
 function loadAnonContent(){
@@ -21,6 +21,10 @@ function retrieveActiveGoals(){
 		},
 		success: function(responseData) {
 			console.log(responseData);
+			$("#goallist").empty();
+			responseData.content.forEach(function(entry){
+				$("#goallist").append("<li>" + entry.title+ " " + entry.date + "</li>" );
+			});
 		}
 	});
 }
@@ -42,4 +46,17 @@ function addGoal(goal){
 			console.log(responseData);
 		}
 	});
+}
+
+function prepareGoalData(){
+	
+	var goal = {
+		"owner" : $.cookie("hashuser"),
+		"date" : Date.now(),
+		"title" : $("#goaltitle").val(),
+		"active" : true
+	}
+	
+	addGoal(goal);
+	retrieveActiveGoals();
 }

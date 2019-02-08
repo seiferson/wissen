@@ -6,7 +6,19 @@
   <body>
   
     <th:block th:fragment="content">
-    
+    <div id="maincontainer" class="ui container">
+      <h1>Goals</h1>
+      <ul id="goallist"></ul>
+      <form>
+        <fieldset>
+          <legend>Create new goal</legend>
+          <label>Goal</label>
+          <input type="text" id="goaltitle"/>
+        </fieldset>
+        <br/>
+        <button onclick="prepareGoalData()">Submit</button>
+      </form>
+    </div>
     </th:block>
 
   </body>

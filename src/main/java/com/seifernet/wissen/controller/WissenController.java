@@ -4,9 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.seifernet.wissen.util.ModelAttributes;
 import com.seifernet.wissen.util.URL;
-import com.seifernet.wissen.util.WebResources;
 
 /**
  * Application controller
@@ -17,53 +15,15 @@ import com.seifernet.wissen.util.WebResources;
 public class WissenController {
 	
 	/**
-	 * Home
+	 * None
 	 * 
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(URL.INDEX)
+	@RequestMapping(URL.NONE)
 	private String index(Model model) {
-		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.INDEX);
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "content");
-		
-		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
-		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "indexjs");
-		
-		return WebResources.BASE_LAYOUT;
+		return "index";
 	}
 	
-	/**
-	 * Expenses report
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(URL.EXPENSES)
-	private String expenses(Model model) {
-		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.EXPENSES);
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "content");
-		
-		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
-		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "expensesjs");
-		
-		return WebResources.BASE_LAYOUT;
-	}
 	
-	/**
-	 * User dashboard
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(URL.DASHBOARD)
-	private String dashboard(Model model) {
-		model.addAttribute(ModelAttributes.CONTENT_SOURCE, WebResources.DASHBOARD);
-		model.addAttribute(ModelAttributes.CONTENT_FRAGMENT, "content");
-		
-		model.addAttribute(ModelAttributes.CUSTOM_JS_SOURCE, WebResources.CUSTOM_JS);
-		model.addAttribute(ModelAttributes.CUSTOM_JS_FRAGMENT, "dashboardjs");
-		
-		return WebResources.BASE_LAYOUT;
-	}
 }
