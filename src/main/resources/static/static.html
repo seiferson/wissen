@@ -96,6 +96,99 @@
         </div>
     </div>
     
+    
+    <div class="ui top attached menu">
+      <div class="ui item">
+        <a href="/"><h3 class="ui header">Wissen</h3></a>
+      </div>
+      <div class="ui right item" id="authuseritem" onclick="showAuthModal('menuButton')">
+        <i class="large user circle outline icon"></i> <span id="authuser">Anonymous</span>
+      </div>
+    </div>
+    
+    <div class="ui container">
+      <h1>Wissen</h1>
+    </div>
+    
+    
+    
+    <div id="container"></div>
+    
+    <div class="ui modal" id="authmod">
+      <i class="close icon"></i>
+      <div class="header">Authentication stage</div>
+      <div class="content">
+        <div class="ui icon message">
+          <i class="id badge icon"></i>
+          <div class="content">
+            <div class="header">Hi! Stranger</div>
+            <p id="usageNotex">
+              We have noticed that you are not logged in. This
+              can be an issue if you try to access some areas 
+              of the site that are not allowed to unidentified 
+              users. So in order to continue, please log in.
+            </p>
+            <p id="welcomeNotex">
+              Welcome to wissen, please provide your credentials.
+            </p>
+          </div>
+        </div>
+        <div class="ui hidden negative message" id="wrongcredentials">
+          <i class="close icon"></i>
+          <div class="header">
+            Wrong credentials
+          </div>
+        </div>
+        <form class="ui form">
+          <div class="field">
+            <label>User</label>
+            <input type="text" id="user" name="user"/>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="passwd" name="passwd"/>
+          </div>
+          <div class="ui two buttons">
+            <button class="ui button" type="button" onclick="authenticate()">Login</button>
+            <div class="or"></div>
+            <button class="ui button" type="button" id="tgrm">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="ui modal" id="regmod">
+      <i class="close icon"></i>
+      <div class="header">Register</div>
+      
+      <div class="content">
+        <div class="ui hidden negative message" id="regerror">
+          <i class="close icon"></i>
+          <div class="header">
+            <span id="regerrormessage"></span>
+          </div>
+        </div>
+        <form class="ui form">
+          <div class="field">
+            <label>Username</label>
+            <input type="text" id="usernamereg" name="usernamereg" title="Max 15 characters/valid characters A-Z a-z 0-9 and _" pattern="[A-Za-z0-9_]{5,15}"/>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="emailreg" name="emailreg"/>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="passwdreg" name="passwdreg"/>
+          </div>
+          <div class="field">
+            <label>Password confirmation</label>
+            <input type="password" id="passwdregconf" name="passwdregconf"/>
+          </div>
+          <button class="ui fluid button" >Register</button>
+        </form>
+      </div>
+    </div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </body>
