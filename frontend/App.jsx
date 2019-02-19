@@ -17,11 +17,11 @@ class App extends React.Component{
   ];
   return (
     <React.Fragment>
-      <TopMenu/>
-      <Modal title='Authentication stage' id='authmodal'>
-        <IconMessage message='Welcome to wissen, please provide your credentials.' header='Hi! Stranger'/>
-        <Form fields={loginFormData} />
-</Modal>
+      //<TopMenu/>
+      //<Modal title='Authentication stage' id='authmodal'>
+        //<IconMessage message='Welcome to wissen, please provide your credentials.' header='Hi! Stranger'/>
+        //<Form fields={loginFormData} />
+//</Modal>
 </React.Fragment>
 );
 }
