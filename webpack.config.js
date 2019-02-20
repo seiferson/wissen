@@ -1,24 +1,21 @@
 
-
 module.exports = {
   entry: './frontend/App.jsx',
 
   output: {
-    path: './src/main/resources/public/js/',
+    path: __dirname + '/src/main/resources/public/js',
     filename: 'corecompiled.js'
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
   },
   
   module: {
-  rules: [
+    rules: [
     {
-      test: /\.m?js$/,
+      test: /\.(js|jsx)$/,
       exclude: /(node_modules|bower_components)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
-      }
+      use: ['babel-loader']
     }
   ]
 }
