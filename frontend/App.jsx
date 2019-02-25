@@ -1,121 +1,72 @@
- class App extends React.Component{
+import React, { Component, Fragment } from 'react';
+import TopMenu from './TopMenu';
+import AuthenticationModal from './AuthenticationModal';
+import Form from './Form';
 
-        render(){
-          var loginFormData = [
-            {
-              name : 'user',
-              id : 'user',
-              type : 'text',
-              text : 'User'
-            },
-            {
-              name : 'passwd',
-              id : 'passwd',
-              type : 'password',
-              text : 'Password'
-            }
-          ];
-          return (
-            <React.Fragment>
-              <TopMenu/>
-              <Modal title='Authentication stage' id='authmodal'>
-                <IconMessage message='Welcome to wissen, please provide your credentials.' header='Hi! Stranger'/>
-                <Form fields={loginFormData} />
-              </Modal>
-            </React.Fragment>
-          );
-        }
-      }
+class App extends Component{
+	
+	constructor(props){
+		super(props);
+		this.state = {
+			userName : 'Anonymous'
+		}
+		this.login = this.login.bind(this);
+	}
+	
+	showAuthModal(){
+		$('#authmodal').modal('show');
+	}
+	
+	login(user,passwd){
+		var that = this;
+		$.ajax({
+			type: 'POST',
+			url: "/oauth/token",
+			headers: {
+				"Authorization" : "Basic bWFzdGVyOjEyMzQ1Ng==",
+				"Accept" : "application/json"
+			},
+			contentType: "application/x-www-form-urlencoded",
+			data: {
+				password : passwd,
+				username : user,
+				grant_type : "password"
+			},
+			error: function(XMLHttpRequest) {
+				if(XMLHttpRequest.status === 400) {
+				}
+			},
+			success: function(resultData) {
+				$.cookie("authtoken", resultData.access_token);
+				$.cookie("authuser", user);
+				$.cookie("hashuser", (md5(user)).toUpperCase());
+				$("#authmodal").modal("hide");
+				that.setState({
+					userName : $.cookie("authuser")
+				})
+			}
+		});
+	}
+	
+	render(){
+		
+		return (
+			<Fragment>
+				<div className="ui top attached menu">
+					<div className="ui item">
+						<a href="/"><h3 className="ui header">Wissen</h3></a>
+					</div>
+					<div className="ui right item" onClick={this.showAuthModal}>
+						<i className="large user circle outline icon"></i>
+						<span>{this.state.userName}</span>
+					</div>
+				</div>
+				<AuthenticationModal login={this.login}/>
+			</Fragment>
+		);
+	}
+}
 
-      class TopMenu extends React.Component{
+ReactDOM.render( <App/>, document.getElementById('root'));
 
-        static defaultProps = {
-          userName : 'Anonymous'
-        }
-
-        constructor(props){
-          super(props);
-        }
-
-        handleClick(){
-          $(".modal").modal("show");
-        }
-
-        render(){
-          return (
-            <div className="ui top attached menu">
-              <div className="ui item">
-                <a href="/"><h3 className="ui header">Wissen</h3></a>
-              </div>
-              <div className="ui right item" onClick={this.handleClick}>
-                <i className="large user circle outline icon"></i>
-                <span>{this.props.userName}</span>
-              </div>
-            </div>
-          );
-        }
-      }
-
-      class Modal extends React.Component{
-        
-        static defaultProps = {
-          id : '',
-          title : 'Empty modal',
-          children : <p>Empty modal</p>
-        }
-
-        render(){
-          return (
-            <div className="ui modal" id={this.id}>
-              <i className="close icon"></i>
-              <div className="header">{this.props.title}</div>
-              <div className="content">{this.props.children}</div>
-            </div>
-          );
-        }
-      }
-
-      class IconMessage extends React.Component{
-        static defaultProps = {
-          header : 'Title',
-          message : 'Message goes here'
-        }
-       
-        render(){
-          return (
-            <div className="ui icon message">
-              <i className="id badge icon"></i>
-              <div className="content">
-                <div className="header">{this.props.header}</div>
-                <p>{this.props.message}</p>
-              </div>
-            </div>
-          );
-        }
-      }
-      
-      class Form extends React.Component{
-      	handleClick(){
-          this.props.func();
-        }
-
-        render(){
-          return (
-            <form className="ui form">
-              {this.props.fields.map((entry, i) =>{
-              	return(
-              	  <div className="field">
-              	    <label for={entry.name}>{entry.text}</label>
-              	    <input type={entry.type} id={entry.id} name={entry.name}/>
-              	  </div>
-          	    );
-              })}
-              <button className="ui button" type="button" onClick={this.handleClick}>Login</button>
-            </form>
-          );
-        }
-      }
-
-
-      ReactDOM.render( <App/>, document.getElementById('root'));
-      $('.ui.modal').modal({allowMultiple: false});
+export default App;
