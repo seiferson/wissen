@@ -4,7 +4,7 @@ module.exports = {
 
   output: {
     path: __dirname + '/src/main/resources/public/js',
-    filename: 'corecompiled.js'
+    filename: 'core.js'
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']

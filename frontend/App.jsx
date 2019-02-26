@@ -7,42 +7,76 @@ class App extends Component{
 	
 	constructor(props){
 		super(props);
-		this.state = {
-			userName : 'Anonymous'
-		}
+		
+		//Function register
 		this.login = this.login.bind(this);
+		this.validateToken = this.validateToken.bind(this);
+		this.showAuthModal = this.showAuthModal.bind(this);
+		
+		this.validateToken();
+		
+		this.state = {
+			userName : $.cookie('authuser')
+		}
+	}
+	
+	validateToken(){
+		if($.cookie('authuser') != undefined  && $.cookie('authuser') !== 'Anonymous' && $.cookie('authtoken') != undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '/oauth/check_token?token=' + $.cookie('authtoken'),
+				headers: {
+					'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+					'Accept' : 'application/json'
+				},
+				success: function(response) {
+					//Nothing to do
+				},
+				error: function(XMLHttpRequest) {
+					$.removeCookie('authuser');
+					$.removeCookie('authtoken');
+					$.removeCookie('hashuser');
+					$.cookie('authuser', 'Anonymous');
+				}
+			});
+		} else {
+			$.cookie('authuser', 'Anonymous');
+		}
 	}
 	
 	showAuthModal(){
-		$('#authmodal').modal('show');
+		this.validateToken();
+		if($.cookie('authuser') == undefined && $.cookie('authuser') === 'Anonymous'){
+			$('#authmodal').modal('show');
+		}
 	}
 	
 	login(user,passwd){
 		var that = this;
 		$.ajax({
 			type: 'POST',
-			url: "/oauth/token",
+			url: '/oauth/token',
 			headers: {
-				"Authorization" : "Basic bWFzdGVyOjEyMzQ1Ng==",
-				"Accept" : "application/json"
+				'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+				'Accept' : 'application/json'
 			},
-			contentType: "application/x-www-form-urlencoded",
+			contentType: 'application/x-www-form-urlencoded',
 			data: {
 				password : passwd,
 				username : user,
-				grant_type : "password"
+				grant_type : 'password'
 			},
 			error: function(XMLHttpRequest) {
 				if(XMLHttpRequest.status === 400) {
 				}
 			},
 			success: function(resultData) {
-				$.cookie("authtoken", resultData.access_token);
-				$.cookie("authuser", user);
-				$.cookie("hashuser", (md5(user)).toUpperCase());
-				$("#authmodal").modal("hide");
+				$.cookie('authtoken', resultData.access_token);
+				$.cookie('authuser', user);
+				$.cookie('hashuser', (md5(user)).toUpperCase());
+				$('#authmodal').modal('hide');
 				that.setState({
-					userName : $.cookie("authuser")
+					userName : $.cookie('authuser')
 				})
 			}
 		});
@@ -52,16 +86,8 @@ class App extends Component{
 		
 		return (
 			<Fragment>
-				<div className="ui top attached menu">
-					<div className="ui item">
-						<a href="/"><h3 className="ui header">Wissen</h3></a>
-					</div>
-					<div className="ui right item" onClick={this.showAuthModal}>
-						<i className="large user circle outline icon"></i>
-						<span>{this.state.userName}</span>
-					</div>
-				</div>
-				<AuthenticationModal login={this.login}/>
+				<TopMenu userName={this.state.userName} action={this.showAuthModal} />
+				<AuthenticationModal login={this.login} />
 			</Fragment>
 		);
 	}

@@ -124,3 +124,52 @@
             <button class="ui button" type="button" id="tgrm">Register</button>
           </div>
         </form>
+        
+        
+        /**
+ * Session token validation
+ */
+//<![CDATA[
+
+function validateToken(){
+	
+}
+//]]>
+
+/*eslint-disable no-undef */
+$('.ui.dropdown').dropdown();
+$('.ui.modal').modal({allowMultiple: false});
+$('#regmod').modal('attach events', '#tgrm');
+$('.progress').progress();
+$('.message .close').on('click', function(){$(this).closest('.message').transition('fade');});
+$('.ui.accordion').accordion();
+
+/**Main UI load function**/
+$(document).ready(function(){
+	validateToken();
+});
+
+/**
+ * Used to raise the modal for authentication
+ */
+function showAuthModal(origin){
+	if($.cookie("authuser") === undefined && $.cookie("authtoken") === undefined) {
+		$("#wrongcredentials").addClass("hidden");
+		
+		if(origin === "menuButton"){
+			$("#usageNotex").addClass("hiddenf");
+			$("#welcomeNotex").removeClass("hiddenf");
+		} else if(origin === "feature"){
+			$("#welcomeNotex").addClass("hiddenf");
+			$("#usageNotex").removeClass("hiddenf");
+		}
+		$("#authmod").modal("show");
+	}
+}
+
+function logout(){
+	$.removeCookie("authuser");
+	$.removeCookie("authtoken");
+	$.removeCookie("hashuser");
+	//load
+}

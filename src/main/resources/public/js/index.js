@@ -1,7 +1,0 @@
-function loadAuthContent(){
-	
-}
-
-function loadAnonContent(){
-	
-}
