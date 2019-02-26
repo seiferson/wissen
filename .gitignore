@@ -22,3 +22,9 @@ hs_err_pid*
 *.log
 *.out
 *.gz
+
+#Node plugin files
+node/
+node_modules/
+etc/
+package-lock.json
