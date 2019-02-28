@@ -10,7 +10,6 @@ class AuthenticationModal extends Component{
 	}
 	
 	handleLogin(){
-		alert(this);
 		var user = $('#authmodaluser').val().trim();
 		var passwd = $('#authmodalpasswd').val();
 		this.props.login(user,passwd);

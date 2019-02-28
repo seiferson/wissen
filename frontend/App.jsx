@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import TopMenu from './TopMenu';
 import AuthenticationModal from './AuthenticationModal';
-import Form from './Form';
+import Tracker from './Tracker';
 
 class App extends Component{
 	
@@ -44,9 +44,11 @@ class App extends Component{
 		}
 	}
 	
+	
+	
 	showAuthModal(){
 		this.validateToken();
-		if($.cookie('authuser') == undefined && $.cookie('authuser') === 'Anonymous'){
+		if($.cookie('authuser') == undefined || $.cookie('authuser') === 'Anonymous'){
 			$('#authmodal').modal('show');
 		}
 	}
@@ -77,7 +79,7 @@ class App extends Component{
 				$('#authmodal').modal('hide');
 				that.setState({
 					userName : $.cookie('authuser')
-				})
+				});
 			}
 		});
 	}
@@ -87,6 +89,7 @@ class App extends Component{
 		return (
 			<Fragment>
 				<TopMenu userName={this.state.userName} action={this.showAuthModal} />
+				<Tracker />
 				<AuthenticationModal login={this.login} />
 			</Fragment>
 		);

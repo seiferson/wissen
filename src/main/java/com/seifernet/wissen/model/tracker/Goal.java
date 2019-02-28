@@ -15,7 +15,25 @@ public class Goal {
 	
 	private String owner;
 	
-	private Boolean active;
+	private String state;
+	
+	private Integer priority;
+	
+	public Integer getPriority() {
+		return priority;
+	}
+	
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+	
+	public String getState() {
+		return state;
+	}
+	
+	public void setState(String state) {
+		this.state = state;	
+	}
 
 	public String getId() {
 		return id;
@@ -39,14 +57,6 @@ public class Goal {
 
 	public void setOwner(String owner) {
 		this.owner = owner;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Date getDate() {

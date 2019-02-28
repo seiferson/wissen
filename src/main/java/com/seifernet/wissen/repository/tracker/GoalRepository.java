@@ -13,5 +13,5 @@ public interface GoalRepository extends MongoRepository<Goal,String>{
 
 	@RestResource(path = "mygoals")
 	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
-	public List<Goal> findByOwnerAndActiveTrue(@Param("owner") String owner);
+	public List<Goal> findByOwner(@Param("owner") String owner);
 }

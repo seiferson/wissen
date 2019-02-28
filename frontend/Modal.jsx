@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 class Modal extends Component{
 	
-	
-	
 	componentDidMount() {
 		$(`#${this.props.id}`).modal({allowMultiple: false});
 	}

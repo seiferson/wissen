@@ -7,7 +7,7 @@ else
 	git status -uno >> auto.log 
 	ps -ef | grep wissen | cut -d ' ' -f 6 | xargs kill -9
 	git pull
-	mvn clean spring-boot:run
+	nohup mvn clean spring-boot:run &
 fi
 
 
