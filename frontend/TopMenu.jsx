@@ -10,7 +10,7 @@ class TopMenu extends Component{
 				</div>
 				<div className="ui right item" onClick={this.props.action}>
 					<i className="large user circle outline icon"></i>
-					<span>{this.props.userName}</span>
+					<span>{this.props.user}</span>
 				</div>
 			</div>
 		);

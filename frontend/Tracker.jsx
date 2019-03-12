@@ -1,45 +1,25 @@
 import React, { Component } from 'react';
+import Goal from './Goal';
 
-
-class Goal extends Component {
-	render(){
-		let icon;
-		
-		if(this.props.priority === '0'){
-			icon = 	<i className='id flag checkered red icon' />;
-		} else if (this.props.priority === '1'){
-			icon = 	<i className='id flag checkered yellow icon' />;
-		} else if (this.props.priority === '2'){
-			icon = 	<i className='id flag checkered green icon' />;
-		} else if (this.props.priority === '3'){
-			icon = 	<i className='id flag checkered blue icon' />;
-		} else {
-			icon = 	<i className='id flag checkered purple icon' />;
-		}
-		
-		return(
-			<div className='item'> {icon} {this.props.title}  {this.props.priority}</div>
-		);
-	}
-}
-
-class Tracker extends Component{
-	
-	componentDidMount(){
-		$('.dropdown').dropdown();
-	}
+class Tracker extends Component {
 	
 	constructor(props){
 		super(props);
 		
 		this.state = {
+			title : '',
+			priority : '',
 			goals : []
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.addGoal = this.addGoal.bind(this);
+		this.handleUserInput = this.handleUserInput.bind(this);
 	}
 	
+	componentDidMount(){
+		
+	}
 	
 	addGoal(goal){
 		var goalsx = this.state.goals;
@@ -51,48 +31,58 @@ class Tracker extends Component{
 	
 	handleSubmit(e){
 		e.preventDefault();
+		
+		
 		var goal = {
-			'title' : $('#goalinput').val().trim(),
-			'priority' :  $('#priorityselector').val()
+			title : this.state.title,
+			priority :  this.state.priority,
+			date : new Date().getTime(),
+			owner : $.cookie('hashuser'),
+			id : 'smething',
+			state : 'active'
 		};
-		 $('#goalinput').val('');
-		 $('.dropdown').dropdown('clear');
+		this.setState({title: ''});
+		this.setState({priority: ''});
 		this.addGoal(goal);
+	}
+	
+	handleUserInput (e) {
+		const name = e.target.name;
+		const value = e.target.value;
+		this.setState({[name]: value});
 	}
 	
 	render(){
 		return(
-			<div className='ui container'>
+			<div className='ui segment'>
 				<form className='ui form' onSubmit={this.handleSubmit}>
-					<div className="fields">
-						<div className='thirteen wide field'>
+					<h4 className="ui dividing header">New goal</h4>
+					<div className="stackable fields">
+						<div className='twelve wide field'>
 							<label htmlFor='goal'>Goal</label>
-							<input type='text' id='goalinput' name='goal' />
+							<input type='text' maxLength={50} value={this.state.title} onChange={(event) => this.handleUserInput(event)} name='title' required="required"/>
 						</div>
-						<div className='three wide field'>
+						<div className='four wide field'>
 							<label>Priority</label>
-							<div className="ui fluid selection dropdown">
-								<input type='hidden' name='priority' id='priorityselector' />
-								<i className="dropdown icon"></i>
-								<div className="default text">Select</div>
-								<div className="menu">
-									<div className='item' data-value="0"><i className='id red circle icon' />Top</div>
-									<div className='item' data-value="1"><i className='id yellow circle icon' />High</div>
-									<div className='item' data-value="2"><i className='id green circle icon' />Mid</div>
-									<div className='item' data-value="3"><i className='id blue circle icon' />Low</div>
-								</div>
-							</div>
+							<select value={this.state.priority} onChange={(event) => this.handleUserInput(event)}  name='priority' required="required">
+								<option value="">Select</option>
+								<option value="0">Top</option>
+								<option value="1">High</option>
+								<option value="2">Mid</option>
+								<option value="3">Low</option>	
+							</select>
 						</div>
 					</div>
+					<p />
 					<button type='submit' className='ui button'>Create goal</button>
+					<p />
 				</form>
-				<div className='ui list'>
-					{this.state.goals.map((entry, i) =>{
-						return(
-							<Goal title={entry.title} priority={entry.priority} />
-						);
-					})}
-				</div>
+				<h4 className="ui dividing header">Goals</h4>
+				{this.state.goals.map((entry, i) =>{
+					return(
+						<Goal obj={entry} />
+					);
+				})}
 			</div>
 		);
 	}	

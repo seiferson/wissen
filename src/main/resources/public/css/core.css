@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-body > .ui.container {
+body > #root .ui.container {
 	margin-top: 3em; 
 }
 

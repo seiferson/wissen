@@ -1,3 +1,97 @@
+function loadContextFromCookies(){
+	//Current layout
+	if($.cookie('layout') === undefined){
+		$.cookie('layout','home');
+	}
+	
+	//Current user
+	if($.cookie('authuser') === undefined){
+		$.cookie('authuser', 'anonymous');
+	}
+}
+
+
+function checkTokenFromCookies(){
+	if($.cookie('authuser') !== 'anonymous' && $.cookie('authtoken') != undefined) {
+		$.ajax({
+			type: 'GET',
+			url: '/oauth/check_token?token=' + $.cookie('authtoken'),
+			headers: {
+				'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+				'Accept' : 'application/json'
+			},
+			error: function(XMLHttpRequest) {
+				$.removeCookie('authuser');
+				$.removeCookie('authtoken');
+				$.removeCookie('hashuser');
+				$.cookie('authuser', 'anonymous');
+			}
+		});
+	}
+}
+
+function getGoalColor(goal){
+	let color;
+	
+	if (goal.priority == 0){
+		return 'purple';
+	} else if(goal.priority == 1){
+		return 'olive';
+	} else if(goal.priority == 2){
+		return 'blue';
+	} else if(goal.priority == 3){
+		return 'teal'
+	}	
+	return color;
+}
+
+function calculateGoalProgress(goal){
+	return 10;
+}
+
+function login(user,passwd,callback){
+	$.ajax({
+		type: 'POST',
+		url: '/oauth/token',
+		headers: {
+			'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+			'Accept' : 'application/json'
+		},
+		contentType: 'application/x-www-form-urlencoded',
+		data: {
+			password : passwd,
+			username : user,
+			grant_type : 'password'
+		},
+		error: function(XMLHttpRequest) {
+			callback(false);
+		},
+		success: function(resultData) {
+			$.cookie('authtoken', resultData.access_token);
+			$.cookie('authuser', user);
+			$.cookie('hashuser', (md5(user)).toUpperCase());
+			callback(true);
+		}
+	});
+}
+
+/**
+ * Utility function to pad numbers
+ */
+Number.prototype.pad = function(size) {
+	var s = String(this);
+	while (s.length < (size || 2)) {s = "0" + s;}
+	return s;
+};
+
+/**
+ * Utility function to format date object to dd/mm/yyyy HH:MM
+ */
+function formatDate(fdate){
+	var providedDate = new Date(fdate);
+	return (providedDate.getMonth()+1).pad(2) + "/"+(providedDate.getDate()).pad(2)+"/"+providedDate.getFullYear() + " " + (providedDate.getHours()).pad(2) + ":"+(providedDate.getMinutes()).pad(2);
+}
+
 function md5cycle(x, k) {
 var a = x[0], b = x[1], c = x[2], d = x[3];
 

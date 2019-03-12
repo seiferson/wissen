@@ -1,4 +1,16 @@
 
+<div className='ui container'>
+					<div className='ui stackable grid'>
+						<div className='eight wide column'>
+							<Tracker />
+						</div>
+					</div>
+				</div>
+				
+				
+
+
+
 <div class="ui container">
       <div class="ui grid">
         <div class="row">
@@ -1446,16 +1458,6 @@ function createParagraph(text){
 	paragraph.text(text);
 	return paragraph;
 }
-
-
-/**
- * Utility function to pad numbers
- */
-Number.prototype.pad = function(size) {
-	var s = String(this);
-	while (s.length < (size || 2)) {s = "0" + s;}
-	return s;
-};
 
 /**
  *  Utility function to format date values to compact 3 digit time difference from current date
@@ -3293,5 +3295,23 @@ $("body").keyup(function(event) {
   </body>
 </html>
 
+let icon;
+		
+		if(this.props.priority === '0'){
+			icon = 	;
+		} else if (this.props.priority === '1'){
+			icon = 	<i className='id flag checkered yellow icon' />;
+		} else if (this.props.priority === '2'){
+			icon = 	<i className='id flag checkered green icon' />;
+		} else if (this.props.priority === '3'){
+			icon = 	<i className='id flag checkered blue icon' />;
+		} else {
+			icon = 	<i className='id flag checkered purple icon' />;
+		}
+		
+
+showAuthModal(){
+		this.
+	}
 
 	
