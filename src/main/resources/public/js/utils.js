@@ -10,7 +10,6 @@ function loadContextFromCookies(){
 	}
 }
 
-
 function checkTokenFromCookies(){
 	if($.cookie('authuser') !== 'anonymous' && $.cookie('authtoken') != undefined) {
 		$.ajax({
@@ -71,6 +70,16 @@ function login(user,passwd,callback){
 			$.cookie('authuser', user);
 			$.cookie('hashuser', (md5(user)).toUpperCase());
 			callback(true);
+		}
+	});
+}
+
+function githubAPIRepoQuery(callback){
+	$.ajax({
+		url : "https://api.github.com/repos/Seiferxx/wissen",
+		dataType : "jsonp",
+		success : function ( resultData ) {
+			
 		}
 	});
 }

@@ -1,3 +1,39 @@
+<p>{"Project info"}</p>
+									<div className='ui labels'>
+										<LinkIconLabel color='' icon='github' url='https://github.com/seiferxx/wissen' text='wissen' />
+										<LinkIconLabel color='' icon='code branch' url='https://github.com/seiferxx/wissen' text='0.0.4_1812' />
+									</div>
+									<div className="ui segment">
+										<div className="ui list">
+											<h4 className="ui header">Technologies used</h4>
+											<div className="item">
+												<i className="npm circular icon"></i>
+												<div className='content'>npm v6.7.0</div>
+											</div>
+											<div className="middle aligned item">
+												<i className="node circular icon"></i>
+												<div className='content'>node v10.15.1</div>
+											</div>
+											<div className="middle aligned item">
+												<i className="react circular icon"></i>
+												<div className='content'>react v16.8.3</div>
+											</div>
+											<div className="middle aligned item">
+												<i className="leaf circular icon"></i>
+												<div className='content'>spring v2.0.3.RELEASE</div>
+											</div>
+											<div className="middle aligned item">
+												<i className="coffee circular icon"></i>
+												<div className='content'>java v1.8</div>
+											</div>
+											<div className="middle aligned item">
+												<i className="database circular icon"></i>
+												<div className='content'>mongo</div>
+											</div>
+										</div>
+									</div>
+
+
 
       class TopMenu extends React.Component{
 

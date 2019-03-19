@@ -4,11 +4,11 @@ class IconMessage extends Component{
 	
 	render(){
 		return (
-			<div className="ui icon message">
-				<i className="id badge icon" />
-				<div className="content">
-					<div className="header">{this.props.header}</div>
-					<p>{this.props.message}</p>
+			<div className={`ui icon ${this.props.type} message`}>
+				<i className={`${this.props.icon} icon`} />
+				<div className='content'>
+					<div className='header'>{this.props.header}</div>
+					{this.props.children}
 				</div>
 			</div>
 		);

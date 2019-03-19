@@ -28,7 +28,7 @@ class AuthenticationModal extends Component{
 	
 	render(){
 		return (
-			<Modal title='Authentication stage' id='authmodal'>
+			<Modal type='' icon='id badge' title='Authentication stage' id='authmodal'>
 				<IconMessage header='Hi! Stranger' message='Welcome to wissen, please provide your credentials.'/>
 				<form className='ui form' onSubmit={this.handleSubmit}>
 					<div className='field'>
