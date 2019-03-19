@@ -8,5 +8,7 @@ package com.seifernet.wissen.util;
 public class URL {
 	
 	public static final String INDEX = "/";
-	public static final String KNOWLEDGE = "/knowledge";
+	public static final String EXPENSES = "/expenses";
+	public static final String DASHBOARD = "/dashboard";
+	public static final String NONE = "/none";
 }

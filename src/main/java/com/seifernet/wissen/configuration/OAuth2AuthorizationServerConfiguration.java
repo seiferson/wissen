@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,8 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-
-import com.seifernet.wissen.service.CustomUserDetailsService;
 
 /**
  * OAuth2 authorization server configuration
@@ -36,7 +35,7 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	private CustomProperties properties;
 	
 	@Autowired
-	private CustomUserDetailsService userDetailsService;
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients ) throws Exception {
@@ -47,13 +46,14 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 				.authorities("USER")
 				.scopes("read", "write")
 				.resourceIds("restservice")
-				.secret(properties.getMainClientAppSecret());
+				.secret(passwordEncoder.encode(properties.getMainClientAppSecret()));
 	}
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 		oauthServer
-			.checkTokenAccess("isAuthenticated()");
+			.checkTokenAccess("isAuthenticated()")
+			.passwordEncoder(passwordEncoder);
 	}
 	
 	@Bean
@@ -69,7 +69,6 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.tokenStore(this.tokenStore)
-			.authenticationManager(this.authenticationManager)
-			.userDetailsService(this.userDetailsService);
+			.authenticationManager(this.authenticationManager);
 	}
 }

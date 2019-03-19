@@ -4,7 +4,7 @@
 .project
 .settings/
 .tern-project
- 
+
 #Maven files
 target/
 
@@ -19,3 +19,12 @@ hs_err_pid*
 *~
 /.apt_generated/
 .factorypath
+*.log
+*.out
+*.gz
+
+#Node plugin files
+node/
+node_modules/
+etc/
+package-lock.json

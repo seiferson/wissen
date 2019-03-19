@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.seifernet.wissen.model.rpg.Player;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
