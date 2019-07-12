@@ -10,4 +10,8 @@ public class Utils {
 		
 		return simpleDateFormat.parse(date);
 	}
+	
+	public static boolean isNotNullOrEmpty(String a){
+		return (a != null && !a.trim().equals(""));
+	} 
 }

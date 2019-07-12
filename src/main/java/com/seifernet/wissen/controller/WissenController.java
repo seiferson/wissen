@@ -1,10 +1,18 @@
 package com.seifernet.wissen.controller;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.seifernet.wissen.util.URL;
+import com.seifernet.wissen.model.Account;
+import com.seifernet.wissen.repository.AccountRepository;
+import com.seifernet.wissen.util.Utils;
 
 /**
  * Application controller
@@ -14,16 +22,28 @@ import com.seifernet.wissen.util.URL;
 @Controller
 public class WissenController {
 	
-	/**
-	 * None
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(URL.NONE)
-	private String index(Model model) {
-		return "index";
-	}
+	//private static final Logger logger = LoggerFactory.getLogger(WissenController.class);
+	
+	@Autowired
+	private AccountRepository repo;
+	
+	@PostMapping("/accounts/create")
+    @ResponseBody
+    public ResponseEntity<String> createAccountService(@RequestBody Account account){
+    	String message = "";
+    	
+    	if(
+    		Utils.isNotNullOrEmpty(account.getEmail()) &&
+    		Utils.isNotNullOrEmpty(account.getPassword()) &&
+    		Utils.isNotNullOrEmpty(account.getNickname())
+    	) {
+    		account = repo.insert(account);
+    		
+    		return ResponseEntity.ok(message);
+    	} else {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    	}
+    }
 	
 	
 }

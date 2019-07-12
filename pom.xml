@@ -13,7 +13,7 @@
   
   <artifactId>wissen</artifactId>
   <groupId>com.seifernet</groupId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>Wissen</name>
   <description>Spring project</description>
   <version>0.0.4</version>
