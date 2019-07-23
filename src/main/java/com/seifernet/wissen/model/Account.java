@@ -1,6 +1,7 @@
 package com.seifernet.wissen.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -36,6 +37,26 @@ public class Account {
 	
 	private String validationToken;
 	
+	private Date creationDate;
+	
+	private Date lastUpdate;
+	
+	
+	public Date getCreationDate(){
+		return creationDate;
+	}
+	
+	public Date getLastUpdate(){
+		return lastUpdate;
+	}
+	
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 	
 	public String getValidationToken(){
 		return validationToken;

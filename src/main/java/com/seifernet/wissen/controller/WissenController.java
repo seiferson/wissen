@@ -3,6 +3,7 @@ package com.seifernet.wissen.controller;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class WissenController {
 	@PostMapping("/accounts/create")
     @ResponseBody
     public ResponseEntity<String> createAccountService(@RequestBody Account account){
-    	String message = "";
+    	String message = "Success : ";
     	
     	if(
     		Utils.isNotNullOrEmpty(account.getEmail()) &&
@@ -46,13 +47,18 @@ public class WissenController {
     		ArrayList<String> authorities = new ArrayList<String>();
 			authorities.add("USER");
 		
-			account.setEnabled(true);
+			account.setEnabled(false);
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 			account.setAuthorities(authorities);
+			account.setCreationDate(new Date());
+			account.setLastUpdate(new Date());
+    		
     		account = repo.insert(account);
     		
+    		message += account.getId() + "account created, please follow the link sent to your mail address to activate your account";
     		return ResponseEntity.ok(message);
     	} else {
+    		message = "Error creating account";
     		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     	}
     }
