@@ -58,7 +58,7 @@ public class WissenTest {
 		String response = client.getForObject(HOST + port + "/actuator/health", String.class); 
 		assertThat(response, containsString("UP"));
 	}
-	
+	/**
 	@Test
 	public void testEmailAPI() throws Exception{
 		HttpHeaders headers = new HttpHeaders();
@@ -74,7 +74,7 @@ public class WissenTest {
 		String body = "{\"Messages\":[{\"From\": {\"Email\": \"noreply@seiferson.com\",\"Name\": \"Mailjet Pilot\"},\"To\": [{\"Email\": \"seifer.ch@gmail.com\",\"Name\": \"passenger 1\"}],\"Subject\": \"Your email flight plan!\",\"TextPart\": \"Dear passenger 1, welcome to Mailjet! May the delivery force be with you!\",\"HTMLPart\": \"<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!\"}]}";		
 		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
 		ResponseEntity<String> response = client.postForEntity("https://api.mailjet.com/v3.1/send", entity, String.class);
-	}
+	}**/
 	
 	@Test
 	public void testOauthToken() throws Exception {
