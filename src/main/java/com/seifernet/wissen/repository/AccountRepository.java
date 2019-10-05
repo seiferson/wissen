@@ -10,4 +10,6 @@ import com.seifernet.wissen.model.Account;
 public interface AccountRepository extends MongoRepository<Account, String>{
 	
 	public Account findByNickname(String nickname);
+
+	public boolean existsByNickname(String nickname);
 }

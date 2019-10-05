@@ -21,25 +21,13 @@ public class Task{
 	private String title;
 	
 	private String owner;
-	
-	private Boolean descriptionRequired;
-	
 	private String description;
-	
 	private Date dueDate;
-	
 	private Boolean completed;
-	
 	private Date completionDate;
-	
 	private Date creationDate;
-	
-	private Boolean expires;
-	
 	private Date expirationDate;
-	
 	private Boolean expired;
-	
 	private Long priority;
 	
 	public Long getPriority() {
@@ -78,14 +66,6 @@ public class Task{
 		this.title = title;
 	}
 
-	public Boolean getDescriptionRequired() {
-		return descriptionRequired;
-	}
-
-	public void setDescriptionRequired(Boolean descriptionRequired) {
-		this.descriptionRequired = descriptionRequired;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -116,14 +96,6 @@ public class Task{
 
 	public void setCompletionDate(Date completionDate) {
 		this.completionDate = completionDate;
-	}
-
-	public Boolean getExpires() {
-		return expires;
-	}
-
-	public void setExpires(Boolean expires) {
-		this.expires = expires;
 	}
 
 	public Date getExpirationDate() {

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -32,21 +33,21 @@ public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerC
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private CustomProperties properties;
-	
-	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private Environment env;
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients ) throws Exception {
 		clients
 			.inMemory()
-			.withClient(properties.getMainClientAppId())
+			.withClient(env.getProperty("WISSEN_CLIENT_ID"))
 				.authorizedGrantTypes("password")
 				.authorities("USER")
 				.scopes("read", "write")
 				.resourceIds("restservice")
-				.secret(passwordEncoder.encode(properties.getMainClientAppSecret()));
+				.secret(passwordEncoder.encode(env.getProperty("WISSEN_CLIENT_SECRET")));
 	}
 	
 	@Override

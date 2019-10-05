@@ -25,23 +25,35 @@ public class Account {
 	
 	@Indexed(unique=true)
 	private String nickname;
-	
-	private Boolean enabled;
-	
+
 	@Indexed(unique=true)
 	private String email;
-	
+
+	private Boolean enabled;
 	private String password;
-	
 	private List<String> authorities;
-	
 	private String validationToken;
-	
+	private Date validationTokenExpiration;
 	private Date creationDate;
-	
 	private Date lastUpdate;
-	
-	
+	private String avatarSeed;
+
+	public String getAvatarSeed() {
+		return avatarSeed;
+	}
+
+	public void setAvatarSeed(String avatarSeed){
+		this.avatarSeed = avatarSeed;
+	}
+
+	public Date getValidationTokenExpiration(){
+		return validationTokenExpiration;
+	}
+
+	public void setValidationTokenExpiration(Date validationTokenExpiration) {
+		this.validationTokenExpiration = validationTokenExpiration;
+	}
+
 	public Date getCreationDate(){
 		return creationDate;
 	}
@@ -73,10 +85,6 @@ public class Account {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public String getIdentifier(){
-		return id;
-	}
 	
 	@JsonIgnore
 	public List<GrantedAuthority> getGrantedAuthorities(){
@@ -101,7 +109,7 @@ public class Account {
 		this.nickname = nickname;
 	}
 
-	public Boolean getEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 

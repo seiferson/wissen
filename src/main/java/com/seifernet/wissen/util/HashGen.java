@@ -7,13 +7,18 @@ import org.springframework.stereotype.Component;
 @Component(value="hashgen")
 public class HashGen {
 	
-	public static String md5gen(String input) throws Exception{
-		MessageDigest md5 = MessageDigest.getInstance("MD5");
-		
-		md5.update(input.getBytes());
-		byte[] digest = md5.digest();
-		
-		return new String(digest);
+	public static String md5gen(String input) {
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+			md5.update(input.getBytes());
+			byte[] digest = md5.digest();
+
+			return new String(digest);
+		} catch (Exception e){
+			//TODO fix this code
+			return "";
+		}
 	}
 
 }
