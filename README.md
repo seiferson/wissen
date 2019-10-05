@@ -57,3 +57,10 @@ Comment on pom.xml the following
   <artifactId>de.flapdoodle.embed.mongo</artifactId>
  </dependency -->
 ```
+
+
+
+https://www.codementor.io/npostolovski/40-side-project-ideas-for-software-engineers-g8xckyxef
+https://avatars.dicebear.com/
+https://flaviocopes.com/sample-app-ideas/
+https://www.google.com/search?q=api+ideas&rlz=1C1GCEA_enUS852US852&oq=api+ideas&aqs=chrome..69i57j0l5.1035j0j7&sourceid=chrome&ie=UTF-8
