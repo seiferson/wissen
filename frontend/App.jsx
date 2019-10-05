@@ -26,7 +26,9 @@ class App extends Component {
 	render(){
 		if(this.state.layout === 'home'){
 			return (<Home layoutCallback={this.handleSwitchLayout}/>);
-		} 
+		} else if(this.state.layout === 'dashboard'){
+		    return (<Fragment />);
+		}
 		return (<Fragment />);
 	}
 }
