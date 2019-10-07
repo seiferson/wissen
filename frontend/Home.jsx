@@ -3,6 +3,7 @@ import TopMenu from './TopMenu';
 import AuthenticationModal from './AuthenticationModal';
 import LinkIconLabel from './LinkIconLabel';
 import IconMessage from './IconMessage';
+import RegisterModal from './RegisterModal';
 
 class Home extends Component {
 
@@ -25,6 +26,10 @@ class Home extends Component {
 		if($.cookie('authuser') === 'anonymous'){
 			$('#authmodal').modal('show');
 		}
+	}
+
+	handleRegisterModalAction(){
+	    $('#regmodal').modal('show');
 	}
 
 	handleAuthentication(user,password){
@@ -68,7 +73,8 @@ class Home extends Component {
 						</div>
 					</div>
 				</div>
-				<AuthenticationModal action={this.handleAuthentication} />
+				<AuthenticationModal action={this.handleAuthentication} regaction={this.handleRegisterModalAction} />
+				<RegisterModal />
 			</Fragment>
 		);
 	}

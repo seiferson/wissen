@@ -42,7 +42,7 @@ class AuthenticationModal extends Component{
 					<div className='ui two buttons'>
 						<button className='ui button' type='submit' >Login</button>
 						<div className='or'></div>
-						<button className='ui disabled button' type='button'>Register</button>
+						<button className='ui button' type='button' onClick={this.props.regaction}>Register</button>
 					</div>
 				</form>
 			</Modal>
