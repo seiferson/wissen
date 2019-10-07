@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class Modal extends Component{
 	
@@ -8,10 +8,9 @@ class Modal extends Component{
 	
 	render(){
 		return (
-			<div className="ui modal" id={this.props.id}>
-				<i className="close icon" />
-				<div className="header">{this.props.title}</div>
-				<div className="content">{this.props.children}</div>
+			<div className={`ui ${this.props.mtype} modal`} id={this.props.id}>
+				<div className='header'>{this.props.title}</div>
+				<div className={`${this.props.ctype} content`}>{this.props.children}</div>
 			</div>
 		);
 	}

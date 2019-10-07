@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Fragment, Component} from 'react';
 import Modal from './Modal';
 
 class RegisterModal extends Component{
@@ -8,20 +8,28 @@ class RegisterModal extends Component{
 		this.state = {
 			user : '',
 			email : '',
-			avatar: '',
-			passwd : ''
+			avatar: md5(Math.random().toString()),
+			passwd : '',
+			cnfpasswd: ''
 		}
 		this.handleUserInput = this.handleUserInput.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSwitchAvatarImage = this.handleSwitchAvatarImage.bind(this);
 	}
 
-	handleUserInput (e) {
+	handleSwitchAvatarImage() {
+	    this.setState({
+	        avatar : md5(Math.random().toString())
+    	});
+	}
+
+	handleUserInput(e) {
 		const name = e.target.name;
 		const value = e.target.value;
 		this.setState({[name]: value});
 	}
 
-	handleSubmit(e){
+	handleSubmit(e) {
 		e.preventDefault();
 		//TODO validation of user input and clean fields
 		this.props.action(this.state.user, this.state.passwd, this.state.email, this.state.avatar);
@@ -30,16 +38,38 @@ class RegisterModal extends Component{
 	render(){
 		return (
 			<Modal title='Register an account' id='regmodal'>
-			  <div className="ui medium image">
-                <img src="https://avatars.dicebear.com/v2/human/02392383.svg" />
-              </div>
-              <div className="description">
-                <div className="ui header">We've auto-chosen a profile image for you.</div>
-                <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-                <p>Is it okay to use this photo?</p>
-              </div>
-              <div className='ui two buttons'>
-                <button className='ui button' type='submit' >Create</button>
+              <div className='ui stackable grid'>
+                <div className='four wide column'>
+                  <img className="ui bordered image" src={`https://avatars.dicebear.com/v2/bottts/${this.state.avatar}.svg`} />
+                  <br/>
+                  <button className='fluid ui icon basic button' type='button' onClick={this.handleSwitchAvatarImage}>
+                    <i class="redo alternate icon"></i> Switch avatar image
+                  </button>
+                </div>
+                <div className='twelve wide column'>
+                  <form className='ui form' onSubmit={this.handleSubmit}>
+
+                      <div className='field'>
+                        <label htmlFor='user'>Username</label>
+                        <input type='text' value={this.state.user} onChange={(event) => this.handleUserInput(event)} name='user' />
+                      </div>
+                      <div className='field'>
+                        <label htmlFor='email'>Email</label>
+                        <input type='email' value={this.state.email} onChange={(event) => this.handleUserInput(event)} name='email' />
+                       </div>
+                    <div className='two fields'>
+                      <div className='field'>
+                        <label htmlFor='passwd'>Password</label>
+                        <input type='password' value={this.state.password} onChange={(event) => this.handleUserInput(event)} name='passwd' />
+                      </div>
+                      <div className='field'>
+                        <label htmlFor='cnfpasswd'>Confirm password</label>
+                        <input type='password' value={this.state.cnfpasswd} onChange={(event) => this.handleUserInput(event)} name='cnfpasswd' />
+                      </div>
+                    </div>
+                    <button className='ui fluid button' type='submit' >Register</button>
+                  </form>
+                </div>
               </div>
 			</Modal>
 		);
