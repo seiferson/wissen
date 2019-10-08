@@ -52,7 +52,7 @@ public class AccountServiceController {
 			account.setAuthorities(authorities);
 			account.setCreationDate(new Date());
 			account.setLastUpdate(new Date());
-			account.setAvatarSeed(HashGen.md5gen(Utils.getRandomPassword()));
+			account.setAvatarSeed(Utils.getRandomPassword());
 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());

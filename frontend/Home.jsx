@@ -13,11 +13,14 @@ class Home extends Component {
 		this.handleAuthModalAction = this.handleAuthModalAction.bind(this);
 		this.handleAuthentication = this.handleAuthentication.bind(this);
 		this.handleAuthenticationResult = this.handleAuthenticationResult.bind(this);
+		this.handleRegisterModalAction = this.handleRegisterModalAction.bind(this);
+		this.handleRegister = this.handleRegister.bind(this);
 		
 		checkTokenFromCookies();
 		
 		this.state = {
-			user : $.cookie('authuser')
+			user : $.cookie('authuser'),
+			avatar : md5(Math.random().toString())
 		};
 	}
 	
@@ -35,6 +38,29 @@ class Home extends Component {
 	handleAuthentication(user,password){
 		login(user,password,this.handleAuthenticationResult);
 	}
+
+	handleRegister(user, password, email, avatar) {
+        $.ajax({
+        	type: 'POST',
+        	url: '/account',
+        	headers: {
+        		'Accept' : 'application/json'
+        	},
+        	contentType: 'application/json',
+        	data: JSON.stringify({
+        		'password' : password,
+        		'nickname' : user,
+        		'email' : email,
+        		'avatarSeed' : avatar
+        	}),
+        	error: function(XMLHttpRequest) {
+        		console.log('not right');
+        	},
+        	success: function(resultData) {
+        		console.log('ok');
+        	}
+        });
+	}
 	
 	handleAuthenticationResult(resultFlag){
 		if(resultFlag){
@@ -48,7 +74,7 @@ class Home extends Component {
 	render(){
 		return(
 			<Fragment>
-				<TopMenu user={this.state.user} action={this.handleAuthModalAction} />
+				<TopMenu user={this.state.user} action={this.handleAuthModalAction} avatar={this.state.avatar} />
 				<div className='ui container'>
 					<div className='ui segment'>
 						<h2 className='ui center aligned icon header'>
@@ -74,7 +100,7 @@ class Home extends Component {
 					</div>
 				</div>
 				<AuthenticationModal action={this.handleAuthentication} regaction={this.handleRegisterModalAction} />
-				<RegisterModal />
+				<RegisterModal action={this.handleRegister}/>
 			</Fragment>
 		);
 	}

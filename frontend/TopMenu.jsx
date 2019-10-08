@@ -9,7 +9,7 @@ class TopMenu extends Component{
 					<a href="/"><h3 className="ui header">Wissen</h3></a>
 				</div>
 				<div className="ui right item" onClick={this.props.action}>
-					<i className="large user circle outline icon"></i>
+					<img className="ui bordered avatar image" src={`https://avatars.dicebear.com/v2/bottts/${this.props.avatar}.svg`} />
 					<span>{this.props.user}</span>
 				</div>
 			</div>
