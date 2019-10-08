@@ -1,5 +1,6 @@
 package com.seifernet.wissen.controller;
 
+import com.seifernet.wissen.util.ResponseMessage;
 import com.seifernet.wissen.util.HashGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,80 +20,77 @@ import org.springframework.web.bind.annotation.*;
 import com.seifernet.wissen.model.Account;
 import com.seifernet.wissen.repository.AccountRepository;
 import com.seifernet.wissen.util.Utils;
+import com.seifernet.wissen.util.ResponseMessage.ResponseStatus;
+
+import javax.validation.Valid;
 
 /**
- * Account service controller
+ * Account controller
  * 
  * @author Seiferson (Cuauhtemoc Herrera)
  */
 @Controller
-public class AccountServiceController {
+public class AccountController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AccountServiceController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private AccountRepository repo;
-	
-	@PostMapping("/account")
-    @ResponseBody
-    public ResponseEntity<String> createAccountService(@RequestBody Account account){
-		if(
-				Utils.isNotNullOrEmpty(account.getEmail()) &&
-				Utils.isNotNullOrEmpty(account.getPassword()) &&
-				Utils.isNotNullOrEmpty(account.getNickname())
-		) {
-    		ArrayList<String> authorities = new ArrayList<>();
-			authorities.add("USER");
+
+	@PostMapping("/api/v1/account")
+    public @ResponseBody ResponseEntity<ResponseMessage> createAccountService(@RequestBody @Valid Account account) {
+		ArrayList<String> authorities = new ArrayList<>();
+		authorities.add("USER");
 		
-			account.setEnabled(true);
-			account.setPassword(passwordEncoder.encode(account.getPassword()));
-			account.setAuthorities(authorities);
-			account.setCreationDate(new Date());
-			account.setLastUpdate(new Date());
-			account.setAvatarSeed(Utils.getRandomPassword());
+		account.setEnabled(true);
+		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		account.setAuthorities(authorities);
+		account.setCreationDate(new Date());
+		account.setLastUpdate(new Date());
 
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.add(Calendar.DAY_OF_MONTH, 30);
-			account.setValidationTokenExpiration(cal.getTime());
-			account.setValidationToken(HashGen.md5gen(Utils.getRandomPassword()));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, 30);
+		account.setValidationTokenExpiration(cal.getTime());
+		account.setValidationToken(HashGen.md5gen(Utils.getRandomPassword()));
 
-			try {
-				account = repo.insert(account);
-			} catch(DuplicateKeyException e){
-				logger.error(e.getMessage());
-				return ResponseEntity
-						.badRequest()
-						.body("Error creating account, email or nickname not available");
-			} catch(Exception e){
-				logger.error(e.getMessage());
-				return ResponseEntity
-						.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("Error creating account, server error");
-			}
-
-			//TODO send a mail with the activation link
-    		return ResponseEntity.ok(
-    				"Success: " +
-					account.getId() +
-					" account created, please follow the link sent to your mail address to activate your account");
-    	} else {
-    		return ResponseEntity
+		try {
+			account = repo.insert(account);
+		} catch(DuplicateKeyException e) {
+			logger.error(e.getMessage());
+			return ResponseEntity
 					.badRequest()
-					.body("Error creating account, empty required field");
-    	}
+					.body(new ResponseMessage(
+							ResponseStatus.ERROR,
+							"Error creating account, email or nickname not available"
+					));
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			return ResponseEntity
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ResponseMessage(
+							ResponseMessage.ResponseStatus.ERROR,
+							"Error creating account, server error"
+					));
+		}
+
+		return ResponseEntity.ok(new ResponseMessage(
+				ResponseStatus.SUCCESS,
+				"Account " + account.getId() +
+				" account created, please follow the link sent to your mail address to activate your account"
+		));
     }
 
 	@GetMapping("/activate")
 	@ResponseBody
-    public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname){
+    public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
 		Account account = repo.findByNickname(nickname);
 		Date currentDate = new Date();
 
-		if(account == null){
+		if(account == null) {
 			return ResponseEntity
 					.badRequest()
 					.body("Invalid token/account combination");
@@ -104,7 +102,7 @@ public class AccountServiceController {
 					.body("Account already active");
 		}
 
-		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)){
+		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)) {
 			return ResponseEntity
 					.badRequest()
 					.body("Invalid or expired token");
@@ -122,8 +120,7 @@ public class AccountServiceController {
 	}
 
 	@GetMapping("/account/{nickname}")
-	@ResponseBody
-    public ResponseEntity<Account> checkAccountService(@PathVariable String nickname, Authentication authentication){
+    public @ResponseBody ResponseEntity<Account> checkAccountService(@PathVariable String nickname, Authentication authentication) {
 		Account account = repo.findByNickname(nickname);
 
 		if(account == null){
@@ -137,7 +134,7 @@ public class AccountServiceController {
 		account.setValidationToken(null);
 		account.setId(null);
 
-		if(authentication != null && account.getNickname().equals(authentication.getName())){
+		if(authentication != null && account.getNickname().equals(authentication.getName())) {
 			return ResponseEntity
 					.ok()
 					.body(account);

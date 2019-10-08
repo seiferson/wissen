@@ -830,7 +830,7 @@ function irrigate(plantid) {
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log(textStatus);
-        console.log(XMLHttpRequest.status);
+        console.log(XMLHttpRequest.responseStatus);
       }
     });
   }
@@ -1973,7 +1973,7 @@ function getBankAccount(){
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("yes");
-			if(XMLHttpRequest.status === 404) {
+			if(XMLHttpRequest.responseStatus === 404) {
 				$("#bankaccount").text("No info");
 				$("#banksegment").append("<button class='ui button' id='addbankbtn' onclick='toggleBankAccountModal()'>Add bank account data</button>")
 			}
@@ -2019,7 +2019,7 @@ function getCurrentTransactions(){
 			"Authorization" : "Bearer " + $.cookie("authtoken"),
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			if(XMLHttpRequest.status === 404) {
+			if(XMLHttpRequest.responseStatus === 404) {
 				console.log("no expenses");
 			}
 			console.log(textStatus);

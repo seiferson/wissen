@@ -13,6 +13,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */
@@ -24,19 +27,24 @@ public class Account {
 	private String id;
 	
 	@Indexed(unique=true)
+	@NotBlank
 	private String nickname;
 
 	@Indexed(unique=true)
+	@Email
 	private String email;
 
-	private Boolean enabled;
+	@NotBlank
+	private String avatarSeed;
+
 	private String password;
+	private Boolean enabled;
+
 	private List<String> authorities;
 	private String validationToken;
 	private Date validationTokenExpiration;
 	private Date creationDate;
 	private Date lastUpdate;
-	private String avatarSeed;
 
 	public String getAvatarSeed() {
 		return avatarSeed;

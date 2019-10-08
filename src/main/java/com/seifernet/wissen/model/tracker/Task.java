@@ -2,8 +2,6 @@ package com.seifernet.wissen.model.tracker;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,8 +14,7 @@ public class Task{
 
 	@Id
 	private String id;
-	
-	@NotBlank
+
 	private String title;
 	
 	private String owner;

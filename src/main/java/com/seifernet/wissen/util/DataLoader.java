@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -31,7 +32,7 @@ public class DataLoader implements ApplicationRunner{
 	private PasswordEncoder passwordEncoder;
 	
 	public void run(ApplicationArguments args) {
-
+		loadMainAccount();
 	}
 
 	public void loadMainAccount(){
@@ -46,10 +47,16 @@ public class DataLoader implements ApplicationRunner{
 			mainAccount.setEnabled(true);
 			mainAccount.setEmail("wissenmaster@seiferson.com");
 			mainAccount.setAuthorities(authorities);
+			mainAccount.setNickname("wissenmaster");
+			mainAccount.setAvatarSeed(HashGen.md5gen(Utils.getRandomPassword()));
+			mainAccount.setCreationDate(new Date());
+			mainAccount.setLastUpdate(new Date());
 
 			String randomPassword = Utils.getRandomPassword();
 			logger.info("Random created password :" + randomPassword);
 			mainAccount.setPassword(passwordEncoder.encode(randomPassword));
+
+			accounts.insert(mainAccount);
 		}
 	}
 }

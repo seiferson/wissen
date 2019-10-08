@@ -1,5 +1,6 @@
 package com.seifernet.wissen.util;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Base64;
 
@@ -10,20 +11,18 @@ public class HashGen {
 	
 	public static String md5gen(String input) {
 		try {
-			StringBuffer hexString = new StringBuffer();
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
 			md5.update(input.getBytes());
 			byte[] digest = md5.digest();
 
-			for (int i = 0; i < digest.length; i++) {
-				if ((0xff & digest[i]) < 0x10) {
-					hexString.append("0" + Integer.toHexString((0xFF & digest[i])));
-				} else {
-					hexString.append(Integer.toHexString(0xFF & digest[i]));
-				}
+			BigInteger no = new BigInteger(1, digest);
+
+			String hashtext = no.toString(16);
+			while (hashtext.length() < 32) {
+				hashtext = "0" + hashtext;
 			}
-			return Base64.getEncoder().encodeToString(digest);
+			return hashtext;
 		} catch (Exception e){
 			//TODO fix this code
 			return "";
