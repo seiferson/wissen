@@ -37,7 +37,7 @@ public class DataLoader implements ApplicationRunner{
 
 	public void loadMainAccount(){
 		if(!accounts.existsByNickname("wissenmaster")){
-			logger.info("Unexistent main account, creating");
+			logger.info("[Nonexistent main account, creating...]");
 
 			ArrayList<String> authorities = new ArrayList<>();
 			authorities.add("USER");
@@ -53,7 +53,7 @@ public class DataLoader implements ApplicationRunner{
 			mainAccount.setLastUpdate(new Date());
 
 			String randomPassword = Utils.getRandomPassword();
-			logger.info("Random created password :" + randomPassword);
+			logger.info("[Random created password : " + randomPassword + "]");
 			mainAccount.setPassword(passwordEncoder.encode(randomPassword));
 
 			accounts.insert(mainAccount);

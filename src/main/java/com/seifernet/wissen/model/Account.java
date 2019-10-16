@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -28,6 +29,7 @@ public class Account {
 	
 	@Indexed(unique=true)
 	@NotBlank
+	@Size(max=25)
 	private String nickname;
 
 	@Indexed(unique=true)
@@ -37,14 +39,26 @@ public class Account {
 	@NotBlank
 	private String avatarSeed;
 
+	@NotBlank
 	private String password;
-	private Boolean enabled;
 
+	private Boolean enabled;
 	private List<String> authorities;
 	private String validationToken;
 	private Date validationTokenExpiration;
 	private Date creationDate;
 	private Date lastUpdate;
+
+	@JsonIgnore
+	public List<GrantedAuthority> getGrantedAuthorities() {
+		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+		for(String authority : this.authorities){
+			grantedAuthorities.add(new AccountGrantedAuthority(authority));
+		}
+
+		return grantedAuthorities;
+	}
 
 	public String getAvatarSeed() {
 		return avatarSeed;
@@ -93,18 +107,7 @@ public class Account {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	@JsonIgnore
-	public List<GrantedAuthority> getGrantedAuthorities(){
-		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-		
-		for(String authority : this.authorities){
-			grantedAuthorities.add(new AccountGrantedAuthority(authority));
-		}
-		
-		return grantedAuthorities;
-	}
-	
+
 	public void setAuthorities(List<String> authorities){
 		this.authorities = authorities;
 	}

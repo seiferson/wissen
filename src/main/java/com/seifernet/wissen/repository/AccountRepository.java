@@ -4,6 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.seifernet.wissen.model.Account;
 
+import java.util.List;
+
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */

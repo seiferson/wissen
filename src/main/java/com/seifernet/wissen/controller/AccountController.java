@@ -40,7 +40,7 @@ public class AccountController {
 	@Autowired
 	private AccountRepository repo;
 
-	@PostMapping("/api/v1/account")
+	@PostMapping("/api/v1/accounts")
     public @ResponseBody ResponseEntity<ResponseMessage> createAccountService(@RequestBody @Valid Account account) {
 		ArrayList<String> authorities = new ArrayList<>();
 		authorities.add("USER");
@@ -65,7 +65,7 @@ public class AccountController {
 					.badRequest()
 					.body(new ResponseMessage(
 							ResponseStatus.ERROR,
-							"Error creating account, email or nickname not available"
+							"[Error creating account, email or nickname not available]"
 					));
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -73,20 +73,92 @@ public class AccountController {
 					.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new ResponseMessage(
 							ResponseMessage.ResponseStatus.ERROR,
-							"Error creating account, server error"
+							"[Error creating account, server error]"
 					));
 		}
 
 		return ResponseEntity.ok(new ResponseMessage(
 				ResponseStatus.SUCCESS,
-				"Account " + account.getId() +
-				" account created, please follow the link sent to your mail address to activate your account"
+				"[Account " + account.getId() +
+				" created, please follow the link sent to your mail address to activate your account]"
 		));
     }
 
+
+
+	@GetMapping("/api/v1/accounts/{nickname}")
+	@ResponseBody
+	public ResponseEntity<Account> checkAccountService(@PathVariable String nickname, Authentication authentication) {
+		Account account = repo.findByNickname(nickname);
+
+		if(account == null){
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(null);
+		}
+
+		account.setPassword(null);
+		account.setLastUpdate(null);
+		account.setValidationToken(null);
+		account.setValidationTokenExpiration(null);
+		account.setId(null);
+		account.setEnabled(null);
+
+		if(authentication != null && account.getNickname().equals(authentication.getName())) {
+			return ResponseEntity
+					.ok()
+					.body(account);
+		} else {
+			account.setAuthorities(null);
+			account.setCreationDate(null);
+			account.setEmail(null);
+			account.setEnabled(null);
+			return ResponseEntity
+					.ok()
+					.body(account);
+		}
+	}
+
+	@PatchMapping("/api/v1/accounts")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> updateAccount(
+			@RequestBody @Valid Account account,
+			Authentication authentication
+	){
+		if(authentication.getName().equals(account.getNickname())) {
+			Account base = repo.findByNickname(account.getNickname());
+			if(!base.getEmail().equals(account.getEmail())){
+				base.setEmail(account.getEmail());
+				base.setEnabled(false);
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date());
+				cal.add(Calendar.DAY_OF_MONTH, 30);
+				account.setValidationTokenExpiration(cal.getTime());
+				account.setValidationToken(HashGen.md5gen(Utils.getRandomPassword()));
+
+			}
+			base.setPassword(passwordEncoder.encode(account.getPassword()));
+
+			repo.save(base);
+
+			return ResponseEntity.ok(new ResponseMessage(
+					ResponseStatus.SUCCESS,
+					"[Password/email succesfully changed]"
+			));
+		} else {
+			return ResponseEntity
+					.status(HttpStatus.UNAUTHORIZED)
+					.body(new ResponseMessage(
+							ResponseStatus.ERROR,
+							"[Access denied]"
+					));
+		}
+	}
+
 	@GetMapping("/activate")
 	@ResponseBody
-    public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
+	public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
 		Account account = repo.findByNickname(nickname);
 		Date currentDate = new Date();
 
@@ -119,35 +191,6 @@ public class AccountController {
 				.body("Account activated");
 	}
 
-	@GetMapping("/account/{nickname}")
-    public @ResponseBody ResponseEntity<Account> checkAccountService(@PathVariable String nickname, Authentication authentication) {
-		Account account = repo.findByNickname(nickname);
-
-		if(account == null){
-			return ResponseEntity
-					.status(HttpStatus.NOT_FOUND)
-					.body(null);
-		}
-
-		account.setPassword(null);
-		account.setLastUpdate(null);
-		account.setValidationToken(null);
-		account.setId(null);
-
-		if(authentication != null && account.getNickname().equals(authentication.getName())) {
-			return ResponseEntity
-					.ok()
-					.body(account);
-		} else {
-			account.setAuthorities(null);
-			account.setCreationDate(null);
-			account.setEmail(null);
-			account.setEnabled(null);
-			return ResponseEntity
-					.ok()
-					.body(account);
-		}
-	}
 
 	@GetMapping("/recover")
 	@ResponseBody
@@ -163,49 +206,4 @@ public class AccountController {
 		//TODO send mail with new password?
 		return null;
 	}
-
-	@PatchMapping("/account")
-	@ResponseBody
-	public ResponseEntity<String> updateAccount(@RequestBody Account account, Authentication authentication){
-		if(
-				authentication != null &&
-				authentication.isAuthenticated() &&
-				!authentication.getName().equals(account.getNickname())
-		) {
-			if (
-					Utils.isNotNullOrEmpty(account.getPassword()) &&
-					Utils.isNotNullOrEmpty(account.getNickname()) &&
-					Utils.isNotNullOrEmpty(account.getEmail())
-			) {
-				Account base = repo.findByNickname(account.getNickname());
-				if(!base.getEmail().equals(account.getEmail())){
-					base.setEmail(account.getEmail());
-					base.setEnabled(false);
-
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(new Date());
-					cal.add(Calendar.DAY_OF_MONTH, 30);
-					account.setValidationTokenExpiration(cal.getTime());
-					account.setValidationToken(HashGen.md5gen(Utils.getRandomPassword()));
-
-					//TODO Send a validation mail with token
-				}
-				base.setPassword(passwordEncoder.encode(account.getPassword()));
-
-				repo.save(base);
-				//TODO Send a mail informing a password change
-
-				return ResponseEntity.ok().body("Password/email succesfully changed");
-			} else {
-				return ResponseEntity
-						.badRequest()
-						.body("Error updating account password, empty required field");
-			}
-		} else {
-			return ResponseEntity
-					.status(HttpStatus.UNAUTHORIZED)
-					.body("Access denied");
-		}
-	}
-
 }

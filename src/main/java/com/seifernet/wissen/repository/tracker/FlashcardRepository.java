@@ -1,4 +1,4 @@
-package com.seifernet.wissen.repository;
+package com.seifernet.wissen.repository.tracker;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 //import org.springframework.security.access.prepost.PreAuthorize;
 
-import com.seifernet.wissen.model.Flashcard;
+import com.seifernet.wissen.model.tracker.Flashcard;
 
 /**
  * Flashcard repository interface

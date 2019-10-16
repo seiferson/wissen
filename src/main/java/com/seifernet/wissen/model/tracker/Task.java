@@ -5,28 +5,45 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Document
 public class Task{
 
 	@Id
 	private String id;
 
+	@NotBlank
+	@Size(max=70)
 	private String title;
-	
+
 	private String owner;
+	private Date creationDate;
+	private Boolean completed;
 	private String description;
 	private Date dueDate;
-	private Boolean completed;
 	private Date completionDate;
-	private Date creationDate;
+
 	private Date expirationDate;
 	private Boolean expired;
+	private Date lastUpdate;
 	private Long priority;
-	
+
+	public Date getLastUpdate() {
+		return this.lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 	public Long getPriority() {
 		return priority;
 	}
