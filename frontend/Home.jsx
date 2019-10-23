@@ -4,45 +4,52 @@ import AuthenticationModal from './AuthenticationModal';
 import LinkIconLabel from './LinkIconLabel';
 import IconMessage from './IconMessage';
 import RegisterModal from './RegisterModal';
+import ToDoList from './TodoList';
 
 class Home extends Component {
 
 	constructor(props) {
 		super(props);
-		
+
+		this.state = {
+        	user : $.cookie('authuser'),
+        	avatar : $.cookie('avatar')
+        };
+
+		this.handleStateChange = this.handleStateChange.bind(this);
 		this.handleAuthModalAction = this.handleAuthModalAction.bind(this);
-		this.handleAuthentication = this.handleAuthentication.bind(this);
-		this.handleAuthenticationResult = this.handleAuthenticationResult.bind(this);
+
+        checkTokenFromCookies(this.handleStateChange, function(){});
+
+
+
 		this.handleRegisterModalAction = this.handleRegisterModalAction.bind(this);
 		this.handleRegister = this.handleRegister.bind(this);
-		
-		checkTokenFromCookies();
-		
-		this.state = {
-			user : $.cookie('authuser'),
-			avatar : md5(Math.random().toString())
-		};
+	}
+
+	handleStateChange(attribute, value) {
+	    this.setState({[attribute]: value});
 	}
 	
 	handleAuthModalAction(){
-		checkTokenFromCookies();
-		if($.cookie('authuser') === 'anonymous'){
-			$('#authmodal').modal('show');
-		}
+		checkTokenFromCookies(
+		    this.handleStateChange,
+		    function () {
+		        if($.cookie('authuser') === 'anonymous'){
+		            $('#authmodal').modal('show');
+                }
+		    }
+		);
 	}
 
 	handleRegisterModalAction(){
 	    $('#regmodal').modal('show');
 	}
 
-	handleAuthentication(user,password){
-		login(user,password,this.handleAuthenticationResult);
-	}
-
 	handleRegister(user, password, email, avatar) {
         $.ajax({
         	type: 'POST',
-        	url: '/account',
+        	url: '/accounts',
         	headers: {
         		'Accept' : 'application/json'
         	},
@@ -62,15 +69,6 @@ class Home extends Component {
         });
 	}
 	
-	handleAuthenticationResult(resultFlag){
-		if(resultFlag){
-			$('#authmodal').modal('hide');	
-			this.setState({
-				user : $.cookie('authuser')
-			});
-		}
-	}
-	
 	render(){
 		return(
 			<Fragment>
@@ -84,22 +82,11 @@ class Home extends Component {
 					</div>
 					<div className='ui stackable two column grid'>
 						<div className='column'>
-							<IconMessage type='info' icon='sticky note' header='Welcome'>
-								<p>{"Seiferson's personal lab for software development"}</p>
-								<div className='ui labels'>
-									<LinkIconLabel color='gray' icon='github' url='https://github.com/seiferxx' text='seiferxx' />
-									<LinkIconLabel color='blue' icon='square linkedin' url='https://twitch.tv/seiferson' text='Cuauhtemoc Herrera' />
-									<LinkIconLabel color='red' icon='google' url='http://google.com' text='seifer.ch@gmail.com' />
-									<LinkIconLabel color='pink' icon='instagram' url='http://google.com' text='seiferson_' />
-									<LinkIconLabel color='blue' icon='playstation' url='http://google.com' text='seif145' />
-									<LinkIconLabel color='gray' icon='steam' url='http://google.com' text='seifer.ch' />
-									<LinkIconLabel color='purple' icon='twitch' url='https://twitch.tv/seiferson' text='seiferson' />
-								</div>
-							</IconMessage>
+                            <ToDoList user={this.state.user}/>
 						</div>
 					</div>
 				</div>
-				<AuthenticationModal action={this.handleAuthentication} regaction={this.handleRegisterModalAction} />
+				<AuthenticationModal callback={this.handleStateChange} regaction={this.handleRegisterModalAction} />
 				<RegisterModal action={this.handleRegister}/>
 			</Fragment>
 		);

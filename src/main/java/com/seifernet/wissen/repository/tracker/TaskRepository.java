@@ -23,48 +23,19 @@ import com.seifernet.wissen.model.tracker.Task;
 public interface TaskRepository extends MongoRepository<Task, String>{
 
 	@RestResource(path = "taskscompletedtoday")
-	@PreAuthorize("authentication.name == #owner")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
 	public long countByOwnerAndDueDateBetweenAndCompletedTrue(
 			@Param("owner") String owner,
 			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
 			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
 	);
 
-	@RestResource(path = "expiredcountbydaterange")
-	@PreAuthorize("authentication.name == #owner")
-	public long countByOwnerAndExpiredTrueAndExpirationDateBetween(
-			@Param("owner") String owner,
-			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
-			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
-	);
-
-	@RestResource(path = "duedatecountbydaterange")
-	@PreAuthorize("authentication.name == #owner")
-	public long countByOwnerAndDueDateBetweenAndExpiredFalse(
-			@Param("owner") String owner,
-			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
-			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
-	);
-
-	@RestResource(path = "completedcountbydaterange")
-	@PreAuthorize("authentication.name == #owner")
-	public long countByOwnerAndCompletedTrueAndCompletionDateGreaterThanAndCompletionDateLessThan(
-			@Param("owner") String owner,
-			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
-			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
-	);
-
-	@RestResource(path = "mytasks")
-	@PreAuthorize("authentication.name == #owner")
+	@RestResource(path = "todo")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
 	public Page<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(@Param("owner") String owner, Pageable pageable);
 
-	public ArrayList<Task> findByExpirationDateLessThanAndExpiredFalseAndCompletedFalse(Date currentDate);
-
-	@PostAuthorize("authentication.name == returnObject.owner")
+	/**
+	@PostAuthorize("@hashgen.md5gen(authentication.name) == returnObject.get().owner")
 	@Override
-	public Optional<Task> findById(String id);
-
-	public Page<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDateDesc(String owner, Pageable pageable);
-
-	public Page<Task> findByOwnerAndExpiredTrueOrderByCreationDateDesc(String owner, Pageable pageable);
+	public Optional<Task> findById(String id);**/
 }

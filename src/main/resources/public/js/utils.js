@@ -1,17 +1,5 @@
-function loadContextFromCookies(){
-	//Current layout
-	if($.cookie('layout') === undefined){
-		$.cookie('layout','home');
-	}
-	
-	//Current user
-	if($.cookie('authuser') === undefined){
-		$.cookie('authuser', 'anonymous');
-	}
-}
-
-function checkTokenFromCookies(){
-	if($.cookie('authuser') !== 'anonymous' && $.cookie('authtoken') != undefined) {
+function checkTokenFromCookies(stateCallback, controlCallback){
+	if($.cookie('authuser') != 'anonymous' && $.cookie('authtoken') != undefined) {
 		$.ajax({
 			type: 'GET',
 			url: '/oauth/check_token?token=' + $.cookie('authtoken'),
@@ -22,12 +10,101 @@ function checkTokenFromCookies(){
 			error: function(XMLHttpRequest) {
 				$.removeCookie('authuser');
 				$.removeCookie('authtoken');
-				$.removeCookie('hashuser');
 				$.cookie('authuser', 'anonymous');
+				$.cookie('avatar', md5(Math.random().toString()))
+				stateCallback('user', $.cookie('authuser'));
+                stateCallback('avatar', $.cookie('avatar'));
+                controlCallback();
 			}
 		});
+	} else {
+	    controlCallback();
 	}
 }
+
+function login(user, passwd, callback){
+    console.log(user);
+    console.log(passwd)
+	$.ajax({
+		type: 'POST',
+		url: '/oauth/token',
+		headers: {
+			'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+			'Accept' : 'application/json'
+		},
+		contentType: 'application/x-www-form-urlencoded',
+		data: {
+			password : passwd,
+			username : user,
+			grant_type : 'password'
+		},
+		error: function(XMLHttpRequest) {
+
+		},
+		success: function(data) {
+			$.cookie('authtoken', data.access_token);
+			$.cookie('authuser', user);
+            $('#authmodal').modal('hide');
+            callback('user', user);
+            getUserInfo(callback);
+		}
+	});
+}
+
+function getUserInfo(callback) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/accounts/' + $.cookie('authuser'),
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        success: function(data) {
+            $.cookie('avatar', data.avatarSeed);
+            callback('avatar', data.avatarSeed);
+        }
+    });
+}
+
+function getToDoList(callback){
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/tasks/search/todo?owner=' + md5($.cookie('authuser')),
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function(data) {
+            callback('tasks', data.content);
+        }
+    });
+}
+
+function getTaskIconClass(completed, expired, dueDate, expirationDate){
+    var dueDateObj = new Date(Date.parse(dueDate.split('.')[0]));
+    var expirationDateObj = new Date(Date.parse(expirationDate.split('.')[0]));
+    var currentDate = new Date();
+    if(expired || (currentDate - expirationDateObj)){
+        return 'red minus square outline';
+    } else if(completed){
+        return 'grey check square';
+    } else {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function getGoalColor(goal){
 	let color;
@@ -48,37 +125,13 @@ function calculateGoalProgress(goal){
 	return 10;
 }
 
-function login(user,passwd,callback){
-	$.ajax({
-		type: 'POST',
-		url: '/oauth/token',
-		headers: {
-			'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
-			'Accept' : 'application/json'
-		},
-		contentType: 'application/x-www-form-urlencoded',
-		data: {
-			password : passwd,
-			username : user,
-			grant_type : 'password'
-		},
-		error: function(XMLHttpRequest) {
-			callback(false);
-		},
-		success: function(resultData) {
-			$.cookie('authtoken', resultData.access_token);
-			$.cookie('authuser', user);
-			$.cookie('hashuser', (md5(user)).toUpperCase());
-			callback(true);
-		}
-	});
-}
+
 
 function githubAPIRepoQuery(callback){
 	$.ajax({
 		url : "https://api.github.com/repos/Seiferxx/wissen",
 		dataType : "jsonp",
-		success : function ( resultData ) {
+		success : function ( data ) {
 			
 		}
 	});

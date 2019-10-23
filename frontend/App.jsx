@@ -5,29 +5,30 @@ class App extends Component {
 	
 	constructor(props) {
 		super(props);
+
+		this.handleStateChange = this.handleStateChange.bind(this);
 		
-		this.handleSwitchLayout = this.handleSwitchLayout.bind(this);
-		
-		loadContextFromCookies();
+		if($.cookie('layout') === undefined){
+        	$.cookie('layout','home');
+        }
+
+        if($.cookie('authuser') === undefined){
+        	$.cookie('authuser', 'anonymous');
+        	$.cookie('avatar', md5(Math.random().toString()));
+        }
 		
 		this.state = {
 			layout : $.cookie('layout')
 		}
 	}
-	
-	handleSwitchLayout(newLayout){
-		//TODO validate layout
-		$.cookie('layout', newLayout);
-		this.setState({
-			layout : newLayout
-		});
-	}
+
+	handleStateChange(attribute, value) {
+        this.setState({[name]: value});
+    }
 	
 	render(){
 		if(this.state.layout === 'home'){
-			return (<Home layoutCallback={this.handleSwitchLayout}/>);
-		} else if(this.state.layout === 'dashboard'){
-		    return (<Fragment />);
+			return (<Home layoutCallback={this.handleStateChange}/>);
 		}
 		return (<Fragment />);
 	}

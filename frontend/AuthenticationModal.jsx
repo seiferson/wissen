@@ -22,8 +22,7 @@ class AuthenticationModal extends Component{
 	
 	handleSubmit(e){
 		e.preventDefault();
-		//TODO validation of user input and clean fields
-		this.props.action(this.state.user, this.state.passwd);
+		login(this.state.user, this.state.passwd, this.props.callback)
 	}
 	
 	render(){
