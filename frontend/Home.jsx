@@ -4,7 +4,7 @@ import AuthenticationModal from './AuthenticationModal';
 import LinkIconLabel from './LinkIconLabel';
 import IconMessage from './IconMessage';
 import RegisterModal from './RegisterModal';
-import ToDoList from './TodoList';
+import ToDoList from './ToDoList';
 
 class Home extends Component {
 
