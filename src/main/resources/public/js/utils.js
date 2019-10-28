@@ -23,8 +23,6 @@ function checkTokenFromCookies(stateCallback, controlCallback){
 }
 
 function login(user, passwd, callback){
-    console.log(user);
-    console.log(passwd)
 	$.ajax({
 		type: 'POST',
 		url: '/oauth/token',
@@ -39,7 +37,9 @@ function login(user, passwd, callback){
 			grant_type : 'password'
 		},
 		error: function(XMLHttpRequest) {
-
+            $('[name="loginerror"]').val('');
+            $('#authform').form('validate field', 'loginerror');
+            console.log('chichenol');
 		},
 		success: function(data) {
 			$.cookie('authtoken', data.access_token);
@@ -82,16 +82,17 @@ function getToDoList(callback){
 }
 
 function getTaskIconClass(completed, expired, dueDate, expirationDate){
-    var dueDateObj = new Date(Date.parse(dueDate.split('.')[0]));
-    var expirationDateObj = new Date(Date.parse(expirationDate.split('.')[0]));
     var currentDate = new Date();
-    if(expired || (currentDate - expirationDateObj)){
-        return 'red minus square outline';
-    } else if(completed){
-        return 'grey check square';
-    } else {
-
+    if(expired) {
+        return 'grey minus square outline';
+    } else if(completed) {
+        return 'green check square';
+    } else if(expirationDate != undefined) {
+        var expirationDateObj = new Date(Date.parse(expirationDate.split('.')[0]));
+    } else if(dueDate != undefined) {
+        var dueDateObj = new Date(Date.parse(dueDate.split('.')[0]));
     }
+    return 'teal square outline';
 }
 
 

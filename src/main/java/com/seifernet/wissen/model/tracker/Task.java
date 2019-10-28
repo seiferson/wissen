@@ -30,7 +30,6 @@ public class Task{
 	private String description;
 	private Date dueDate;
 	private Date completionDate;
-
 	private Date expirationDate;
 	private Boolean expired;
 	private Date lastUpdate;
