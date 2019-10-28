@@ -36,6 +36,8 @@ class Home extends Component {
 		    this.handleStateChange,
 		    function () {
 		        if($.cookie('authuser') === 'anonymous'){
+		            $('#authform').form('clear');
+		            $('[name="loginerror"]').val('value');
 		            $('#authmodal').modal('show');
                 }
 		    }

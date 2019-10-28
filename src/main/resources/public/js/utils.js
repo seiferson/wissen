@@ -38,8 +38,7 @@ function login(user, passwd, callback){
 		},
 		error: function(XMLHttpRequest) {
             $('[name="loginerror"]').val('');
-            $('#authform').form('validate field', 'loginerror');
-            console.log('chichenol');
+            $('#authform').form('validate form');
 		},
 		success: function(data) {
 			$.cookie('authtoken', data.access_token);

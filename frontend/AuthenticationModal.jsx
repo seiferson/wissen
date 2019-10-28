@@ -66,7 +66,7 @@ class AuthenticationModal extends Component{
 						<input type='password' value={this.state.password} onChange={(event) => this.handleUserInput(event)} name='passwd' />
 					</div>
 					<div class='field'>
-                        <input type='text' name='loginerror' />
+                        <input type='text' name='loginerror' style={{display:'none'}}/>
                     </div>
 					<div className='ui error message'></div>
 					<div className='ui two buttons'>
