@@ -6,6 +6,7 @@ import IconMessage from './IconMessage';
 import RegisterModal from './RegisterModal';
 import ToDoList from './ToDoList';
 import CreateTaskModal from './CreateTaskModal';
+import TaskModal from './TaskModal';
 
 class Home extends Component {
 
@@ -14,18 +15,15 @@ class Home extends Component {
 
 		this.state = {
         	user : $.cookie('authuser'),
-        	avatar : $.cookie('avatar')
+        	avatar : $.cookie('avatar'),
+        	tasks : [],
+        	currentTask : {}
         };
 
 		this.handleStateChange = this.handleStateChange.bind(this);
 		this.handleAuthModalAction = this.handleAuthModalAction.bind(this);
-		this.handleCreateTaskModalAction = this.handleCreateTaskModalAction.bind(this);
 
         checkTokenFromCookies(this.handleStateChange, function(){});
-
-
-
-		this.handleRegisterModalAction = this.handleRegisterModalAction.bind(this);
 		this.handleRegister = this.handleRegister.bind(this);
 	}
 
@@ -45,14 +43,6 @@ class Home extends Component {
                 }
 		    }
 		);
-	}
-
-    handleCreateTaskModalAction(){
-         $('#createtaskmodal').modal('show');
-    }
-
-	handleRegisterModalAction(){
-	    $('#regmodal').modal('show');
 	}
 
 	handleRegister(user, password, email, avatar) {
@@ -91,13 +81,14 @@ class Home extends Component {
 					</div>
 					<div className='ui stackable two column grid'>
 						<div className='column'>
-                            <ToDoList user={this.state.user} action={this.handleCreateTaskModalAction} />
+                            <ToDoList user={this.state.user} tasks={this.state.tasks}/>
 						</div>
 					</div>
 				</div>
-				<AuthenticationModal callback={this.handleStateChange} regaction={this.handleRegisterModalAction} />
+				<AuthenticationModal callback={this.handleStateChange} />
 				<RegisterModal action={this.handleRegister} />
-                <CreateTaskModal />
+                <CreateTaskModal action={this.handleStateChange}/>
+                <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
 			</Fragment>
 		);
 	}

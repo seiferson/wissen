@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class TopMenu extends Component{
 
+    constructor(props){
+        super(props);
+    }
+
 	render(){
 		return (
 			<div className="ui top attached menu">

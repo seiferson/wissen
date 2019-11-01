@@ -33,7 +33,7 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 
 	@RestResource(path = "todo")
 	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
-	public List<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(@Param("owner") String owner);
+	public List<Task> findByOwnerAndCompletedFalseOrCompletedIsNullAndExpiredFalseOrExpiredIsNullOrderByCreationDate(@Param("owner") String owner);
 
 	/**
 	@PostAuthorize("@hashgen.md5gen(authentication.name) == returnObject.get().owner")

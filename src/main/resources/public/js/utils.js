@@ -19,6 +19,7 @@ function checkTokenFromCookies(stateCallback, controlCallback){
 		});
 	} else {
 	    controlCallback();
+	    getToDoList(stateCallback);
 	}
 }
 
@@ -46,6 +47,7 @@ function login(user, passwd, callback){
             $('#authmodal').modal('hide');
             callback('user', user);
             getUserInfo(callback);
+            getToDoList(callback);
 		}
 	});
 }
@@ -75,6 +77,12 @@ function getToDoList(callback){
         },
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
+            data.content.forEach(function(element){
+                element.viewAction = function(){
+                    callback('currentTask', element);
+                }
+            });
+            console.log(data.content);
             callback('tasks', data.content);
         }
     });
@@ -94,7 +102,29 @@ function getTaskIconClass(completed, expired, dueDate, expirationDate){
     return 'teal square outline';
 }
 
-
+function createTask(title, description, duedate, callback){
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/tasks',
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'owner' : md5($.cookie('authuser')),
+            'title' : title,
+            'dueDate' : duedate,
+            'description' : description,
+        }),
+        error: function(XMLHttpRequest) {
+        },
+        success: function(resultData) {
+            getToDoList(callback);
+            $('#createtaskmodal').modal('hide');
+        }
+    });
+}
 
 
 
