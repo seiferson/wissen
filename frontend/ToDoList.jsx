@@ -49,6 +49,7 @@ class ToDoList extends Component {
                     );
                 })}
                 </div>
+
     		</div>
     	);
     }

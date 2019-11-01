@@ -5,6 +5,7 @@ import LinkIconLabel from './LinkIconLabel';
 import IconMessage from './IconMessage';
 import RegisterModal from './RegisterModal';
 import ToDoList from './ToDoList';
+import CreateTaskModal from './CreateTaskModal';
 
 class Home extends Component {
 
@@ -18,6 +19,7 @@ class Home extends Component {
 
 		this.handleStateChange = this.handleStateChange.bind(this);
 		this.handleAuthModalAction = this.handleAuthModalAction.bind(this);
+		this.handleCreateTaskModalAction = this.handleCreateTaskModalAction.bind(this);
 
         checkTokenFromCookies(this.handleStateChange, function(){});
 
@@ -36,6 +38,7 @@ class Home extends Component {
 		    this.handleStateChange,
 		    function () {
 		        if($.cookie('authuser') === 'anonymous'){
+		            $('#authdisplayerrors').empty();
 		            $('#authform').form('clear');
 		            $('[name="loginerror"]').val('value');
 		            $('#authmodal').modal('show');
@@ -43,6 +46,10 @@ class Home extends Component {
 		    }
 		);
 	}
+
+    handleCreateTaskModalAction(){
+         $('#createtaskmodal').modal('show');
+    }
 
 	handleRegisterModalAction(){
 	    $('#regmodal').modal('show');
@@ -85,11 +92,13 @@ class Home extends Component {
 					<div className='ui stackable two column grid'>
 						<div className='column'>
                             <ToDoList user={this.state.user}/>
+                            <button className='ui fluid button' type='button' onClick={this.handleCreateTaskModalAction} >Add task</button>
 						</div>
 					</div>
 				</div>
 				<AuthenticationModal callback={this.handleStateChange} regaction={this.handleRegisterModalAction} />
-				<RegisterModal action={this.handleRegister}/>
+				<RegisterModal action={this.handleRegister} />
+                <CreateTaskModal />
 			</Fragment>
 		);
 	}

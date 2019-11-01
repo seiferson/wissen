@@ -68,7 +68,7 @@ class AuthenticationModal extends Component{
 					<div class='field'>
                         <input type='text' name='loginerror' style={{display:'none'}}/>
                     </div>
-					<div className='ui error message'></div>
+					<div className='ui error message' id='authdisplayerrors'></div>
 					<div className='ui two buttons'>
 						<button className='ui button' type='submit' >Login</button>
 						<div className='or'></div>

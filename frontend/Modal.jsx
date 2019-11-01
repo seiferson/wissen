@@ -7,10 +7,16 @@ class Modal extends Component{
 	}
 	
 	render(){
+	    let title;
+	    if( this.props.title != undefined){
+            title = <div className='header'>{this.props.title}</div>
+	    }
 		return (
 			<div className={`ui ${this.props.mtype} modal`} id={this.props.id}>
-				<div className='header'>{this.props.title}</div>
-				<div className={`${this.props.ctype} content`}>{this.props.children}</div>
+			    {title}
+				<div className={`${this.props.ctype} content`}>
+				    {this.props.children}
+				</div>
 			</div>
 		);
 	}
