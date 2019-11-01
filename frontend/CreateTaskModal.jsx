@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Modal from './Modal';
 
 class CreateTaskModal extends Component {
 
@@ -29,6 +30,7 @@ class CreateTaskModal extends Component {
          return (
             <Modal id='createtaskmodal'>
                 <form className="ui form">
+                    <h3 class="ui dividing header">New task</h3>
                     <div class="field">
                         <label>Title</label>
                         <input type="text" name="title" value={this.state.title} onChange={(event) => this.handleUserInput(event)} />
@@ -50,4 +52,4 @@ class CreateTaskModal extends Component {
      }
 }
 
-export default ToDoList;
+export default CreateTaskModal;

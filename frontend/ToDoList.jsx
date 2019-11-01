@@ -49,7 +49,7 @@ class ToDoList extends Component {
                     );
                 })}
                 </div>
-
+                <button className='ui fluid button' type='button' onClick={this.props.action} >Add task</button>
     		</div>
     	);
     }

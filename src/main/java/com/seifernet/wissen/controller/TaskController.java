@@ -50,7 +50,7 @@ public class TaskController {
     @ResponseBody
     public ResponseEntity<Page<Task>> getMyTasks(Authentication authentication) {
         Pageable pageInfo = PageRequest.of(0,20);
-        Page<Task> result = repo.findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()), pageInfo);
-        return ResponseEntity.ok(result);
+        //Page<Task> result = repo.findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
+        return ResponseEntity.ok(null);
     }
 }

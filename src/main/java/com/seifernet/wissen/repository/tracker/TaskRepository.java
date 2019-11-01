@@ -2,6 +2,7 @@ package com.seifernet.wissen.repository.tracker;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 
 	@RestResource(path = "todo")
 	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
-	public Page<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(@Param("owner") String owner, Pageable pageable);
+	public List<Task> findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(@Param("owner") String owner);
 
 	/**
 	@PostAuthorize("@hashgen.md5gen(authentication.name) == returnObject.get().owner")

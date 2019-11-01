@@ -91,8 +91,7 @@ class Home extends Component {
 					</div>
 					<div className='ui stackable two column grid'>
 						<div className='column'>
-                            <ToDoList user={this.state.user}/>
-                            <button className='ui fluid button' type='button' onClick={this.handleCreateTaskModalAction} >Add task</button>
+                            <ToDoList user={this.state.user} action={this.handleCreateTaskModalAction} />
 						</div>
 					</div>
 				</div>
