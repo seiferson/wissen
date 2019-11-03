@@ -48,7 +48,7 @@ class Home extends Component {
 	handleRegister(user, password, email, avatar) {
         $.ajax({
         	type: 'POST',
-        	url: '/accounts',
+        	url: '/api/v1/accounts',
         	headers: {
         		'Accept' : 'application/json'
         	},

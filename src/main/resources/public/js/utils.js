@@ -15,11 +15,13 @@ function checkTokenFromCookies(stateCallback, controlCallback){
 				stateCallback('user', $.cookie('authuser'));
                 stateCallback('avatar', $.cookie('avatar'));
                 controlCallback();
+			},
+			success: function(data){
+			    getToDoList(stateCallback);
 			}
 		});
 	} else {
 	    controlCallback();
-	    getToDoList(stateCallback);
 	}
 }
 
