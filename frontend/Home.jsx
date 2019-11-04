@@ -21,57 +21,18 @@ class Home extends Component {
         };
 
 		this.handleStateChange = this.handleStateChange.bind(this);
-		this.handleAuthModalAction = this.handleAuthModalAction.bind(this);
 
         checkTokenFromCookies(this.handleStateChange, function(){});
-		this.handleRegister = this.handleRegister.bind(this);
 	}
 
 	handleStateChange(attribute, value) {
 	    this.setState({[attribute]: value});
 	}
-	
-	handleAuthModalAction(){
-		checkTokenFromCookies(
-		    this.handleStateChange,
-		    function () {
-		        if($.cookie('authuser') === 'anonymous'){
-		            $('#authdisplayerrors').empty();
-		            $('#authform').form('clear');
-		            $('[name="loginerror"]').val('value');
-		            $('#authmodal').modal('show');
-                }
-		    }
-		);
-	}
 
-	handleRegister(user, password, email, avatar) {
-        $.ajax({
-        	type: 'POST',
-        	url: '/api/v1/accounts',
-        	headers: {
-        		'Accept' : 'application/json'
-        	},
-        	contentType: 'application/json',
-        	data: JSON.stringify({
-        		'password' : password,
-        		'nickname' : user,
-        		'email' : email,
-        		'avatarSeed' : avatar
-        	}),
-        	error: function(XMLHttpRequest) {
-        		console.log('not right');
-        	},
-        	success: function(resultData) {
-        		console.log('ok');
-        	}
-        });
-	}
-	
 	render(){
 		return(
 			<Fragment>
-				<TopMenu user={this.state.user} action={this.handleAuthModalAction} avatar={this.state.avatar} />
+				<TopMenu user={this.state.user} callback={this.handleStateChange} avatar={this.state.avatar} />
 				<div className='ui container'>
 					<div className='ui segment'>
 						<h2 className='ui center aligned icon header'>
@@ -81,13 +42,13 @@ class Home extends Component {
 					</div>
 					<div className='ui stackable two column grid'>
 						<div className='column'>
-                            <ToDoList user={this.state.user} tasks={this.state.tasks}/>
+                            <ToDoList user={this.state.user} tasks={this.state.tasks} callback={this.handleStateChange}/>
 						</div>
 					</div>
 				</div>
 				<AuthenticationModal callback={this.handleStateChange} />
-				<RegisterModal action={this.handleRegister} />
-                <CreateTaskModal action={this.handleStateChange}/>
+				<RegisterModal callback={this.handleStateChange} />
+                <CreateTaskModal callback={this.handleStateChange}/>
                 <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
 			</Fragment>
 		);

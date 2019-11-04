@@ -38,7 +38,7 @@ class CreateTaskModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        createTask(this.state.title, this.state.description, this.state.duedate, this.props.action);
+        createTask(this.state.title, this.state.description, this.state.duedate, this.props.callback);
     }
 
     render(){

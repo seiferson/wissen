@@ -117,7 +117,7 @@ function createTask(title, description, duedate, callback){
             'owner' : md5($.cookie('authuser')),
             'title' : title,
             'dueDate' : duedate,
-            'description' : description,
+            'description' : description
         }),
         error: function(XMLHttpRequest) {
         },
@@ -128,6 +128,29 @@ function createTask(title, description, duedate, callback){
     });
 }
 
+function createUser(user, password, email, avatar){
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/accounts',
+        headers: {
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'password' : password,
+            'nickname' : user,
+            'email' : email,
+            'avatarSeed' : avatar
+        }),
+        error: function(XMLHttpRequest) {
+            console.log('not right');
+        },
+        success: function(resultData) {
+            console.log('ok');
+            $('#regmodal').modal('hide');
+        }
+    });
+}
 
 
 

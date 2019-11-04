@@ -3,10 +3,6 @@ import Modal from './Modal';
 
 class TaskModal extends Component {
 
-    constructor(props){
-        super(props);
-    }
-
     render(){
         return(
             <Modal id='taskmodal' mtype='basic'>

@@ -31,8 +31,7 @@ class RegisterModal extends Component{
 
 	handleSubmit(e) {
 		e.preventDefault();
-		//TODO validation of user input and clean fields
-		this.props.action(this.state.user, this.state.passwd, this.state.email, this.state.avatar);
+		//this.props.action(this.state.user, this.state.passwd, this.state.email, this.state.avatar);
 	}
 
 	render(){

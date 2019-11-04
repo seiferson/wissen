@@ -3,10 +3,6 @@ import Task from './Task';
 
 class ToDoList extends Component {
 
-    constructor(props){
-        super(props);
-    }
-
     render(){
         if(this.props.user === 'anonymous'){
             return <Fragment />
@@ -15,11 +11,13 @@ class ToDoList extends Component {
     		<div className='ui segment'>
     		    <h3 className="ui dividing header"><i class="fitted clipboard list icon"></i> Tasks</h3>
     		    <div className="ui relaxed divided list">
-                {this.props.tasks.map((entry, i) =>{
-                    return(
-                    	<Task task={entry} />
-                    );
-                })}
+                {
+                    this.props.tasks.map((entry, i) =>{
+                        return(
+                    	    <Task task={entry} callback={this.props.callback}/>
+                        );
+                    })
+                }
                 </div>
                 <button className='ui fluid button' type='button' onClick={function(){$('#createtaskmodal').modal('show')}} >Add task</button>
     		</div>
