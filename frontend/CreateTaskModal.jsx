@@ -41,48 +41,52 @@ class CreateTaskModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        createTask(this.state.title, this.state.description, this.state.duedate, this.props.callback);
+        if($('#createtaskform').form('is valid')){
+            createTask(this.state.title, this.state.description, this.state.duedate, this.props.callback);
+        }
     }
 
     render(){
         return (
             <Modal id='createtaskmodal'>
-                <form className="ui form" id='createtaskform' onSubmit={this.handleSubmit}>
-                    <h3 class="ui dividing header">New task</h3>
-                    <div class="field">
-                        <label>Title</label>
-                        <input
-                            type="text"
-                            name="title"
-                            maxLength={70}
-                            value={this.state.title}
-                            onChange={(event) => this.handleUserInput(event)}
-                        />
-                    </div>
-                    <div class="field">
-                        <label>Description</label>
-                        <textarea
-                            rows="2"
-                            name="description"
-                            value={this.state.description}
-                            onChange={(event) => this.handleUserInput(event)}
-                        />
-                    </div>
-                    <div className="two fields">
-                        <div className="field">
-                            <label>Due date</label>
-                            <input type="datetime-local" name="duedate" value={this.state.duedate} onChange={(event) => this.handleUserInput(event)} />
-                        </div>
-                        <div className="field">
-                            <label>Category</label>
-                            <select class="ui fluid dropdown">
-                                <option value="Misc">Misc</option>
-                                <option value="Chores">Chores</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button className='ui fluid button' type='submit' >Create</button>
-                </form>
+              <form className='ui form' id='createtaskform' onSubmit={this.handleSubmit}>
+                <h3 className='ui dividing header'>New task</h3>
+                <div className='field'>
+                  <label>Title</label>
+                  <input
+                    type='text'
+                    name='title'
+                    maxLength={70}
+                    value={this.state.title}
+                    onChange={(event) => this.handleUserInput(event)} />
+                </div>
+                <div className='field'>
+                  <label>Description</label>
+                  <textarea
+                    rows='2'
+                    name='description'
+                    value={this.state.description}
+                    onChange={(event) => this.handleUserInput(event)} />
+                </div>
+                <div className='two fields'>
+                  <div className='field'>
+                    <label>Due date</label>
+                    <input
+                      type='datetime-local'
+                      name='duedate'
+                      value={this.state.duedate} onChange={(event) => this.handleUserInput(event)} />
+                  </div>
+                  <div className='field'>
+                    <label>Category</label>
+                    <select className='ui fluid dropdown'>
+                      <option value='Misc'>Misc</option>
+                      <option value='Chores'>Chores</option>
+                    </select>
+                  </div>
+                </div>
+                <div className='ui error message' id='cretaskdisplayerrors'></div>
+                <button className='ui fluid button' type='submit' >Create</button>
+              </form>
             </Modal>
         );
     }

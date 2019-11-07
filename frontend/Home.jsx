@@ -10,51 +10,51 @@ import TaskModal from './TaskModal';
 
 class Home extends Component {
 
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.state = {
-        	user : $.cookie('authuser'),
-        	avatar : $.cookie('avatar'),
-        	tasks : [],
-        	currentTask : {}
+        this.state = {
+            user : $.cookie('authuser'),
+            avatar : $.cookie('avatar'),
+            tasks : [],
+            currentTask : {}
         };
 
-		this.handleStateChange = this.handleStateChange.bind(this);
+        this.handleStateChange = this.handleStateChange.bind(this);
 
         checkTokenFromCookies(this.handleStateChange, function(){});
-	}
+    }
 
-	handleStateChange(attribute, value) {
-	    this.setState({[attribute]: value});
-	}
+    handleStateChange(attribute, value) {
+        this.setState({[attribute]: value});
+    }
 
-	render(){
-		return(
-			<Fragment>
-				<TopMenu user={this.state.user} callback={this.handleStateChange} avatar={this.state.avatar} />
-				<div className='ui container'>
-					<div className='ui segment'>
-						<h2 className='ui center aligned icon header'>
-							<i className='circular chess rook icon'></i>
-							Wissen
-						</h2>
-					</div>
-					<div className='ui stackable two column grid'>
-					    <div className='column'></div>
-						<div className='column'>
-                            <ToDoList user={this.state.user} tasks={this.state.tasks} callback={this.handleStateChange}/>
-						</div>
-					</div>
-				</div>
-				<AuthenticationModal callback={this.handleStateChange} />
-				<RegisterModal callback={this.handleStateChange} />
-                <CreateTaskModal callback={this.handleStateChange}/>
-                <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
-			</Fragment>
-		);
-	}
-	
+    render(){
+        return(
+            <Fragment>
+              <TopMenu user={this.state.user} callback={this.handleStateChange} avatar={this.state.avatar} />
+              <div className='ui container'>
+                <div className='ui segment'>
+                  <h2 className='ui center aligned icon header'>
+                    <i className='circular chess rook icon'></i>
+                    Wissen
+                  </h2>
+                </div>
+                <div className='ui stackable two column grid'>
+                  <div className='column'></div>
+                    <div className='column'>
+                      <ToDoList user={this.state.user} tasks={this.state.tasks} callback={this.handleStateChange}/>
+                    </div>
+                </div>
+              </div>
+              <AuthenticationModal callback={this.handleStateChange} />
+              <RegisterModal callback={this.handleStateChange} />
+              <CreateTaskModal callback={this.handleStateChange}/>
+              <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
+            </Fragment>
+        );
+    }
+
 }
 
 export default Home;

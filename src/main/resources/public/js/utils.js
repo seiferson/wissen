@@ -122,7 +122,7 @@ function createTask(title, description, duedate, callback){
     });
 }
 
-function createUser(user, password, email, avatar){
+function createUser(user, password, email, avatar, callback){
     $.ajax({
         type: 'POST',
         url: '/api/v1/accounts',
@@ -137,11 +137,16 @@ function createUser(user, password, email, avatar){
             'avatarSeed' : avatar
         }),
         error: function(XMLHttpRequest) {
-            console.log('not right');
+
         },
         success: function(resultData) {
-            console.log('ok');
-            $('#regmodal').modal('hide');
+            $('#regdisplayerrors').empty();
+            $('#regform').form('clear');
+            $('#regform').removeClass('error');
+            $('#regform').addClass('success');
+            setTimeout(function() {
+                $('#regmodal').modal('hide');
+            }, 3000);
         }
     });
 }

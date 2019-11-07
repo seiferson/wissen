@@ -6,6 +6,10 @@
   "scripts": {
     "build": "webpack -p"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seiferxx/wissen.git"
+  },
   "author": "Seiferson",
   "license": "MIT",
   "devDependencies": {

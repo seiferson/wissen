@@ -26,10 +26,10 @@ public class RESTErrorController extends ResponseEntityExceptionHandler {
 
         ResponseMessage body = new ResponseMessage(ResponseStatus.ERROR, "");
         List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(x -> x.getField() + " " +  x.getDefaultMessage())
-                .collect(Collectors.toList());
+            .getFieldErrors()
+            .stream()
+            .map(x -> x.getField() + " " +  x.getDefaultMessage())
+            .collect(Collectors.toList());
 
         for(String error : errors) {
             body.setMessage(body.getMessage() + "[" + error + "] ");

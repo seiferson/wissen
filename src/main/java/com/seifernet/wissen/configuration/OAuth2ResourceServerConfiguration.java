@@ -25,15 +25,13 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
 	public void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/api/v1/accounts")
-					.anonymous()
-				.antMatchers(HttpMethod.GET, "/api/v1/accounts/*")
-					.anonymous()
 				.antMatchers(HttpMethod.PATCH, "/api/v1/accounts")
-					.fullyAuthenticated()
+					.authenticated()
 				.antMatchers(HttpMethod.POST, "/api/v1/tasks")
-					.fullyAuthenticated()
+					.authenticated()
 				.antMatchers(HttpMethod.GET,"/api/v1/tasks/search/todo")
-					.fullyAuthenticated();
+					.authenticated()
+				.anyRequest()
+					.permitAll();
 	}
 }

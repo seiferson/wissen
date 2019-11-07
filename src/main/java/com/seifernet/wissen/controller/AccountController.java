@@ -62,25 +62,25 @@ public class AccountController {
 		} catch(DuplicateKeyException e) {
 			logger.error(e.getMessage());
 			return ResponseEntity
-					.badRequest()
-					.body(new ResponseMessage(
-							ResponseStatus.ERROR,
-							"[Error creating account, email or nickname not available]"
-					));
+				.badRequest()
+				.body(new ResponseMessage(
+						ResponseStatus.ERROR,
+						"[Error creating account, email or nickname not available]"
+				));
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new ResponseMessage(
-							ResponseMessage.ResponseStatus.ERROR,
-							"[Error creating account, server error]"
-					));
+				.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(new ResponseMessage(
+						ResponseMessage.ResponseStatus.ERROR,
+						"[Error creating account, server error]"
+				));
 		}
 
 		return ResponseEntity.ok(new ResponseMessage(
-				ResponseStatus.SUCCESS,
-				"[Account " + account.getId() +
-				" created, please follow the link sent to your mail address to activate your account]"
+			ResponseStatus.SUCCESS,
+			"[Account " + account.getId() +
+			" created, please follow the link sent to your mail address to activate your account]"
 		));
     }
 
@@ -91,8 +91,8 @@ public class AccountController {
 
 		if(account == null){
 			return ResponseEntity
-					.status(HttpStatus.NOT_FOUND)
-					.body(null);
+				.status(HttpStatus.NOT_FOUND)
+				.body(null);
 		}
 
 		account.setPassword(null);
@@ -104,16 +104,16 @@ public class AccountController {
 
 		if(authentication != null && account.getNickname().equals(authentication.getName())) {
 			return ResponseEntity
-					.ok()
-					.body(account);
+				.ok()
+				.body(account);
 		} else {
 			account.setAuthorities(null);
 			account.setCreationDate(null);
 			account.setEmail(null);
 			account.setEnabled(null);
 			return ResponseEntity
-					.ok()
-					.body(account);
+				.ok()
+				.body(account);
 		}
 	}
 
@@ -141,16 +141,16 @@ public class AccountController {
 			repo.save(base);
 
 			return ResponseEntity.ok(new ResponseMessage(
-					ResponseStatus.SUCCESS,
-					"[Password/email succesfully changed]"
+				ResponseStatus.SUCCESS,
+				"[Password/email succesfully changed]"
 			));
 		} else {
 			return ResponseEntity
-					.status(HttpStatus.UNAUTHORIZED)
-					.body(new ResponseMessage(
-							ResponseStatus.ERROR,
-							"[Access denied]"
-					));
+				.status(HttpStatus.UNAUTHORIZED)
+				.body(new ResponseMessage(
+						ResponseStatus.ERROR,
+						"[Access denied]"
+				));
 		}
 	}
 
@@ -162,20 +162,20 @@ public class AccountController {
 
 		if(account == null) {
 			return ResponseEntity
-					.badRequest()
-					.body("Invalid token/account combination");
+				.badRequest()
+				.body("Invalid token/account combination");
 		}
 
 		if(account.isEnabled()){
 			return ResponseEntity
-					.badRequest()
-					.body("Account already active");
+				.badRequest()
+				.body("Account already active");
 		}
 
 		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)) {
 			return ResponseEntity
-					.badRequest()
-					.body("Invalid or expired token");
+				.badRequest()
+				.body("Invalid or expired token");
 		}
 
 		account.setValidationTokenExpiration(null);
@@ -185,8 +185,8 @@ public class AccountController {
 		repo.save(account);
 
 		return ResponseEntity
-				.ok()
-				.body("Account activated");
+			.ok()
+			.body("Account activated");
 	}
 
 	@GetMapping("/recover")
@@ -196,8 +196,8 @@ public class AccountController {
 
 		if(account == null){
 			return ResponseEntity
-					.badRequest()
-					.body("Invalid account");
+				.badRequest()
+				.body("Invalid account");
 		}
 
 		//TODO send mail with new password?

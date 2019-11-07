@@ -6,20 +6,16 @@ import com.seifernet.wissen.util.HashGen;
 import com.seifernet.wissen.util.ResponseMessage;
 import com.seifernet.wissen.util.ResponseMessage.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Account controller
@@ -51,5 +47,33 @@ public class TaskController {
     public ResponseEntity<List<Task>> getIncompleteTasks(Authentication authentication) {
         List<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
         return ResponseEntity.ok(result);
+    }
+
+    @PatchMapping("/api/v1/tasks/{id}")
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> updateTaskService(
+            @RequestBody @Valid Task task,
+            @PathVariable String id,
+            Authentication authentication
+    ){
+        Optional<Task> optional = repo.findById(id);
+        if(optional.isPresent()){
+            Task base = optional.get();
+
+            if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())){
+                return null;
+            } else {
+                return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseMessage(
+                            ResponseStatus.ERROR,
+                            "[Access denied]"
+                    ));
+            }
+        } else {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+        }
     }
 }
