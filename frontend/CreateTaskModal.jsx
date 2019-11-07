@@ -8,7 +8,8 @@ class CreateTaskModal extends Component {
         this.state = {
             title : '',
             description : '',
-            duedate : undefined
+            duedate : (new Date()).toISOString().substring(0,16),
+            category : ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -16,6 +17,8 @@ class CreateTaskModal extends Component {
     }
 
     componentDidMount() {
+        $('.ui.dropdown').dropdown();
+
         $('#createtaskform').form({
             fields : {
                 title : {
@@ -65,10 +68,17 @@ class CreateTaskModal extends Component {
                             onChange={(event) => this.handleUserInput(event)}
                         />
                     </div>
-                    <div className="fields">
-                        <div className="eight wide field">
+                    <div className="two fields">
+                        <div className="field">
                             <label>Due date</label>
                             <input type="datetime-local" name="duedate" value={this.state.duedate} onChange={(event) => this.handleUserInput(event)} />
+                        </div>
+                        <div className="field">
+                            <label>Category</label>
+                            <select class="ui fluid dropdown">
+                                <option value="Misc">Misc</option>
+                                <option value="Chores">Chores</option>
+                            </select>
                         </div>
                     </div>
                     <button className='ui fluid button' type='submit' >Create</button>

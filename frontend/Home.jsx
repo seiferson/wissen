@@ -41,6 +41,7 @@ class Home extends Component {
 						</h2>
 					</div>
 					<div className='ui stackable two column grid'>
+					    <div className='column'></div>
 						<div className='column'>
                             <ToDoList user={this.state.user} tasks={this.state.tasks} callback={this.handleStateChange}/>
 						</div>

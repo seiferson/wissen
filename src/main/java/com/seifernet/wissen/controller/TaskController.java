@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Account controller
@@ -31,11 +32,10 @@ public class TaskController {
     @Autowired
     private TaskRepository repo;
 
-    @PostMapping("/sdfsdf")
+    @PostMapping("/api/v1/tasks")
     @ResponseBody
-    public ResponseEntity<ResponseMessage> createTask(@RequestBody @Valid Task task, Authentication authentication){
+    public ResponseEntity<ResponseMessage> createTaskService(@RequestBody @Valid Task task, Authentication authentication) {
         task.setCompleted(false);
-        task.setExpired(false);
         task.setCompletionDate(null);
         task.setCreationDate(new Date());
         task.setLastUpdate(new Date());
@@ -46,11 +46,10 @@ public class TaskController {
         return ResponseEntity.ok(new ResponseMessage(ResponseStatus.SUCCESS, "Created task"));
     }
 
-    @GetMapping("/asdasdasd")
+    @GetMapping("/api/v1/tasks/search/todo")
     @ResponseBody
-    public ResponseEntity<Page<Task>> getMyTasks(Authentication authentication) {
-        Pageable pageInfo = PageRequest.of(0,20);
-        //Page<Task> result = repo.findByOwnerAndCompletedFalseAndExpiredFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
-        return ResponseEntity.ok(null);
+    public ResponseEntity<List<Task>> getIncompleteTasks(Authentication authentication) {
+        List<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
+        return ResponseEntity.ok(result);
     }
 }

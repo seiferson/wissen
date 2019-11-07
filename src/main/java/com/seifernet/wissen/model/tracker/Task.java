@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document
-public class Task{
+public class Task {
 
 	@Id
 	private String id;
@@ -25,15 +25,21 @@ public class Task{
 	private String title;
 
 	private String owner;
-	private Date creationDate;
-	private Boolean completed;
 	private String description;
 	private Date dueDate;
-	private Date completionDate;
-	private Date expirationDate;
-	private Boolean expired;
+	private Date creationDate;
 	private Date lastUpdate;
-	private Long priority;
+	private Boolean completed;
+	private Date completionDate;
+	private String category;
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	public Date getLastUpdate() {
 		return this.lastUpdate;
@@ -43,24 +49,12 @@ public class Task{
 		this.lastUpdate = lastUpdate;
 	}
 
-	public Long getPriority() {
-		return priority;
-	}
-
-	public void setPriority(Long priority) {
-		this.priority = priority;
-	}
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	public String getIdentifier(){
-		return id;
 	}
 	
 	public void setOwner(String owner){
@@ -110,14 +104,6 @@ public class Task{
 	public void setCompletionDate(Date completionDate) {
 		this.completionDate = completionDate;
 	}
-
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
 	
 	public Date getCreationDate(){
 		return creationDate;
@@ -125,13 +111,5 @@ public class Task{
 	
 	public void setCreationDate(Date creationDate){
 		this.creationDate = creationDate;
-	}
-
-	public Boolean getExpired() {
-		return expired;
-	}
-
-	public void setExpired(Boolean expired) {
-		this.expired = expired;
 	}
 }

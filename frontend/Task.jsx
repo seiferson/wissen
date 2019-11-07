@@ -4,7 +4,7 @@ class Task extends Component {
 
 	render(){
 	    var task = this.props.task;
-	    var iconClass = getTaskIconClass(task.completed, task.expired, task.dueDate, task.expirationDate);
+	    var iconClass = getTaskIconClass(task.completed, task.dueDate);
         var that = this;
 		return(
 		    <div className="item">

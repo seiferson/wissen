@@ -79,25 +79,20 @@ function getToDoList(callback){
         },
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
-            data.content.forEach(function(element){
+            data.forEach(function(element){
                 element.viewAction = function(){
                     callback('currentTask', element);
                 }
             });
-            console.log(data.content);
-            callback('tasks', data.content);
+            callback('tasks', data);
         }
     });
 }
 
-function getTaskIconClass(completed, expired, dueDate, expirationDate){
+function getTaskIconClass(completed, dueDate){
     var currentDate = new Date();
-    if(expired) {
-        return 'grey minus square outline';
-    } else if(completed) {
+    if(completed) {
         return 'green check square';
-    } else if(expirationDate != undefined) {
-        var expirationDateObj = new Date(Date.parse(expirationDate.split('.')[0]));
     } else if(dueDate != undefined) {
         var dueDateObj = new Date(Date.parse(dueDate.split('.')[0]));
     }
@@ -114,7 +109,6 @@ function createTask(title, description, duedate, callback){
         },
         contentType: 'application/json',
         data: JSON.stringify({
-            'owner' : md5($.cookie('authuser')),
             'title' : title,
             'dueDate' : duedate,
             'description' : description

@@ -84,11 +84,9 @@ public class AccountController {
 		));
     }
 
-
-
 	@GetMapping("/api/v1/accounts/{nickname}")
 	@ResponseBody
-	public ResponseEntity<Account> checkAccountService(@PathVariable String nickname, Authentication authentication) {
+	public ResponseEntity<Account> getAccountService(@PathVariable String nickname, Authentication authentication) {
 		Account account = repo.findByNickname(nickname);
 
 		if(account == null){
@@ -121,7 +119,7 @@ public class AccountController {
 
 	@PatchMapping("/api/v1/accounts")
 	@ResponseBody
-	public ResponseEntity<ResponseMessage> updateAccount(
+	public ResponseEntity<ResponseMessage> updateAccountService(
 			@RequestBody @Valid Account account,
 			Authentication authentication
 	){
@@ -191,10 +189,9 @@ public class AccountController {
 				.body("Account activated");
 	}
 
-
 	@GetMapping("/recover")
 	@ResponseBody
-	public ResponseEntity<String> recoverPassword(@RequestParam String nickname){
+	public ResponseEntity<String> recoverPasswordService(@RequestParam String nickname){
 		Account account = repo.findByNickname(nickname);
 
 		if(account == null){

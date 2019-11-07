@@ -1,3 +1,28 @@
+/**
+ * @author Seiferson (Cuauhtemoc Herrera)
+ */
+@RepositoryRestResource
+public interface TaskRepository extends MongoRepository<Task, String>{
+
+	@RestResource(path = "taskscompletedtoday")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
+	public long countByOwnerAndDueDateBetweenAndCompletedTrue(
+			@Param("owner") String owner,
+			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
+			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
+	);
+
+	@RestResource(path = "todo")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
+	public List<Task> findByOwnerAndCompletedFalseOrderByCreationDate(@Param("owner") String owner);
+
+	/**
+	@PostAuthorize("@hashgen.md5gen(authentication.name) == returnObject.get().owner")
+	@Override
+	public Optional<Task> findById(String id);**/
+}
+
+
 private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
 private void financeLoader() throws Exception{
