@@ -9,7 +9,7 @@ class CreateTaskModal extends Component {
             title : '',
             description : '',
             duedate : (new Date()).toISOString().substring(0,16),
-            category : ''
+            category : 'Misc'
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +29,9 @@ class CreateTaskModal extends Component {
                     ]
                 },
 
+            },
+            onSuccess : function(event, fields){
+                event.preventDefault();
             }
         });
     }
@@ -42,7 +45,7 @@ class CreateTaskModal extends Component {
     handleSubmit(e){
         e.preventDefault();
         if($('#createtaskform').form('is valid')){
-            createTask(this.state.title, this.state.description, this.state.duedate, this.props.callback);
+            createTask(this.state.title, this.state.description, this.state.duedate, this.state.category, this.props.callback);
         }
     }
 
@@ -78,7 +81,11 @@ class CreateTaskModal extends Component {
                   </div>
                   <div className='field'>
                     <label>Category</label>
-                    <select className='ui fluid dropdown'>
+                    <select
+                      className='ui fluid dropdown'
+                      value={this.state.category}
+                      onChange={(event) => this.handleUserInput(event)}
+                      name='category'>
                       <option value='Misc'>Misc</option>
                       <option value='Chores'>Chores</option>
                     </select>

@@ -73,6 +73,7 @@ public class TaskController {
                 base.setDueDate(task.getDueDate());
                 base.setLastUpdate(new Date());
                 base.setTitle(task.getTitle());
+                base.setCategory(task.getCategory());
 
                 repo.save(base);
 

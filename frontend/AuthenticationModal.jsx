@@ -40,6 +40,9 @@ class AuthenticationModal extends Component{
                     identifier : 'loginerror',
                     rules : [{type : 'empty', prompt : 'User/Password do not match'}]
                 }
+            },
+            onSuccess : function(event, fields){
+                event.preventDefault();
             }
         });
     }

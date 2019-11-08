@@ -44,6 +44,9 @@ class RegisterModal extends Component{
                     identifier : 'confirmpassword',
                     rules : [{type : 'match[password]', prompt : 'Passwords do not match'}]
                 }
+            },
+            onSuccess : function(event, fields){
+                event.preventDefault();
             }
         });
     }

@@ -103,7 +103,7 @@ function getTaskIconClass(completed, dueDate){
     return 'teal square outline';
 }
 
-function createTask(title, description, duedate, callback){
+function createTask(title, description, duedate, category, callback){
     $.ajax({
         type: 'POST',
         url: '/api/v1/tasks',
@@ -115,7 +115,8 @@ function createTask(title, description, duedate, callback){
         data: JSON.stringify({
             'title' : title,
             'dueDate' : duedate,
-            'description' : description
+            'description' : description,
+            'category' : category
         }),
         error: function(XMLHttpRequest) {
         },

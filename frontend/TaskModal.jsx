@@ -11,7 +11,7 @@ class TaskModal extends Component {
                   <div className='header'>{this.props.task.title}</div>
                   <div className='meta'>
                     <span className='right floated time'>{this.props.task.creationDate}</span>
-                    <a>Category</a>
+                    <a>{this.props.task.category}</a>
                   </div>
                   <p><br/></p>
                   <p style={{color:'black'}}><pre>{this.props.task.description}</pre></p>
