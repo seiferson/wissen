@@ -42,6 +42,7 @@ function login(user, passwd, callback){
 		error: function(XMLHttpRequest) {
             $('[name="loginerror"]').val('');
             $('#authform').form('validate form');
+            $('[name="loginerror"]').val('value');
 		},
 		success: function(data) {
 			$.cookie('authtoken', data.access_token);
@@ -80,8 +81,11 @@ function getToDoList(callback){
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
             data.forEach(function(element){
-                element.viewAction = function(){
+                element.viewAction = function() {
                     callback('currentTask', element);
+                }
+                element.completeAction = function() {
+                    completeTask(element, callback);
                 }
             });
             callback('tasks', data);
@@ -118,6 +122,28 @@ function createTask(title, description, duedate, callback){
         success: function(resultData) {
             getToDoList(callback);
             $('#createtaskmodal').modal('hide');
+        }
+    });
+}
+
+function completeTask(task, callback){
+    task.completed = true;
+    delete task.viewAction;
+    delete task.completeAction;
+
+    $.ajax({
+        type: 'PATCH',
+        url: '/api/v1/tasks/' + task.id,
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(task),
+        error: function(XMLHttpRequest) {
+        },
+        success: function(resultData) {
+            getToDoList(callback);
         }
     });
 }

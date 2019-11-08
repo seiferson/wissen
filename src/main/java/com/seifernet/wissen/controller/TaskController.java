@@ -55,13 +55,31 @@ public class TaskController {
             @RequestBody @Valid Task task,
             @PathVariable String id,
             Authentication authentication
-    ){
+    ) {
         Optional<Task> optional = repo.findById(id);
         if(optional.isPresent()){
             Task base = optional.get();
 
-            if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())){
-                return null;
+            if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())) {
+                base.setCategory(task.getCategory());
+                if(!base.getCompleted() && task.getCompleted()) {
+                    base.setCompleted(task.getCompleted());
+                    base.setCompletionDate(new Date());
+                } else if(base.getCompleted() && !task.getCompleted()) {
+                    base.setCompleted(task.getCompleted());
+                    base.setCompletionDate(null);
+                }
+                base.setDescription(task.getDescription());
+                base.setDueDate(task.getDueDate());
+                base.setLastUpdate(new Date());
+                base.setTitle(task.getTitle());
+
+                repo.save(base);
+
+                return ResponseEntity.ok(new ResponseMessage(
+                    ResponseStatus.SUCCESS,
+                    "[Task succesfully updated]"
+                ));
             } else {
                 return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)

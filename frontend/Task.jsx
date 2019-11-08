@@ -7,7 +7,7 @@ class Task extends Component {
         var that = this;
         return(
             <div className='item'>
-              <i className={`large ${iconClass} middle aligned icon`} onClick={function(){}}></i>
+              <i className={`large ${iconClass} middle aligned icon`} onClick={this.props.task.completeAction}></i>
               <div className='content' onClick={function(){
                 that.props.task.viewAction();
                  $('#taskmodal').modal('show');
