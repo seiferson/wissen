@@ -5,7 +5,7 @@ import LinkIconLabel from './LinkIconLabel';
 import IconMessage from './IconMessage';
 import RegisterModal from './RegisterModal';
 import ToDoList from './ToDoList';
-import CreateTaskModal from './CreateTaskModal';
+import ManageTaskModal from './ManageTaskModal';
 import TaskModal from './TaskModal';
 
 class Home extends Component {
@@ -49,7 +49,7 @@ class Home extends Component {
               </div>
               <AuthenticationModal callback={this.handleStateChange} />
               <RegisterModal callback={this.handleStateChange} />
-              <CreateTaskModal callback={this.handleStateChange}/>
+              <ManageTaskModal callback={this.handleStateChange}/>
               <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
             </Fragment>
         );

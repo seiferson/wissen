@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Modal from './Modal';
 
-class CreateTaskModal extends Component {
+class ManageTaskModal extends Component {
 
     constructor(props){
         super(props);
@@ -9,7 +9,7 @@ class CreateTaskModal extends Component {
             title : '',
             description : '',
             duedate : (new Date()).toISOString().substring(0,16),
-            category : 'Misc'
+            category : ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,6 +28,12 @@ class CreateTaskModal extends Component {
                         {type : 'maxLength[70]', prompt : 'Title cannot be larger than 70 characters'}
                     ]
                 },
+                category : {
+                    identifier : 'category',
+                    rules : [
+                        {type : 'empty', prompt : 'You must choose a category for the task'},
+                    ]
+                }
 
             },
             onSuccess : function(event, fields){
@@ -86,6 +92,8 @@ class CreateTaskModal extends Component {
                       value={this.state.category}
                       onChange={(event) => this.handleUserInput(event)}
                       name='category'>
+                      <option value=''>Select a category</option>
+                      <option value='Work'>Work</option>
                       <option value='Misc'>Misc</option>
                       <option value='Chores'>Chores</option>
                     </select>
@@ -99,4 +107,4 @@ class CreateTaskModal extends Component {
     }
 }
 
-export default CreateTaskModal;
+export default ManageTaskModal;

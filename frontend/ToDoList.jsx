@@ -33,7 +33,6 @@ class ToDoList extends Component {
                   <label>Filter</label>
                   <select multiple={true} value={this.state.filters} className='ui selection dropdown'>
                     <option value='todo'>ToDo</option>
-                    <option value='completed'>Completed</option>
                   </select>
                 </div>
               </div>

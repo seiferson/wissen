@@ -10,7 +10,7 @@ class Task extends Component {
               <i className={`large ${iconClass} middle aligned icon`} onClick={this.props.task.completeAction}></i>
               <div className='content' onClick={function(){
                 that.props.task.viewAction();
-                 $('#taskmodal').modal('show');
+                $('#taskmodal').modal('show');
               }}>
                 <div className='header'>{this.props.task.title}</div>
                 <div className='description'><pre>{this.props.task.description}</pre></div>
