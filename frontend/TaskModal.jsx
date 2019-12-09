@@ -6,7 +6,7 @@ class TaskModal extends Component {
     render(){
         return(
             <Modal id='taskmodal' mtype='basic'>
-              <div className='ui fluid card'>
+              <div className='ui orange fluid card'>
                 <div className='content'>
                   <div className='header'>{this.props.task.title}</div>
                   <div className='meta'>
@@ -17,11 +17,9 @@ class TaskModal extends Component {
                   <p style={{color:'black'}}><pre>{this.props.task.description}</pre></p>
                 </div>
                 <div className='extra content'>
-                  <div className='right floated author'>
-                    <img
-                      className ='ui avatar image'
-                      src={`https://avatars.dicebear.com/v2/bottts/${this.props.avatar}.svg`} />
-                    {this.props.user}
+                  <div className="ui fluid transparent left icon input">
+                    <i className="flag outline icon"></i>
+                    <input type="text" placeholder="Add an update" />
                   </div>
                 </div>
               </div>
