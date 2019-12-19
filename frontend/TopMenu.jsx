@@ -21,7 +21,7 @@ class TopMenu extends Component{
               }}>
                 <img
                   className='ui bordered avatar image'
-                  src={`https://avatars.dicebear.com/v2/bottts/${this.props.avatar}.svg`} />
+                  src={`https://avatars.dicebear.com/v2/jdenticon/${this.props.avatar}.svg`} />
                 <span>{this.props.user}</span>
               </div>
             </div>

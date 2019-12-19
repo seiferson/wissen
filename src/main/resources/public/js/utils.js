@@ -1,3 +1,22 @@
+function patchTask(task, callback) {
+    $.ajax({
+        type: 'PATCH',
+        url: '/api/v1/tasks/' + task.id,
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(task),
+        error: function(XMLHttpRequest) {
+            console.log('something went wrong');
+        },
+        success: function(resultData) {
+            getToDoList(callback);
+        }
+    });
+}
+
 function checkTokenFromCookies(stateCallback, controlCallback){
 	if($.cookie('authuser') != 'anonymous' && $.cookie('authtoken') != undefined) {
 		$.ajax({
@@ -80,12 +99,17 @@ function getToDoList(callback){
         },
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
+
             data.forEach(function(element){
                 element.viewAction = function() {
                     callback('currentTask', element);
                 }
                 element.completeAction = function() {
-                    completeTask(element, callback);
+                    element.completed = true;
+                    patchTask(element, callback);
+                }
+                element.patchAction = function() {
+                    patchTask(element, callback);
                 }
             });
             callback('tasks', data);
@@ -116,35 +140,14 @@ function createTask(title, description, duedate, category, callback){
             'title' : title,
             'dueDate' : duedate,
             'description' : description,
-            'category' : category
+            'category' : category,
+            'updates' : []
         }),
         error: function(XMLHttpRequest) {
         },
         success: function(resultData) {
             getToDoList(callback);
             $('#createtaskmodal').modal('hide');
-        }
-    });
-}
-
-function completeTask(task, callback){
-    task.completed = true;
-    delete task.viewAction;
-    delete task.completeAction;
-
-    $.ajax({
-        type: 'PATCH',
-        url: '/api/v1/tasks/' + task.id,
-        headers: {
-            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
-            'Accept' : 'application/json'
-        },
-        contentType: 'application/json',
-        data: JSON.stringify(task),
-        error: function(XMLHttpRequest) {
-        },
-        success: function(resultData) {
-            getToDoList(callback);
         }
     });
 }
@@ -178,7 +181,46 @@ function createUser(user, password, email, avatar, callback){
     });
 }
 
+/**
+ *  Utility function to format date values to compact 3 digit time difference from current date
+ */
+function dateDiffFormat(a,b){
+	var milis = a.getTime() - b.getTime();
 
+	if(milis > 31536000000) {
+		if(Math.trunc(milis/31536000000) > 1){
+			return  (Math.trunc(milis/31536000000)) + " years"
+		} else {
+			return "1 year";
+		}
+	} else if(milis > 2592000000) {
+		if(Math.trunc(milis/2592000000) > 1){
+			return  (Math.trunc(milis/2592000000)) + " months"
+		} else {
+			return "1 month";
+		}
+	} else if(milis > 86400000) {
+		if(Math.trunc(milis/86400000) > 1){
+			return  (Math.trunc(milis/86400000)) + " days"
+		} else {
+			return "1 day";
+		}
+	} else if(milis > 3600000){
+		if(Math.trunc(milis/3600000) > 1){
+			return  (Math.trunc(milis/3600000)) + " hours"
+		} else {
+			return "1 hour";
+		}
+	} else if(milis > 60000){
+		if(Math.trunc(milis/60000) > 1){
+			return  (Math.trunc(milis/60000)) + " minutes"
+		} else {
+			return "1 minute";
+		}
+	} else {
+		return "Seconds";
+	}
+}
 
 
 

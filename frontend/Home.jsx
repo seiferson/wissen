@@ -17,7 +17,7 @@ class Home extends Component {
             user : $.cookie('authuser'),
             avatar : $.cookie('avatar'),
             tasks : [],
-            currentTask : {}
+            currentTask : {updates : []}
         };
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -50,7 +50,7 @@ class Home extends Component {
               <AuthenticationModal callback={this.handleStateChange} />
               <RegisterModal callback={this.handleStateChange} />
               <ManageTaskModal callback={this.handleStateChange}/>
-              <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} />
+              <TaskModal user={this.state.user} avatar={this.state.avatar} task={this.state.currentTask} callback={this.handleStateChange} />
             </Fragment>
         );
     }

@@ -3,24 +3,96 @@ import Modal from './Modal';
 
 class TaskModal extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            update : '',
+            task : {}
+        }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleUserInput = this.handleUserInput.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, prevState){
+        console.log('executed');
+        return {task : props.task};
+    }
+
+    handleUserInput (e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]: value});
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        var xtask = this.state.task;
+        xtask.updates.push({
+            content : this.state.update,
+            date : (new Date()).toJSON(),
+            avatar : this.props.avatar,
+            user : this.props.user
+        });
+        this.state.task.patchAction();
+        this.setState({task : xtask});
+        this.setState({update : ''});
+    }
+
     render(){
+        var formattedDate = dateDiffFormat(new Date(), new Date(this.state.task.creationDate)) + ' ago';
+
         return(
             <Modal id='taskmodal' mtype='basic'>
-              <div className='ui orange fluid card'>
+              <div className='ui fluid card'>
                 <div className='content'>
-                  <div className='header'>{this.props.task.title}</div>
                   <div className='meta'>
-                    <span className='right floated time'>{this.props.task.creationDate}</span>
-                    <a>{this.props.task.category}</a>
+                    <span className='right floated'>{formattedDate}</span>
+                    <a>{this.state.task.category}</a>
                   </div>
-                  <p><br/></p>
-                  <p style={{color:'black'}}><pre>{this.props.task.description}</pre></p>
+                  <div class="ui segment">
+                    <span class="ui top right attached label">
+                      <i className="edit outline grey icon"
+                         onClick={function(){
+                            $('#cretaskdisplayerrors').empty();
+                            $('#createtaskform').form('clear');
+                            $('#createtaskmodal').modal('show');
+                         }}>
+                      </i>
+                      Due next weekend
+                    </span>
+                    <h4 className='ui header'>{this.state.task.title}</h4>
+                    <p style={{color:'black'}}><pre>{this.state.task.description}</pre></p>
+                  </div>
+                  <h4 className="ui dividing header">Updates</h4>
+                  <div className="ui message">No updates so far!</div>
+                  <div className="ui comments">{
+                    this.state.task.updates.map((entry, i) =>{
+                      return(
+                        <div className="comment">
+                          <a className="avatar"><img src={`https://avatars.dicebear.com/v2/jdenticon/${entry.avatar}.svg`} /></a>
+                          <div className="content">
+                            <a className="author">{entry.user}</a>
+                            <div className="metadata"><span>{entry.date}</span></div>
+                            <div className="text">{entry.content}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className='extra content'>
+                  <form onSubmit={this.handleSubmit}>
                   <div className="ui fluid transparent left icon input">
                     <i className="flag outline icon"></i>
-                    <input type="text" placeholder="Add an update" />
+                    <input
+                      type="text" placeholder="Add an update"
+                      value={this.state.update}
+                      name='update'
+                      onChange={(event) => this.handleUserInput(event)} />
                   </div>
+                  </form>
                 </div>
               </div>
             </Modal>

@@ -1,7 +1,9 @@
 package com.seifernet.wissen.model.tracker;
 
 import java.util.Date;
+import java.util.List;
 
+import com.seifernet.wissen.model.Comment;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -32,6 +34,8 @@ public class Task {
 	private Boolean completed;
 	private Date completionDate;
 	private String category;
+
+	private List<Comment> updates;
 
 	public String getCategory() {
 		return category;
@@ -111,5 +115,13 @@ public class Task {
 	
 	public void setCreationDate(Date creationDate){
 		this.creationDate = creationDate;
+	}
+
+	public List<Comment> getUpdates() {
+		return updates;
+	}
+
+	public void setUpdates(List<Comment> updates) {
+		this.updates = updates;
 	}
 }
