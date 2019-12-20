@@ -86,7 +86,7 @@ class RegisterModal extends Component{
                 <div className='four wide column'>
                   <img
                     className='ui bordered image'
-                    src={`https://avatars.dicebear.com/v2/bottts/${this.state.avatar}.svg`} />
+                    src={`https://avatars.dicebear.com/v2/jdenticon/${this.state.avatar}.svg`} />
                   <br/>
                   <button className='fluid ui icon basic button' type='button' onClick={this.handleSwitchAvatarImage}>
                     <i className='redo alternate icon'></i> Switch avatar image

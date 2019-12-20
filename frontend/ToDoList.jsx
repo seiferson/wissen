@@ -32,7 +32,7 @@ class ToDoList extends Component {
               </div>
             );
         } else {
-            tx = (<div>Empty</div>);
+            tx = (<div className="ui message">You are all set!</div>);
         }
 
         return(

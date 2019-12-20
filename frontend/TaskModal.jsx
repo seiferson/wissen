@@ -42,6 +42,28 @@ class TaskModal extends Component {
 
     render(){
         var formattedDate = dateDiffFormat(new Date(), new Date(this.state.task.creationDate)) + ' ago';
+        var updates = undefined;
+
+        if(this.props.task.updates.length > 0) {
+            updates = (
+                <div className="ui comments">{this.state.task.updates.map((entry, i) =>{return(
+                  <div className="comment">
+                    <a className="avatar">
+                      <img src={`https://avatars.dicebear.com/v2/jdenticon/${entry.avatar}.svg`} />
+                    </a>
+                    <div className="content">
+                      <a className="author">{entry.user}</a>
+                      <div className="metadata"><span>{entry.date}</span></div>
+                      <div className="text">{entry.content}</div>
+                    </div>
+                  </div>);})}
+                </div>
+            );
+        } else {
+            updates = (
+                <div className="ui message">No updates so far!</div>
+            );
+        }
 
         return(
             <Modal id='taskmodal' mtype='basic'>
@@ -52,35 +74,22 @@ class TaskModal extends Component {
                     <a>{this.state.task.category}</a>
                   </div>
                   <div class="ui segment">
-                    <span class="ui top right attached label">
-                      <i className="edit outline grey icon"
-                         onClick={function(){
-                            $('#cretaskdisplayerrors').empty();
-                            $('#createtaskform').form('clear');
-                            $('#createtaskmodal').modal('show');
-                         }}>
-                      </i>
-                      Due next weekend
+                    <span
+                      class="ui top right attached label"
+                      onClick={function(){
+                        $('#cretaskdisplayerrors').empty();
+                        $('#createtaskform').form('clear');
+                        $('#createtaskmodal').modal('show');
+                        }}
+                    >
+                      <i className="edit outline grey icon"></i>
+                      Due {this.state.task.dueDate}
                     </span>
                     <h4 className='ui header'>{this.state.task.title}</h4>
                     <p style={{color:'black'}}><pre>{this.state.task.description}</pre></p>
                   </div>
                   <h4 className="ui dividing header">Updates</h4>
-                  <div className="ui message">No updates so far!</div>
-                  <div className="ui comments">{
-                    this.state.task.updates.map((entry, i) =>{
-                      return(
-                        <div className="comment">
-                          <a className="avatar"><img src={`https://avatars.dicebear.com/v2/jdenticon/${entry.avatar}.svg`} /></a>
-                          <div className="content">
-                            <a className="author">{entry.user}</a>
-                            <div className="metadata"><span>{entry.date}</span></div>
-                            <div className="text">{entry.content}</div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {updates}
                 </div>
                 <div className='extra content'>
                   <form onSubmit={this.handleSubmit}>
