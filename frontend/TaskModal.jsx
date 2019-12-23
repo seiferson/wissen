@@ -16,7 +16,6 @@ class TaskModal extends Component {
     }
 
     static getDerivedStateFromProps(props, prevState){
-        console.log('executed');
         return {task : props.task};
     }
 

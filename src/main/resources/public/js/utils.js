@@ -147,7 +147,9 @@ function createTask(title, description, duedate, category, callback){
         },
         success: function(resultData) {
             getToDoList(callback);
-            $('#createtaskmodal').modal('hide');
+            setTimeout(function() {
+                $('#createtaskmodal').modal('hide');
+            }, 300);
         }
     });
 }
@@ -176,7 +178,7 @@ function createUser(user, password, email, avatar, callback){
             $('#regform').addClass('success');
             setTimeout(function() {
                 $('#regmodal').modal('hide');
-            }, 3000);
+            }, 1500);
         }
     });
 }

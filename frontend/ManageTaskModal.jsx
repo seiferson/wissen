@@ -52,6 +52,16 @@ class ManageTaskModal extends Component {
         e.preventDefault();
         if($('#createtaskform').form('is valid')){
             createTask(this.state.title, this.state.description, this.state.duedate, this.state.category, this.props.callback);
+            let that = this;
+            setTimeout(function(){
+                that.setState({
+                    title : '',
+                    description : '',
+                    duedate : (new Date()).toISOString().substring(0,16),
+                    category : ''
+                });
+            }, 500);
+
         }
     }
 
