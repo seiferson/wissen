@@ -7,7 +7,7 @@ import RegisterModal from './RegisterModal';
 import ToDoList from './ToDoList';
 import ManageTaskModal from './ManageTaskModal';
 import TaskModal from './TaskModal';
-import TaskDashBoard from './TaskDashBoard';
+import TaskDashboard from './TaskDashboard';
 
 class Home extends Component {
 
