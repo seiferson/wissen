@@ -13,7 +13,7 @@ class Task extends Component {
                 $('#taskmodal').modal('show');
               }}>
                 <div className='header'>{this.props.task.title}</div>
-                <div className='description'><pre>{this.props.task.description}</pre></div>
+                <div className='description'><pre style={{margin: '0'}}>{this.props.task.description}</pre></div>
               </div>
             </div>
         );

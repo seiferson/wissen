@@ -41,6 +41,7 @@ class TaskModal extends Component {
 
     render(){
         var formattedDate = dateDiffFormat(new Date(), new Date(this.state.task.creationDate)) + ' ago';
+        var dueDateFormatted = formatDate(this.state.task.dueDate);
         var updates = undefined;
 
         if(this.props.task.updates.length > 0) {
@@ -52,7 +53,7 @@ class TaskModal extends Component {
                     </a>
                     <div className="content">
                       <a className="author">{entry.user}</a>
-                      <div className="metadata"><span>{entry.date}</span></div>
+                      <div className="metadata"><span>{formatDate(entry.date)}</span></div>
                       <div className="text">{entry.content}</div>
                     </div>
                   </div>);})}
@@ -82,7 +83,7 @@ class TaskModal extends Component {
                         }}
                     >
                       <i className="edit outline grey icon"></i>
-                      Due {this.state.task.dueDate}
+                      Due {dueDateFormatted}
                     </span>
                     <h4 className='ui header'>{this.state.task.title}</h4>
                     <p style={{color:'black'}}><pre>{this.state.task.description}</pre></p>

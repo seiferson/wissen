@@ -5,6 +5,7 @@ import com.seifernet.wissen.repository.tracker.TaskRepository;
 import com.seifernet.wissen.util.HashGen;
 import com.seifernet.wissen.util.ResponseMessage;
 import com.seifernet.wissen.util.ResponseMessage.ResponseStatus;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,12 @@ public class TaskController {
     @ResponseBody
     public ResponseEntity<List<Task>> getIncompleteTasks(Authentication authentication) {
         List<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/api/v1/tasks/search/completed")
+    public ResponseEntity<List<Task>> getCompletedTasks(Authentication authentication) {
+        List<Task> result = repo.findByOwnerAndCompletedTrueOrderByCompletionDate(HashGen.md5gen(authentication.getName()));
         return ResponseEntity.ok(result);
     }
 

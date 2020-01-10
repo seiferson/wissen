@@ -32,18 +32,19 @@ class ToDoList extends Component {
               </div>
             );
         } else {
-            tx = (<div className="ui message">You are all set!</div>);
+            tx = (<div className="ui message"><i class="coffee icon"></i> You are all set!</div>);
         }
 
         return(
             <div className='ui segment'>
               <h4 className='ui dividing header'>Tasks</h4>
               {tx}
-              <button className='ui fluid button' type='button' onClick={function(){
+              <button className='ui right floated tiny blue button' type='button' onClick={function(){
                 $('#cretaskdisplayerrors').empty();
                 $('#createtaskform').form('clear');
                 $('#createtaskmodal').modal('show');
-              }} >Add task</button>
+              }} ><i class="plus icon"></i> Add task</button>
+              <div style={{clear:'both'}}></div>
             </div>
         );
     }

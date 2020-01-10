@@ -12,4 +12,6 @@ import com.seifernet.wissen.model.tracker.Task;
 public interface TaskRepository extends MongoRepository<Task, String>{
 
 	public List<Task> findByOwnerAndCompletedFalseOrderByCreationDate(String owner);
+
+	public List<Task> findByOwnerAndCompletedTrueOrderByCompletionDate(String owner);
 }
