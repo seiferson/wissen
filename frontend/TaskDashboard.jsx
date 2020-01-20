@@ -16,7 +16,7 @@ class TaskDashboard extends Component {
     }
 
     componentDidMount() {
-        $('.ui.dropdown').dropdown();
+        //$('.ui.dropdown').dropdown();
     }
 
     render(){

@@ -8,12 +8,12 @@ class ToDoList extends Component {
     }
 
     static getDerivedStateFromProps(props, prevState){
-        $('.ui.dropdown').dropdown();
+        //$('.ui.dropdown').dropdown();
         return null;
     }
 
     componentDidMount() {
-        $('.ui.dropdown').dropdown();
+        //$('.ui.dropdown').dropdown();
     }
 
     render(){
@@ -22,7 +22,7 @@ class ToDoList extends Component {
         }
 
         var tx = undefined;
-        console.log(this.props.tasks);
+        let that = this;
         if(this.props.tasks.length > 0) {
             tx = (
               <div className='ui relaxed divided list'>

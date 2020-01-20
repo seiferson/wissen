@@ -5,6 +5,7 @@ class ManageTaskModal extends Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             title : '',
             description : '',
@@ -16,9 +17,18 @@ class ManageTaskModal extends Component {
         this.handleUserInput = this.handleUserInput.bind(this);
     }
 
-    componentDidMount() {
-        $('.ui.dropdown').dropdown();
+    static getDerivedStateFromProps(props, prevState){
+        $('#categoryDropdown').dropdown({
+            onChange : function(value, text, $selectedItem) {
+                console.log('something');
+            }
+        });
 
+
+        return null;
+    }
+
+    componentDidMount() {
         $('#createtaskform').form({
             fields : {
                 title : {
@@ -60,8 +70,8 @@ class ManageTaskModal extends Component {
                     duedate : (new Date()).toISOString().substring(0,16),
                     category : ''
                 });
+                that.props.callback('mtmTask', {});
             }, 500);
-
         }
     }
 
@@ -69,7 +79,7 @@ class ManageTaskModal extends Component {
         return (
             <Modal id='createtaskmodal'>
               <form className='ui form' id='createtaskform' onSubmit={this.handleSubmit}>
-                <h3 className='ui dividing header'>New task</h3>
+                <h4 className='ui dividing header'>{this.state.componentTitle}</h4>
                 <div className='field'>
                   <label>Title</label>
                   <input
@@ -97,20 +107,11 @@ class ManageTaskModal extends Component {
                   </div>
                   <div className='field'>
                     <label>Category</label>
-                    <select
-                      className='ui fluid dropdown'
-                      value={this.state.category}
-                      onChange={(event) => this.handleUserInput(event)}
-                      name='category'>
-                      <option value=''>Select a category</option>
-                      <option value='Work'>Work</option>
-                      <option value='Misc'>Misc</option>
-                      <option value='Chores'>Chores</option>
-                    </select>
+                    //Select a category
                   </div>
                 </div>
                 <div className='ui error message' id='cretaskdisplayerrors'></div>
-                <button className='ui fluid button' type='submit' >Create</button>
+                <button className='ui small blue fluid button' type='submit' >Create</button>
               </form>
             </Modal>
         );

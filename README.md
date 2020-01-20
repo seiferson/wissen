@@ -12,7 +12,7 @@ This project features the following:
 * Scheduled tasks using spring scheduler
 
 __Frontend technologies:__
-* HTML 5
+* HTML
 * Semantic UI http://semantic-ui.com
 * Javascript
 * NPM and Node
@@ -22,7 +22,7 @@ __Frontend technologies:__
 
 __Backend technologies:__
 * Java 1.8
-* Spring framework 2.0.3
+* Spring framework
 	* Spring data rest
 	* Spring security
 	* Spring data mongo

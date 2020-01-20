@@ -64,11 +64,9 @@ class RegisterModal extends Component{
 	}
 
 	handleSubmit(e) {
-	    console.log('this is the handlesubmit');
 		e.preventDefault();
 
         if($('#regform').form('is valid')){
-            console.log('validation passed');
             createUser(
                 this.state.user,
                 this.state.confirmpassword,
