@@ -122,7 +122,13 @@ function getTaskIconClass(completed, dueDate){
     if(completed) {
         return 'green check square';
     } else if(dueDate != undefined) {
-        var dueDateObj = new Date(Date.parse(dueDate.split('.')[0]));
+        var dueDateObj = new Date(dueDate);
+
+        if(currentDate > dueDateObj) {
+            return 'red square outline';
+        } else if((dueDateObj.getTime() - currentDate.getTime()) < 86400000) {
+           return 'yellow square outline';
+        }
     }
     return 'teal square outline';
 }

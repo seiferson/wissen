@@ -8,7 +8,7 @@ class Task extends Component {
         return(
             <div className='item'>
               <i className={`large ${iconClass} middle aligned icon`} onClick={function () {
-                that.props.task.patchAction({completed : true});
+                that.props.task.patchAction({completed : !that.props.task.completed});
               }}></i>
               <div className='content' onClick={this.props.task.viewAction}>
                 <div className='header'>{this.props.task.title}</div>

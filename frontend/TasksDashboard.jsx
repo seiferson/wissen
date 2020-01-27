@@ -12,6 +12,7 @@ class TasksDashboard extends Component {
             tasks: [],
             task: undefined,
             selected : 'to do',
+            url: '/api/v1/tasks/search/todo',
             filters : [
                 'past due',
                 'completed'
@@ -55,7 +56,7 @@ class TasksDashboard extends Component {
         this.props.authCallback(function() {
             $.ajax({
                 type: 'GET',
-                url: '/api/v1/tasks/search/todo?owner=' + md5(that.props.user),
+                url: that.state.url,
                 headers: {
                     'Authorization' : 'Bearer ' + that.props.token,
                     'Accept' : 'application/json'
@@ -84,16 +85,53 @@ class TasksDashboard extends Component {
     }
 
     componentDidMount() {
+        var that =this;
+
         $('#taskfiltermenu').dropdown({
-            onChange : function(value, text, $selectedItem) {}
+            onChange : function(value, text, $selectedItem) {
+                var prev = that.state.selected;
+                var newx = that.state.filters.filter(e => e !== value);
+                newx.push(prev);
+
+                var xurl = '/api/v1/tasks/search/todo';
+                if(value === 'completed'){
+                    xurl = '/api/v1/tasks/search/completed'
+                } else if(value === 'past due') {
+                    xurl = '/api/v1/tasks/search/pastdue'
+                }
+
+                that.setState({
+                    selected: value,
+                    filters: newx,
+                    url: xurl
+                }, that.handleGetTasks());
+            }
         });
 
         this.handleGetTasks();
     }
 
     componentDidUpdate(prevProps, prevState) {
+        var that =this;
         $('#taskfiltermenu').dropdown({
-            onChange : function(value, text, $selectedItem) {}
+            onChange : function(value, text, $selectedItem) {
+                var prev = that.state.selected;
+                var newx = that.state.filters.filter(e => e !== value);
+                newx.push(prev);
+
+                var xurl = '/api/v1/tasks/search/todo';
+                if(value === 'completed'){
+                    xurl = '/api/v1/tasks/search/completed'
+                } else if(value === 'past due') {
+                    xurl = '/api/v1/tasks/search/pastdue'
+                }
+
+                that.setState({
+                    selected: value,
+                    filters: newx,
+                    url: xurl
+                }, that.handleGetTasks());
+            }
         });
 
         var prevSignature = md5(JSON.stringify(prevState.tasks) + prevProps.user + prevProps.token);

@@ -1,5 +1,6 @@
 package com.seifernet.wissen.repository.tracker;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,4 +15,6 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 	public List<Task> findByOwnerAndCompletedFalseOrderByCreationDate(String owner);
 
 	public List<Task> findByOwnerAndCompletedTrueOrderByCompletionDate(String owner);
+
+	public List<Task> findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(String owner, Date dueDate);
 }

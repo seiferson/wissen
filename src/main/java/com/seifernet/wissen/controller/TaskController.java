@@ -56,6 +56,12 @@ public class TaskController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/api/v1/tasks/search/pastdue")
+    public ResponseEntity<List<Task>> getPastDueTasks(Authentication authentication) {
+        List<Task> result = repo.findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(HashGen.md5gen(authentication.getName()), new Date());
+        return ResponseEntity.ok(result);
+    }
+
     @PatchMapping("/api/v1/tasks/{id}")
     @ResponseBody
     public ResponseEntity<ResponseMessage> updateTaskService(
