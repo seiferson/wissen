@@ -10,27 +10,19 @@ class ManageTaskModal extends Component {
             title : '',
             description : '',
             duedate : (new Date()).toISOString().substring(0,16),
-            category : ''
+            category : '',
+            formTitle: '',
+            buttonText: ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
-    }
-
-    static getDerivedStateFromProps(props, prevState){
-        $('#categoryDropdown').dropdown({
-            onChange : function(value, text, $selectedItem) {
-                console.log('something');
-            }
-        });
-
-
-        return null;
+        this.handleInit = this.handleInit.bind(this);
     }
 
     componentDidMount() {
         $('#createtaskform').form({
-            fields : {
+            fields: {
                 title : {
                     identifier : 'title',
                     rules : [
@@ -52,34 +44,85 @@ class ManageTaskModal extends Component {
         });
     }
 
-    handleUserInput (e) {
+    handleUserInput(e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
     }
 
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
+        var that = this;
+
         if($('#createtaskform').form('is valid')){
-            createTask(this.state.title, this.state.description, this.state.duedate, this.state.category, this.props.callback);
-            let that = this;
-            setTimeout(function(){
-                that.setState({
-                    title : '',
-                    description : '',
-                    duedate : (new Date()).toISOString().substring(0,16),
-                    category : ''
+            if(this.props.mode === 'create') {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/v1/tasks',
+                    headers: {
+                        'Authorization' : 'Bearer ' + this.props.token,
+                        'Accept' : 'application/json'
+                    },
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'title' : that.state.title,
+                        'dueDate' : that.state.duedate,
+                        'description' : that.state.description,
+                        'category' : that.state.category,
+                        'updates' : []
+                    }),
+                    error: function(XMLHttpRequest) {
+                    },
+                    success: function(resultData) {
+                        setTimeout(function() {
+                            $('#createtaskmodal').modal('hide');
+                        }, 300);
+                    }
                 });
-                that.props.callback('mtmTask', {});
-            }, 500);
+            } else if(this.props.mode === 'edit') {
+                this.props.patchTask({
+                    'title': this.state.title,
+                    'description': this.state.description,
+                    'dueDate': this.state.duedate,
+                    'category': this.state.category
+                }, this.props.task);
+                setTimeout(function() {
+                    $('#createtaskmodal').modal('hide');
+                }, 300);
+            }
         }
     }
 
-    render(){
+    handleInit() {
+        if(this.props.mode === 'create') {
+            $('#cretaskdisplayerrors').empty();
+            $('#createtaskform').form('clear');
+            this.setState({
+                formTitle: 'Create task',
+                title: '',
+                description: '',
+                dueDate : (new Date()).toISOString().substring(0,16),
+                category : '',
+                buttonText: 'Create'
+            });
+        } else if(this.props.mode === 'edit') {
+            this.setState({
+                formTitle: 'Edit task ' + this.props.task.id,
+                title: this.props.task.title,
+                description: this.props.task.description,
+                dueDate : (new Date(this.props.task.dueDate)).toISOString().substring(0,16),
+                category: this.props.task.category,
+                buttonText: 'Edit'
+            });
+        }
+   }
+
+
+    render() {
         return (
-            <Modal id='createtaskmodal'>
-              <form className='ui form' id='createtaskform' onSubmit={this.handleSubmit}>
-                <h4 className='ui dividing header'>{this.state.componentTitle}</h4>
+            <Modal id='createtaskmodal' onOpeningCallback={this.handleInit}>
+              <form className='ui small form' id='createtaskform' onSubmit={this.handleSubmit}>
+                <h4 className='ui dividing header'>{this.state.formTitle}</h4>
                 <div className='field'>
                   <label>Title</label>
                   <input
@@ -107,11 +150,19 @@ class ManageTaskModal extends Component {
                   </div>
                   <div className='field'>
                     <label>Category</label>
-                    //Select a category
+                    <select
+                      name='category'
+                      value={this.state.category}
+                      onChange={(event) => this.handleUserInput(event)}>
+                      <option value=''>Select a category</option>
+                      <option value='Work'>Work</option>
+                      <option value='Misc'>Misc</option>
+                      <option value='Personal'>Personal</option>
+                    </select>
                   </div>
                 </div>
                 <div className='ui error message' id='cretaskdisplayerrors'></div>
-                <button className='ui small blue fluid button' type='submit' >Create</button>
+                <button className='ui small blue fluid button' type='submit' >{this.state.buttonText}</button>
               </form>
             </Modal>
         );

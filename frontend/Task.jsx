@@ -7,11 +7,10 @@ class Task extends Component {
         var that = this;
         return(
             <div className='item'>
-              <i className={`large ${iconClass} middle aligned icon`} onClick={this.props.task.completeAction}></i>
-              <div className='content' onClick={function(){
-                that.props.task.viewAction();
-                $('#taskmodal').modal('show');
-              }}>
+              <i className={`large ${iconClass} middle aligned icon`} onClick={function () {
+                that.props.task.patchAction({completed : true});
+              }}></i>
+              <div className='content' onClick={this.props.task.viewAction}>
                 <div className='header'>{this.props.task.title}</div>
                 <div className='description'><pre style={{margin: '0'}}>{this.props.task.description}</pre></div>
               </div>

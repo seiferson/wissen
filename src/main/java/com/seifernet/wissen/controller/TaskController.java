@@ -59,7 +59,7 @@ public class TaskController {
     @PatchMapping("/api/v1/tasks/{id}")
     @ResponseBody
     public ResponseEntity<ResponseMessage> updateTaskService(
-            @RequestBody @Valid Task task,
+            @RequestBody Task task,
             @PathVariable String id,
             Authentication authentication
     ) {
@@ -68,20 +68,41 @@ public class TaskController {
             Task base = optional.get();
 
             if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())) {
-                base.setCategory(task.getCategory());
-                if(!base.getCompleted() && task.getCompleted()) {
+                if(task.getCompleted() != null){
                     base.setCompleted(task.getCompleted());
-                    base.setCompletionDate(new Date());
-                } else if(base.getCompleted() && !task.getCompleted()) {
-                    base.setCompleted(task.getCompleted());
-                    base.setCompletionDate(null);
                 }
-                base.setDescription(task.getDescription());
-                base.setDueDate(task.getDueDate());
+
+                if(!base.getCompleted()) {
+                    base.setCompletionDate(null);
+                } else {
+                    base.setCompletionDate(new Date());
+                }
+
+                if(task.getCategory() != null) {
+                    base.setCategory(task.getCategory());
+                }
+
+                if(task.getDescription() != null){
+                    base.setDescription(task.getDescription());
+                }
+
+                if(task.getDueDate() != null) {
+                    base.setDueDate(task.getDueDate());
+                }
+
+                if(task.getTitle() != null && !task.getTitle().trim().equals("") && task.getTitle().length() <= 70) {
+                    base.setTitle(task.getTitle());
+                }
+
+                if(task.getCategory() != null) {
+                    base.setCategory(task.getCategory());
+                }
+
+                if(task.getUpdates() != null){
+                    base.setUpdates(task.getUpdates());
+                }
+
                 base.setLastUpdate(new Date());
-                base.setTitle(task.getTitle());
-                base.setCategory(task.getCategory());
-                base.setUpdates(task.getUpdates());
 
                 repo.save(base);
 

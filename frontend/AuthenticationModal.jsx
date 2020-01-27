@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import IconMessage from './IconMessage';
 import Modal from './Modal';
 
-class AuthenticationModal extends Component{
+class AuthenticationModal extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -14,6 +14,14 @@ class AuthenticationModal extends Component{
 
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClearState = this.handleClearState.bind(this);
+    }
+
+    handleClearState() {
+        this.setState({user: '', password: ''});
+        $('#authdisplayerrors').empty();
+        $('#authform').form('clear');
+        $("[name='loginerror']").val('value');
     }
 
     handleUserInput (e) {
@@ -22,10 +30,54 @@ class AuthenticationModal extends Component{
         this.setState({[name]: value});
     }
 
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
-        if($('#authform').form('is valid')){
-            login(this.state.user, this.state.password, this.props.callback);
+        var that = this;
+
+        if($('#authform').form('is valid')) {
+            $.ajax({
+                type: 'POST',
+                url: '/oauth/token',
+                headers: {
+                    'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+                    'Accept' : 'application/json'
+                },
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    password : that.state.password,
+                    username : that.state.user,
+                    grant_type : 'password'
+                },
+                error: function(XMLHttpRequest) {
+                    $('[name="loginerror"]').val('');
+                    $('#authform').form('validate form');
+                    $('[name="loginerror"]').val('value');
+                },
+                success: function(data) {
+                    $.cookie('authtoken', data.access_token);
+                    $.cookie('authuser', that.state.user);
+                    $('#authmodal').modal('hide');
+
+                    var xData = data;
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/v1/accounts/' + that.state.user,
+                        headers: {
+                            'Authorization' : 'Bearer ' + data.access_token,
+                            'Accept' : 'application/json'
+                        },
+                        success: function(data) {
+                            $.cookie('avatar', data.avatarSeed);
+                            that.props.parentStateCallback({
+                                user: that.state.user,
+                                token: xData.access_token,
+                                avatar: data.avatarSeed
+                            });
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -36,12 +88,12 @@ class AuthenticationModal extends Component{
                     identifier : 'user',
                     rules : [{type : 'empty', prompt : 'Username cannot be empty'}]
                 },
-                loginerror : {
+                loginError : {
                     identifier : 'loginerror',
                     rules : [{type : 'empty', prompt : 'User/Password do not match'}]
                 }
             },
-            onSuccess : function(event, fields){
+            onSuccess : function(event, fields) {
                 event.preventDefault();
             }
         });
@@ -49,7 +101,7 @@ class AuthenticationModal extends Component{
 
     render(){
         return (
-            <Modal id='authmodal'>
+            <Modal id='authmodal' onOpeningCallback={this.handleClearState}>
               <IconMessage
                 icon='id badge'
                 header='Hi! Stranger'
@@ -76,10 +128,8 @@ class AuthenticationModal extends Component{
                 <div className='ui two buttons'>
                   <button className='ui button' type='submit' >Login</button>
                   <div className='or'></div>
-                  <button className='ui button' type='button' onClick={function(){
-                    $('#regdisplayerrors').empty();
-                    $('#regform').form('clear');
-                    $('#regmodal').modal('show');
+                  <button className='ui button' type='button' onClick={function() {
+                      $('#regmodal').modal('show');
                   }}>Register</button>
                 </div>
               </form>

@@ -1,9 +1,9 @@
 import React, {Fragment, Component} from 'react';
 import Modal from './Modal';
 
-class RegisterModal extends Component{
+class RegisterModal extends Component {
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -17,6 +17,20 @@ class RegisterModal extends Component{
 		this.handleUserInput = this.handleUserInput.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleSwitchAvatarImage = this.handleSwitchAvatarImage.bind(this);
+		this.handleClearState = this.handleClearState.bind(this);
+    }
+
+    handleClearState() {
+        var that = this;
+        $('#regdisplayerrors').empty();
+        $('#regform').form('clear');
+        this.setState({
+            user: '',
+            email: '',
+            avatar: md5(Math.random().toString()),
+            password : '',
+            confirmpassword: ''
+        });
 	}
 
 	componentDidMount() {
@@ -40,12 +54,12 @@ class RegisterModal extends Component{
                         {type : 'minLength[8]', prompt : 'Password should be at least 8 characters long'}
                     ]
                 },
-                confirmpassword : {
+                confirmPassword : {
                     identifier : 'confirmpassword',
                     rules : [{type : 'match[password]', prompt : 'Passwords do not match'}]
                 }
             },
-            onSuccess : function(event, fields){
+            onSuccess : function(event, fields) {
                 event.preventDefault();
             }
         });
@@ -67,19 +81,41 @@ class RegisterModal extends Component{
 		e.preventDefault();
 
         if($('#regform').form('is valid')){
-            createUser(
-                this.state.user,
-                this.state.confirmpassword,
-                this.state.email,
-                this.state.avatar,
-                this.props.callback
-            );
+            var that = this;
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/accounts',
+                headers: {
+                    'Accept' : 'application/json'
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'password' : that.state.password,
+                    'nickname' : that.state.user,
+                    'email' : that.state.email,
+                    'avatarSeed' : that.state.avatar
+                }),
+                error: function(XMLHttpRequest) {
+                },
+                success: function(resultData) {
+                    $('#regdisplayerrors').empty();
+                    $('#regform').form('clear');
+                    $('#regform').removeClass('error');
+                    $('#regform').addClass('success');
+                    setTimeout(function() {
+                        $('#regmodal').modal('hide');
+                    }, 1500);
+                }
+            });
         }
 	}
 
 	render(){
+
 		return (
-			<Modal title='Register an account' id='regmodal'>
+			<Modal id='regmodal' onOpeningCallback={this.handleClearState}>
+			  <h4 className='ui dividing header'>Register an account</h4>
 			  <div className='ui stackable grid'>
                 <div className='four wide column'>
                   <img
@@ -91,7 +127,7 @@ class RegisterModal extends Component{
                   </button>
                 </div>
                 <div className='twelve wide column'>
-                  <form className='ui form' onSubmit={this.handleSubmit} id='regform'>
+                  <form className='ui small form' onSubmit={this.handleSubmit} id='regform'>
                     <div className='field'>
                       <label htmlFor='user'>Username</label>
                       <input
@@ -132,7 +168,7 @@ class RegisterModal extends Component{
                       <p>Please review your email inbox and follow the link to activate your account</p>
                     </div>
                     <div className='ui error message' id='regdisplayerrors'></div>
-                    <button className='ui fluid button' type='submit' >Register</button>
+                    <button className='ui blue fluid button' type='submit' >Register</button>
                   </form>
                 </div>
               </div>
