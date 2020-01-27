@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Modal from './Modal';
 
-class TaskModal extends Component {
+class ViewTaskModal extends Component {
 
     constructor(props){
         super(props);
@@ -101,4 +101,4 @@ class TaskModal extends Component {
     }
 }
 
-export default TaskModal;
+export default ViewTaskModal;

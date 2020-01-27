@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import Task from './Task';
-import ManageTaskModal from './ManageTaskModal';
-import TaskModal from './TaskModal';
+import CreateEditTaskModal from './CreateEditTaskModal';
+import ViewTaskModal from './ViewTaskModal';
 
-class ToDoList extends Component {
+class TasksDashboard extends Component {
 
     constructor(props) {
         super(props);
@@ -143,19 +143,20 @@ class ToDoList extends Component {
                 {tasks}
                 <div style={{clear:'both'}}></div>
               </div>
-              <TaskModal
+              <ViewTaskModal
                 user={this.props.user}
                 avatar={this.props.avatar}
                 task={this.state.task}
                 parentStateCallback={this.handleStateChange}/>
-              <ManageTaskModal
+              <CreateEditTaskModal
                 token={this.props.token}
                 mode={this.state.mode}
                 task={this.state.task}
-                patchTask={this.handlePatchTask}/>
+                patchTask={this.handlePatchTask}
+                getTasks={this.handleGetTasks}/>
             </Fragment>
         );
     }
 }
 
-export default ToDoList;
+export default TasksDashboard;

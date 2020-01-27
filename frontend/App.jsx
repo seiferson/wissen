@@ -33,11 +33,11 @@ class App extends Component {
         this.handleAuthValidation(function(){}, function(){});
     }
 
-    handleStateChange(object) {
-        this.setState(object);
+    handleStateChange(object, callback) {
+        this.setState(object, callback);
     }
 
-    handleAuthValidation(successCallback, errorCallback) {
+    handleAuthValidation(onSuccessCallback, onErrorCallback) {
         var that = this;
 
         if(this.state.token !== undefined && this.state.user !== 'anonymous') {
@@ -47,25 +47,25 @@ class App extends Component {
                     'Accept' : 'application/json'
                 }
             })
-                .then(function(response) {
-                    if (response.status !== 200) {
-                        $.removeCookie('authtoken');
-                        $.cookie('authuser', 'anonymous');
-                        $.cookie('avatar', md5(Math.random().toString()));
+            .then(function(response) {
+                if (response.status !== 200) {
+                    $.removeCookie('authtoken');
+                    $.cookie('authuser', 'anonymous');
+                    $.cookie('avatar', md5(Math.random().toString()));
 
-                        that.setState({
-                            user: 'anonymous',
-                            avatar: $.cookie('avatar'),
-                            token: undefined
-                        }, errorCallback());
+                    that.setState({
+                        user: 'anonymous',
+                        avatar: $.cookie('avatar'),
+                        token: undefined
+                    }, onErrorCallback());
 
-                        return;
-                    }
+                    return;
+                }
 
-                    successCallback();
-                });
+                onSuccessCallback();
+            });
         } else {
-            errorCallback();
+            onErrorCallback();
         }
     }
 

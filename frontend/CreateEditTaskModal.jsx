@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Modal from './Modal';
 
-class ManageTaskModal extends Component {
+class CreateEditTaskModal extends Component {
 
     constructor(props){
         super(props);
@@ -75,6 +75,7 @@ class ManageTaskModal extends Component {
                     },
                     success: function(resultData) {
                         setTimeout(function() {
+                            that.props.getTasks();
                             $('#createtaskmodal').modal('hide');
                         }, 300);
                     }
@@ -169,4 +170,4 @@ class ManageTaskModal extends Component {
     }
 }
 
-export default ManageTaskModal;
+export default CreateEditTaskModal;

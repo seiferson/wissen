@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import ToDoList from './ToDoList';
+import TasksDashboard from './TasksDashboard';
 
 class Home extends Component {
 
@@ -17,7 +17,7 @@ class Home extends Component {
                   <div className='column'>
                   </div>
                   <div className='column'>
-                    <ToDoList
+                    <TasksDashboard
                         authCallback={this.props.authCallback}
                         user={this.props.user}
                         token={this.props.token}
