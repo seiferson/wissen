@@ -55,7 +55,7 @@ class Modal extends Component {
         }
 
         return (
-            <div className={`ui ${this.props.modalType} modal`} style={{position: 'fixed'}} id={this.props.id}>
+            <div className={`ui ${this.props.modalType} modal`} style={{position: 'absolute'}} id={this.props.id}>
               {title}
               <div className={`${this.props.contentType} content`}>
                 {this.props.children}

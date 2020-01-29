@@ -4,9 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.seifernet.wissen.model.Comment;
-import org.springframework.data.annotation.Id;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
@@ -34,7 +33,9 @@ public class Task {
 	private Boolean completed;
 	private Date completionDate;
 	private String category;
-
+	private List<String> tags;
+	private String status;
+	private String icon;
 	private List<Comment> updates;
 
 	public String getCategory() {
@@ -123,5 +124,29 @@ public class Task {
 
 	public void setUpdates(List<Comment> updates) {
 		this.updates = updates;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 }
