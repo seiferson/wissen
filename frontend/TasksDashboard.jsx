@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Task from './Task';
+import ChartComponent from './ChartComponent';
 import CreateEditTaskModal from './CreateEditTaskModal';
 import ViewTaskModal from './ViewTaskModal';
 
@@ -180,6 +181,7 @@ class TasksDashboard extends Component {
               <div className='ui bottom attached segment'>
                 {tasks}
                 <div style={{clear:'both'}}></div>
+                <ChartComponent />
               </div>
               <ViewTaskModal
                 user={this.props.user}

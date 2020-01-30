@@ -1,11 +1,16 @@
 import React, {Component, Fragment} from 'react';
 
-class Chart extends Component {
-     constructor(props) {
+class ChartComponent extends Component {
+
+    constructor(props) {
         super(props);
 
-        this.state = {
-            type: 'bar',
+        this.chartRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.myChart = new Chart(this.chartRef.current, {
+            type: 'line',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
@@ -30,44 +35,21 @@ class Chart extends Component {
                     borderWidth: 1
                 }]
             },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        }
-
-        this.chartRef = React.createRef();
-     }
-
-    componentDidMount() {
-        this.myChart = new Chart(this.chartRef.current, {
-            type: this.state.type,
-            data: this.state.data,
-            options: this.state.options
+            options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}}
         });
+      }
 
-
-        console.log(this.myChart);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        console.log(this.myChart);
-    }
-
-    shouldComponentUpdate(){
-        return false;
+    componentDidUpdate() {
+        //this.myChart.data.labels = this.props.data.map(d => d.label);
+        //this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
+        //this.myChart.update();
     }
 
     render() {
         return (
-            <canvas ref={this.chartRef}></canvas>
+            <canvas ref={this.chartRef} />
         );
     }
 }
 
-export default Chart;
+export default ChartComponent;
