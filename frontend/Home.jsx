@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import TasksDashboard from './TasksDashboard';
+import Content from './Content';
 
 class Home extends Component {
 
@@ -15,6 +16,7 @@ class Home extends Component {
                 </div>
                 <div className='ui stackable two column grid'>
                   <div className='column'>
+
                   </div>
                   <div className='column'>
                     <TasksDashboard

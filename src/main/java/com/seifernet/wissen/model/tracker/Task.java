@@ -36,6 +36,7 @@ public class Task {
 	private List<String> tags;
 	private String status;
 	private String icon;
+	private String avatar;
 	private List<Comment> updates;
 
 	public String getCategory() {

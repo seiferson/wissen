@@ -1,5 +1,7 @@
 package com.seifernet.wissen.controller;
 
+import com.mongodb.operation.GroupOperation;
+import com.seifernet.wissen.model.ChartData;
 import com.seifernet.wissen.model.tracker.Task;
 import com.seifernet.wissen.repository.tracker.TaskRepository;
 import com.seifernet.wissen.util.HashGen;
@@ -59,6 +61,13 @@ public class TaskController {
     @GetMapping("/api/v1/tasks/search/pastdue")
     public ResponseEntity<List<Task>> getPastDueTasks(Authentication authentication) {
         List<Task> result = repo.findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(HashGen.md5gen(authentication.getName()), new Date());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/api/v1/tasks/search/chartdata")
+    public ResponseEntity<ChartData> getTasksChartData(Authentication authentication) {
+        ChartData result = new ChartData();
+
         return ResponseEntity.ok(result);
     }
 

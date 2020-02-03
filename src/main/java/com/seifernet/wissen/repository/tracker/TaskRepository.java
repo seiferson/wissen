@@ -17,4 +17,5 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 	public List<Task> findByOwnerAndCompletedTrueOrderByCompletionDate(String owner);
 
 	public List<Task> findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(String owner, Date dueDate);
+
 }

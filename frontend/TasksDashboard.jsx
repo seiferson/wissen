@@ -181,7 +181,6 @@ class TasksDashboard extends Component {
               <div className='ui bottom attached segment'>
                 {tasks}
                 <div style={{clear:'both'}}></div>
-                <ChartComponent />
               </div>
               <ViewTaskModal
                 user={this.props.user}
