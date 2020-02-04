@@ -9,6 +9,9 @@ import com.seifernet.wissen.util.ResponseMessage;
 import com.seifernet.wissen.util.ResponseMessage.ResponseStatus;
 import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -47,20 +50,23 @@ public class TaskController {
 
     @GetMapping("/api/v1/tasks/search/todo")
     @ResponseBody
-    public ResponseEntity<List<Task>> getIncompleteTasks(Authentication authentication) {
-        List<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()));
+    public ResponseEntity<Page<Task>> getIncompleteTasks(Authentication authentication, @RequestParam int page, @RequestParam int size) {
+        Pageable pageData = PageRequest.of(page,size);
+        Page<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()), pageData);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/api/v1/tasks/search/completed")
-    public ResponseEntity<List<Task>> getCompletedTasks(Authentication authentication) {
-        List<Task> result = repo.findByOwnerAndCompletedTrueOrderByCompletionDate(HashGen.md5gen(authentication.getName()));
+    public ResponseEntity<Page<Task>> getCompletedTasks(Authentication authentication, @RequestParam int page, @RequestParam int size) {
+        Pageable pageData = PageRequest.of(page,size);
+        Page<Task> result = repo.findByOwnerAndCompletedTrueOrderByCompletionDate(HashGen.md5gen(authentication.getName()), pageData);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/api/v1/tasks/search/pastdue")
-    public ResponseEntity<List<Task>> getPastDueTasks(Authentication authentication) {
-        List<Task> result = repo.findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(HashGen.md5gen(authentication.getName()), new Date());
+    public ResponseEntity<Page<Task>> getPastDueTasks(Authentication authentication, @RequestParam int page, @RequestParam int size) {
+        Pageable pageData = PageRequest.of(page,size);
+        Page<Task> result = repo.findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(HashGen.md5gen(authentication.getName()), new Date(), pageData);
         return ResponseEntity.ok(result);
     }
 
@@ -93,10 +99,6 @@ public class TaskController {
                     base.setCompletionDate(new Date());
                 }
 
-                if(task.getCategory() != null) {
-                    base.setCategory(task.getCategory());
-                }
-
                 if(task.getDescription() != null){
                     base.setDescription(task.getDescription());
                 }
@@ -107,14 +109,6 @@ public class TaskController {
 
                 if(task.getTitle() != null && !task.getTitle().trim().equals("") && task.getTitle().length() <= 70) {
                     base.setTitle(task.getTitle());
-                }
-
-                if(task.getCategory() != null) {
-                    base.setCategory(task.getCategory());
-                }
-
-                if(task.getUpdates() != null){
-                    base.setUpdates(task.getUpdates());
                 }
 
                 base.setLastUpdate(new Date());

@@ -3,6 +3,8 @@ package com.seifernet.wissen.repository.tracker;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.seifernet.wissen.model.tracker.Task;
@@ -12,10 +14,10 @@ import com.seifernet.wissen.model.tracker.Task;
  */
 public interface TaskRepository extends MongoRepository<Task, String>{
 
-	public List<Task> findByOwnerAndCompletedFalseOrderByCreationDate(String owner);
+	public Page<Task> findByOwnerAndCompletedFalseOrderByCreationDate(String owner, Pageable pageable);
 
-	public List<Task> findByOwnerAndCompletedTrueOrderByCompletionDate(String owner);
+	public Page<Task> findByOwnerAndCompletedTrueOrderByCompletionDate(String owner, Pageable pageable);
 
-	public List<Task> findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(String owner, Date dueDate);
+	public Page<Task> findByOwnerAndCompletedFalseAndDueDateLessThanOrderByCompletionDate(String owner, Date dueDate, Pageable pageable);
 
 }

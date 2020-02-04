@@ -13,7 +13,7 @@ class TasksDashboard extends Component {
             tasks: [],
             task: undefined,
             selected : 'to do',
-            url: '/api/v1/tasks/search/todo',
+            url: '/api/v1/tasks/search/todo?page=0&size=5',
             filters : [
                 'past due',
                 'completed'
@@ -64,7 +64,7 @@ class TasksDashboard extends Component {
                 },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function(data) {
-                    data.forEach(function(element){
+                    data.content.forEach(function(element){
 
                         element.viewAction = function() {
                             that.setState({task: element}, function() {
@@ -79,7 +79,7 @@ class TasksDashboard extends Component {
                         }
                     });
 
-                    that.setState({tasks: data});
+                    that.setState({tasks: data.content});
                 }
             });
         }, function() {});
@@ -94,11 +94,11 @@ class TasksDashboard extends Component {
                 var newx = that.state.filters.filter(e => e !== value);
                 newx.push(prev);
 
-                var xurl = '/api/v1/tasks/search/todo';
+                var xurl = '/api/v1/tasks/search/todo?page=0&size=5';
                 if(value === 'completed'){
-                    xurl = '/api/v1/tasks/search/completed'
+                    xurl = '/api/v1/tasks/search/completed?page=0&size=5'
                 } else if(value === 'past due') {
-                    xurl = '/api/v1/tasks/search/pastdue'
+                    xurl = '/api/v1/tasks/search/pastdue?page=0&size=5'
                 }
 
                 that.setState({
@@ -120,11 +120,11 @@ class TasksDashboard extends Component {
                 var newx = that.state.filters.filter(e => e !== value);
                 newx.push(prev);
 
-                var xurl = '/api/v1/tasks/search/todo';
+                var xurl = '/api/v1/tasks/search/todo?page=0&size=5';
                 if(value === 'completed'){
-                    xurl = '/api/v1/tasks/search/completed'
+                    xurl = '/api/v1/tasks/search/completed?page=0&size=5'
                 } else if(value === 'past due') {
-                    xurl = '/api/v1/tasks/search/pastdue'
+                    xurl = '/api/v1/tasks/search/pastdue?page=0&size=5'
                 }
 
                 that.setState({
@@ -180,6 +180,16 @@ class TasksDashboard extends Component {
               </div>
               <div className='ui bottom attached segment'>
                 {tasks}
+                <div className='two ui buttons'>
+                <button class="ui labeled icon button">
+                  <i class="left arrow  icon"></i>
+                  Previous
+                </button>
+                <button class="ui right labeled icon button">
+                  <i class="right arrow icon"></i>
+                  Next
+                </button>
+                </div>
                 <div style={{clear:'both'}}></div>
               </div>
               <ViewTaskModal

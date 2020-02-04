@@ -24,7 +24,6 @@ public class Task {
 	@NotBlank
 	@Size(max=70)
 	private String title;
-
 	private String owner;
 	private String description;
 	private Date dueDate;
@@ -32,20 +31,9 @@ public class Task {
 	private Date lastUpdate;
 	private Boolean completed;
 	private Date completionDate;
-	private String category;
 	private List<String> tags;
 	private String status;
 	private String icon;
-	private String avatar;
-	private List<Comment> updates;
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
 
 	public Date getLastUpdate() {
 		return this.lastUpdate;
@@ -117,14 +105,6 @@ public class Task {
 	
 	public void setCreationDate(Date creationDate){
 		this.creationDate = creationDate;
-	}
-
-	public List<Comment> getUpdates() {
-		return updates;
-	}
-
-	public void setUpdates(List<Comment> updates) {
-		this.updates = updates;
 	}
 
 	public List<String> getTags() {
