@@ -86,12 +86,13 @@ class App extends Component {
             <Fragment>
               <TopMenu user={this.state.user} avatar={this.state.avatar} />
               {layout}
-              <AuthenticationModal parentStateCallback={this.handleStateChange}/>
+              <AuthenticationModal parentStateCallback={this.handleStateChange} />
               <RegisterModal />
             </Fragment>
         );
     }
 }
+
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 

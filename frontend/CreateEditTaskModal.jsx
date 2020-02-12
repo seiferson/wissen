@@ -29,14 +29,7 @@ class CreateEditTaskModal extends Component {
                         {type : 'empty', prompt : 'You must provide a title for the task'},
                         {type : 'maxLength[70]', prompt : 'Title cannot be larger than 70 characters'}
                     ]
-                },
-                category : {
-                    identifier : 'category',
-                    rules : [
-                        {type : 'empty', prompt : 'You must choose a category for the task'},
-                    ]
                 }
-
             },
             onSuccess : function(event, fields){
                 event.preventDefault();
@@ -150,16 +143,12 @@ class CreateEditTaskModal extends Component {
                       value={this.state.duedate} onChange={(event) => this.handleUserInput(event)} />
                   </div>
                   <div className='field'>
-                    <label>Category</label>
-                    <select
-                      name='category'
-                      value={this.state.category}
-                      onChange={(event) => this.handleUserInput(event)}>
-                      <option value=''>Select a category</option>
-                      <option value='Work'>Work</option>
-                      <option value='Misc'>Misc</option>
-                      <option value='Personal'>Personal</option>
-                    </select>
+                    <label>Tags</label>
+                    <input
+                      type='text'
+                      name=''
+                      value=''
+                      onChange='' />
                   </div>
                 </div>
                 <div className='ui error message' id='cretaskdisplayerrors'></div>

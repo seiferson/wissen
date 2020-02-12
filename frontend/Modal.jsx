@@ -54,14 +54,14 @@ class Modal extends Component {
             title = <div className='header'>{this.props.title}</div>
         }
 
-        return (
+        return ReactDOM.createPortal((
             <div className={`ui ${this.props.modalType} modal`} style={{position: 'absolute'}} id={this.props.id}>
               {title}
               <div className={`${this.props.contentType} content`}>
                 {this.props.children}
               </div>
             </div>
-        );
+        ), document.getElementById('modals'));
     }
 }
 

@@ -23,7 +23,7 @@ class Home extends Component {
                         authCallback={this.props.authCallback}
                         user={this.props.user}
                         token={this.props.token}
-                        avatar={this.props.avatar}/>
+                        avatar={this.props.avatar} />
                   </div>
                 </div>
               </div>

@@ -17,18 +17,17 @@ class ViewTaskModal extends Component {
             <Modal id='taskmodal' modalType='basic' >
               <div className='ui fluid card'>
                 <div className='content'>
-                  <div className='meta'>
-                    <span className='right floated'>{formattedDate}</span>
-                    <a>{this.props.task.category}</a>
-                  </div>
-                  <span className='ui top right attached label' onClick={function() {
+                  <i class="right floated trash alternate outline grey icon"></i>
+                  <i class="right floated edit outline grey icon" onClick={function() {
                     that.props.parentStateCallback({mode: 'edit'}, function() {$('#createtaskmodal').modal('show');});
-                  }}>
-                    <i className="edit outline grey icon"></i>
-                    Due {dueDateFormatted}
-                  </span>
-                  <h4 className='ui header'>{this.props.task.title}</h4>
-                  <p style={{color:'black'}}><pre>{this.props.task.description}</pre></p>
+                  }}></i>
+                  <div className='header'>{this.props.task.title}</div>
+                  <div className='meta'>
+                    {formattedDate}
+                    <span className='right floated'>Due {dueDateFormatted}</span></div>
+                  <div className='description'>
+                    <p style={{color:'black'}}><pre>{this.props.task.description}</pre></p>
+                  </div>
                 </div>
               </div>
             </Modal>

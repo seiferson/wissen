@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Task from './Task';
+import Pagination from './Pagination';
 import ChartComponent from './ChartComponent';
 import CreateEditTaskModal from './CreateEditTaskModal';
 import ViewTaskModal from './ViewTaskModal';
@@ -13,12 +14,14 @@ class TasksDashboard extends Component {
             tasks: [],
             task: undefined,
             selected : 'to do',
-            url: '/api/v1/tasks/search/todo?page=0&size=5',
+            url: '/api/v1/tasks/search/todo',
             filters : [
                 'past due',
                 'completed'
             ],
-            mode: 'create'
+            mode: 'create',
+            pages: 1,
+            currentPage: 1
         };
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -57,13 +60,17 @@ class TasksDashboard extends Component {
         this.props.authCallback(function() {
             $.ajax({
                 type: 'GET',
-                url: that.state.url,
+                url: that.state.url + '?page=' + (that.state.currentPage - 1) + '&size=5',
                 headers: {
                     'Authorization' : 'Bearer ' + that.props.token,
                     'Accept' : 'application/json'
                 },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function(data) {
+                    that.setState({
+                        pages: data.totalPages,
+                        currentPage: data.number + 1
+                    });
                     data.content.forEach(function(element){
 
                         element.viewAction = function() {
@@ -94,17 +101,18 @@ class TasksDashboard extends Component {
                 var newx = that.state.filters.filter(e => e !== value);
                 newx.push(prev);
 
-                var xurl = '/api/v1/tasks/search/todo?page=0&size=5';
+                var xurl = '/api/v1/tasks/search/todo';
                 if(value === 'completed'){
-                    xurl = '/api/v1/tasks/search/completed?page=0&size=5'
+                    xurl = '/api/v1/tasks/search/completed'
                 } else if(value === 'past due') {
-                    xurl = '/api/v1/tasks/search/pastdue?page=0&size=5'
+                    xurl = '/api/v1/tasks/search/pastdue'
                 }
 
                 that.setState({
                     selected: value,
                     filters: newx,
-                    url: xurl
+                    url: xurl,
+                    currentPage: 1
                 }, that.handleGetTasks());
             }
         });
@@ -120,17 +128,18 @@ class TasksDashboard extends Component {
                 var newx = that.state.filters.filter(e => e !== value);
                 newx.push(prev);
 
-                var xurl = '/api/v1/tasks/search/todo?page=0&size=5';
+                var xurl = '/api/v1/tasks/search/todo';
                 if(value === 'completed'){
-                    xurl = '/api/v1/tasks/search/completed?page=0&size=5'
+                    xurl = '/api/v1/tasks/search/completed'
                 } else if(value === 'past due') {
-                    xurl = '/api/v1/tasks/search/pastdue?page=0&size=5'
+                    xurl = '/api/v1/tasks/search/pastdue'
                 }
 
                 that.setState({
                     selected: value,
                     filters: newx,
-                    url: xurl
+                    url: xurl,
+                    currentPage: 1
                 }, that.handleGetTasks());
             }
         });
@@ -180,29 +189,36 @@ class TasksDashboard extends Component {
               </div>
               <div className='ui bottom attached segment'>
                 {tasks}
-                <div className='two ui buttons'>
-                <button class="ui labeled icon button">
-                  <i class="left arrow  icon"></i>
-                  Previous
-                </button>
-                <button class="ui right labeled icon button">
-                  <i class="right arrow icon"></i>
-                  Next
-                </button>
-                </div>
+                <Pagination
+                  pages={this.state.pages}
+                  current={this.state.currentPage}
+                  prevCallback={function() {
+                    console.log(that.state.pages);
+                    if(that.state.currentPage > 1) {
+                        var n = that.state.currentPage - 1;
+                        that.setState({'currentPage': n}, that.handleGetTasks);
+                    }
+                  }}
+                  nextCallback={function() {
+                      console.log(that.state.pages);
+                      if(that.state.currentPage < that.state.pages) {
+                          var n = that.state.currentPage + 1;
+                          that.setState({'currentPage': n}, that.handleGetTasks);
+                      }
+                  }}/>
                 <div style={{clear:'both'}}></div>
               </div>
               <ViewTaskModal
                 user={this.props.user}
                 avatar={this.props.avatar}
                 task={this.state.task}
-                parentStateCallback={this.handleStateChange}/>
+                parentStateCallback={this.handleStateChange} />
               <CreateEditTaskModal
                 token={this.props.token}
                 mode={this.state.mode}
                 task={this.state.task}
                 patchTask={this.handlePatchTask}
-                getTasks={this.handleGetTasks}/>
+                getTasks={this.handleGetTasks} />
             </Fragment>
         );
     }
