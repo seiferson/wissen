@@ -32,8 +32,6 @@ public class Task {
 	private Boolean completed;
 	private Date completionDate;
 	private List<String> tags;
-	private String status;
-	private String icon;
 
 	public Date getLastUpdate() {
 		return this.lastUpdate;
@@ -113,21 +111,5 @@ public class Task {
 
 	public void setTags(List<String> tags) {
 		this.tags = tags;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
 	}
 }

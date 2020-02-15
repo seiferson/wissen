@@ -1,13 +1,11 @@
 package com.seifernet.wissen.controller;
 
-import com.mongodb.operation.GroupOperation;
 import com.seifernet.wissen.model.ChartData;
 import com.seifernet.wissen.model.tracker.Task;
 import com.seifernet.wissen.repository.tracker.TaskRepository;
 import com.seifernet.wissen.util.HashGen;
 import com.seifernet.wissen.util.ResponseMessage;
 import com.seifernet.wissen.util.ResponseMessage.ResponseStatus;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,6 +30,35 @@ public class TaskController {
 
     @Autowired
     private TaskRepository repo;
+
+    @DeleteMapping("/api/v1/tasks/{id}")
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> deleteTaskService(@PathVariable String id, Authentication authentication) {
+        Optional<Task> optional = repo.findById(id);
+
+        if(optional.isPresent()){
+            Task base = optional.get();
+
+            if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())) {
+                repo.delete(base);
+                return ResponseEntity.ok(new ResponseMessage(
+                        ResponseStatus.SUCCESS,
+                        "[Task successfully deleted]"
+                ));
+            } else {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new ResponseMessage(
+                                ResponseStatus.ERROR,
+                                "[Access denied]"
+                        ));
+            }
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 
     @PostMapping("/api/v1/tasks")
     @ResponseBody
@@ -111,13 +137,17 @@ public class TaskController {
                     base.setTitle(task.getTitle());
                 }
 
+                if(task.getTags() != null) {
+                    base.setTags(task.getTags());
+                }
+
                 base.setLastUpdate(new Date());
 
                 repo.save(base);
 
                 return ResponseEntity.ok(new ResponseMessage(
                     ResponseStatus.SUCCESS,
-                    "[Task succesfully updated]"
+                    "[Task successfully updated]"
                 ));
             } else {
                 return ResponseEntity

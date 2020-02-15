@@ -7,9 +7,11 @@ class CreateEditTaskModal extends Component {
         super(props);
 
         this.state = {
-            title : '',
+            title: '',
             description : '',
             duedate : (new Date()).toISOString().substring(0,16),
+            tags: [],
+            tag: '',
             category : '',
             formTitle: '',
             buttonText: ''
@@ -18,6 +20,8 @@ class CreateEditTaskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleInit = this.handleInit.bind(this);
+        this.handleTagsKeyDownEvent = this.handleTagsKeyDownEvent.bind(this);
+        this.handleRemoveTagEvent = this.handleRemoveTagEvent.bind(this);
     }
 
     componentDidMount() {
@@ -33,7 +37,8 @@ class CreateEditTaskModal extends Component {
             },
             onSuccess : function(event, fields){
                 event.preventDefault();
-            }
+            },
+            keyboardShortcuts: false
         });
     }
 
@@ -61,8 +66,7 @@ class CreateEditTaskModal extends Component {
                         'title' : that.state.title,
                         'dueDate' : that.state.duedate,
                         'description' : that.state.description,
-                        'category' : that.state.category,
-                        'updates' : []
+                        'tags' : that.state.tags,
                     }),
                     error: function(XMLHttpRequest) {
                     },
@@ -78,7 +82,7 @@ class CreateEditTaskModal extends Component {
                     'title': this.state.title,
                     'description': this.state.description,
                     'dueDate': this.state.duedate,
-                    'category': this.state.category
+                    'tags': this.state.tags
                 }, this.props.task);
                 setTimeout(function() {
                     $('#createtaskmodal').modal('hide');
@@ -96,7 +100,8 @@ class CreateEditTaskModal extends Component {
                 title: '',
                 description: '',
                 dueDate : (new Date()).toISOString().substring(0,16),
-                category : '',
+                tags : [],
+                tag: '',
                 buttonText: 'Create'
             });
         } else if(this.props.mode === 'edit') {
@@ -105,14 +110,41 @@ class CreateEditTaskModal extends Component {
                 title: this.props.task.title,
                 description: this.props.task.description,
                 dueDate : (new Date(this.props.task.dueDate)).toISOString().substring(0,16),
-                category: this.props.task.category,
+                tags: this.props.task.tags,
+                tag: '',
                 buttonText: 'Edit'
             });
         }
    }
 
+    handleTagsKeyDownEvent(event) {
+        if(event.keyCode === 13) {
+            event.preventDefault();
+            if(!this.state.tags.includes(this.state.tag)){
+                var current = this.state.tags;
+                current.push(this.state.tag);
+
+                this.setState({
+                    tags: current,
+                    tag: ''
+                });
+            } else {
+                this.setState({
+                    tag: ''
+                });
+            }
+        }
+    }
+
+    handleRemoveTagEvent(tag) {
+       var current = this.state.tags.filter(e => e !== tag);
+       this.setState({
+           tags: current
+       });
+    }
 
     render() {
+        var that = this;
         return (
             <Modal id='createtaskmodal' onOpeningCallback={this.handleInit}>
               <form className='ui small form' id='createtaskform' onSubmit={this.handleSubmit}>
@@ -136,19 +168,36 @@ class CreateEditTaskModal extends Component {
                 </div>
                 <div className='two fields'>
                   <div className='field'>
+                    <label>Tags</label>
+                    <input
+                      type='text'
+                      name='tag'
+                      id='tagref'
+                      value={this.state.tag}
+                      onChange={(event) => this.handleUserInput(event)}
+                      onKeyDown={(event) => this.handleTagsKeyDownEvent(event)} />
+                  </div>
+                  <div className='field'>
                     <label>Due date</label>
                     <input
                       type='datetime-local'
                       name='duedate'
                       value={this.state.duedate} onChange={(event) => this.handleUserInput(event)} />
                   </div>
+                </div>
+                <div className='two fields'>
                   <div className='field'>
-                    <label>Tags</label>
-                    <input
-                      type='text'
-                      name=''
-                      value=''
-                      onChange='' />
+                    <div className="ui labels">
+                      {this.state.tags.map((entry, i) =>{ return(
+                          <div class="ui teal label">
+                            <i class="tag icon"></i>
+                            {entry}
+                            <i class="delete icon" onClick={function() {
+                              that.handleRemoveTagEvent(entry);
+                            }}></i>
+                          </div>
+                      );})}
+                    </div>
                   </div>
                 </div>
                 <div className='ui error message' id='cretaskdisplayerrors'></div>

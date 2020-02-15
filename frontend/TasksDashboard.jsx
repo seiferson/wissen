@@ -27,10 +27,34 @@ class TasksDashboard extends Component {
         this.handleStateChange = this.handleStateChange.bind(this);
         this.handleGetTasks = this.handleGetTasks.bind(this);
         this.handlePatchTask = this.handlePatchTask.bind(this);
+        this.handleDeleteTask = this.handleDeleteTask.bind(this);
     }
 
     handleStateChange(object, callback) {
         this.setState(object, callback);
+    }
+
+    handleDeleteTask(task) {
+        var that = this;
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/tasks/' + task.id,
+            headers: {
+                'Authorization' : 'Bearer ' + that.props.token,
+                'Accept' : 'application/json'
+            },
+            contentType: 'application/json',
+            error: function(XMLHttpRequest) {
+
+            },
+            success: function(resultData) {
+                that.handleGetTasks();
+                setTimeout(function() {
+                    $('#taskmodal').modal('hide');
+                }, 100);
+            }
+        });
     }
 
     handlePatchTask(attributes, task) {
@@ -81,8 +105,10 @@ class TasksDashboard extends Component {
 
                         element.patchAction = function(attributes) {
                             that.handlePatchTask(attributes, element);
-                            that.handleGetTasks();
-                            that.setState({task: element});
+                        }
+
+                        element.deleteAction = function() {
+                            that.handleDeleteTask(element);
                         }
                     });
 
@@ -193,14 +219,12 @@ class TasksDashboard extends Component {
                   pages={this.state.pages}
                   current={this.state.currentPage}
                   prevCallback={function() {
-                    console.log(that.state.pages);
                     if(that.state.currentPage > 1) {
                         var n = that.state.currentPage - 1;
                         that.setState({'currentPage': n}, that.handleGetTasks);
                     }
                   }}
                   nextCallback={function() {
-                      console.log(that.state.pages);
                       if(that.state.currentPage < that.state.pages) {
                           var n = that.state.currentPage + 1;
                           that.setState({'currentPage': n}, that.handleGetTasks);

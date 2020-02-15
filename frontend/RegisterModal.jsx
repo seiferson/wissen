@@ -61,7 +61,8 @@ class RegisterModal extends Component {
             },
             onSuccess : function(event, fields) {
                 event.preventDefault();
-            }
+            },
+            keyboardShortcuts: false
         });
     }
 

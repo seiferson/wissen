@@ -1,31 +1,5 @@
 import React, {Component} from 'react';
 
-/*
-    Semantic UI React Modal
-
-    {Properties: {
-        onClosedCallback: 'Callback function invoked after modal closing animation is over',
-        onOpeningCallback: 'Callback function invoked before modal shows',
-        title: 'Header title for the modal',
-        id: 'Modal id',
-        modalType: [
-            '',
-            'basic',
-            'fullscreen',
-            'mini',
-            'tiny',
-            'small',
-            'large',
-            'long',
-            'longer'
-        ],
-        contentType: [
-            '',
-            'image',
-            'scrolling'
-        ]}
-    }
-*/
 class Modal extends Component {
 
     componentDidMount() {
@@ -55,7 +29,7 @@ class Modal extends Component {
         }
 
         return ReactDOM.createPortal((
-            <div className={`ui ${this.props.modalType} modal`} style={{position: 'absolute'}} id={this.props.id}>
+            <div className={`ui ${this.props.modalType} modal`} id={this.props.id}>
               {title}
               <div className={`${this.props.contentType} content`}>
                 {this.props.children}

@@ -95,7 +95,8 @@ class AuthenticationModal extends Component {
             },
             onSuccess : function(event, fields) {
                 event.preventDefault();
-            }
+            },
+            keyboardShortcuts: false
         });
     }
 

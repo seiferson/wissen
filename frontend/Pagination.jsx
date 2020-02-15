@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react';
 class Pagination extends Component {
 
     render() {
-        if(this.props.pages === 1) {
+        if(this.props.pages <= 1 ) {
             return(<Fragment />);
         }
 
