@@ -99,7 +99,7 @@ class CreateEditTaskModal extends Component {
                 formTitle: 'Create task',
                 title: '',
                 description: '',
-                dueDate : (new Date()).toISOString().substring(0,16),
+                duedate : (new Date()).toISOString().substring(0,16),
                 tags : [],
                 tag: '',
                 buttonText: 'Create'
@@ -109,8 +109,8 @@ class CreateEditTaskModal extends Component {
                 formTitle: 'Edit task ' + this.props.task.id,
                 title: this.props.task.title,
                 description: this.props.task.description,
-                dueDate : (new Date(this.props.task.dueDate)).toISOString().substring(0,16),
-                tags: this.props.task.tags,
+                duedate : (new Date(this.props.task.dueDate)).toISOString().substring(0,16),
+                tags: (this.state.tags === undefined ? [] : this.state.tags),
                 tag: '',
                 buttonText: 'Edit'
             });
