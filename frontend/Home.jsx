@@ -28,8 +28,8 @@ class Home extends Component {
                         <p>
                           The initial idea behind the project was to create a flashcard repository or "knowledge base"
                           (thus the name "Wissen", which means knowledge in german), but since 2016 this has been my
-                          playground for learning new technologies and frameworks. The last two years have seen the
-                          higher peak of activity.
+                          playground for learning new technologies and frameworks. Having the last two years the
+                          higher peak of development activity.
                         </p>
                         <p>
                           You can follow the development of this project, collaborate and raise bugs on github.
