@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 /**`
  * Spring boot main class and annotation configuration
  * 
@@ -19,7 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableSwagger2
 public class SpringBoot {
 
 	/**
