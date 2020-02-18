@@ -14,7 +14,6 @@ class Home extends Component {
                     Wissen
                   </h2>
                 </div>
-                <div className='ui basic segment'></div>
                 <div className='ui stackable two column grid'>
                   <div className='column'>
                     <div className='ui icon message'>
@@ -28,24 +27,34 @@ class Home extends Component {
                         <p>
                           The initial idea behind the project was to create a flashcard repository or "knowledge base"
                           (thus the name "Wissen", which means knowledge in german), but since 2016 this has been my
-                          playground for learning new technologies and frameworks. Having the last two years the
-                          higher peak of development activity.
+                          playground for software development. Having the last two years the higher peak of activity.
                         </p>
                         <p>
                           You can follow the development of this project, collaborate and raise bugs on github.
                         </p>
                         <div className='ui labels'>
                           <a className='ui grey label' href='https://github.com/seiferxx/wissen'>
-                            <i className='github icon'></i> wissen
+                            <i className='github icon'></i>wissen
                           </a>
                           <a className='ui grey label' href='https://github.com/Seiferxx/wissen/tree/development-heroku'>
-                            <i className='code branch icon'></i> dev branch
+                            <i className='code branch icon'></i>dev branch
                           </a>
                           <a className='ui grey label' href='https://github.com/Seiferxx/wissen/issues'>
-                            <i className='bug icon'></i> bugs
+                            <i className='bug icon'></i>bugs
                           </a>
                           <a className='ui grey label' href='https://github.com/Seiferxx/wissen/projects/2'>
-                            <i className='project diagram icon'></i> project
+                            <i className='project diagram icon'></i>project
+                          </a>
+                        </div>
+                        <p>
+                          If you have any concern regarding the project please contact me
+                        </p>
+                        <div className='ui labels'>
+                          <div className='ui grey label'>
+                            <i className='google icon'></i>seifer.ch@gmail.com
+                          </div>
+                          <a className='ui grey label' href='https://twitter.com/Seiferson'>
+                            <i className='twitter icon'></i>@Seiferson
                           </a>
                         </div>
                       </div>
