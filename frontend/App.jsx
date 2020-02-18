@@ -41,9 +41,8 @@ class App extends Component {
         var that = this;
 
         if(this.state.token !== undefined && this.state.user !== 'anonymous') {
-            fetch('/oauth/check_token', {
+            fetch('/oauth/check_token?token=' + that.state.token, {
                 method: 'post',
-                body: JSON.stringify({token: that.state.token}),
                 headers: {
                     'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
                     'Accept' : 'application/json'
