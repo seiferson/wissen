@@ -105,12 +105,13 @@ class CreateEditTaskModal extends Component {
                 buttonText: 'Create'
             });
         } else if(this.props.mode === 'edit') {
+            console.log(this.props.task.tags);
             this.setState({
                 formTitle: 'Edit task ' + this.props.task.id,
                 title: this.props.task.title,
                 description: this.props.task.description,
                 duedate : (new Date(this.props.task.dueDate)).toISOString().substring(0,16),
-                tags: (this.state.tags === undefined ? [] : this.state.tags),
+                tags: (this.props.task.tags === undefined ? [] : this.props.task.tags),
                 tag: '',
                 buttonText: 'Edit'
             });

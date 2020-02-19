@@ -4,6 +4,8 @@
 .project
 .settings/
 .tern-project
+.npmrc
+wissen.iml
 
 #Maven files
 target/
