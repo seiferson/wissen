@@ -8,6 +8,7 @@ class Modal extends Component {
         $(`#${this.props.id}`).modal( {
             allowMultiple: false,
             detachable: false,
+            useFlex: false,
             onHidden: function() {
                 if(that.props.onClosedCallback !== undefined) {
                     that.props.onClosedCallback();
@@ -29,7 +30,7 @@ class Modal extends Component {
         }
 
         return ReactDOM.createPortal((
-            <div className={`ui ${this.props.modalType} modal`} id={this.props.id}>
+            <div className={`ui ${this.props.modalType} modal`} style={{position: 'fixed'}} id={this.props.id}>
               {title}
               <div className={`${this.props.contentType} content`}>
                 {this.props.children}
