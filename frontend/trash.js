@@ -1,3 +1,49 @@
+
+        $('.ui.search')
+          .search({
+            minCharacters : 3,
+            apiSettings   : {
+              onResponse: function(githubResponse) {
+                var
+                  response = {
+                    results : []
+                  }
+                ;
+                $.each(githubResponse.content, function(index, item) {
+                  var
+                    maxResults = 8
+                  ;
+                  if(index >= maxResults) {
+                    return false;
+                  }
+
+                  response.results.push({
+                    title       : item.title,
+                    description : item.description.slice(0, 40)
+                  });
+                });
+                return response;
+              },
+              url: '/api/v1/tasks/search/bytag?tag={query}&size=5&page=0',
+              headers: {
+                  'Authorization' : 'Bearer ' + that.props.token,
+                  'Accept' : 'application/json'
+              }
+            }
+          })
+        ;
+
+
+
+
+         <div class="ui right aligned category search item">
+                            <div class="ui transparent icon input">
+                              <input class="prompt" type="text" placeholder="Search by tag" />
+                              <i class="search link icon"></i>
+                            </div>
+                            <div class="results"></div>
+                          </div>
+
 import React, { Component } from 'react';
 import Goal from './Goal';
 

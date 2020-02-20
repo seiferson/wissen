@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -79,6 +80,14 @@ public class TaskController {
     public ResponseEntity<Page<Task>> getIncompleteTasks(Authentication authentication, @RequestParam int page, @RequestParam int size) {
         Pageable pageData = PageRequest.of(page,size);
         Page<Task> result = repo.findByOwnerAndCompletedFalseOrderByCreationDate(HashGen.md5gen(authentication.getName()), pageData);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/api/v1/tasks/search/bytag")
+    @ResponseBody
+    public ResponseEntity<Page<Task>> getTasksByTag(Authentication authentication, @RequestParam List<String> tags, @RequestParam int page, @RequestParam int size) {
+        Pageable pageData = PageRequest.of(page,size);
+        Page<Task> result = repo.findByOwnerAndTagsIn(HashGen.md5gen(authentication.getName()), tags, pageData);
         return ResponseEntity.ok(result);
     }
 

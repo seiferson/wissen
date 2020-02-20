@@ -1,3 +1,54 @@
+
+	@GetMapping("/activate")
+	@ResponseBody
+	public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
+		Account account = repo.findByNickname(nickname);
+		Date currentDate = new Date();
+
+		if(account == null) {
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid token/account combination");
+		}
+
+		if(account.isEnabled()){
+			return ResponseEntity
+				.badRequest()
+				.body("Account already active");
+		}
+
+		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)) {
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid or expired token");
+		}
+
+		account.setValidationTokenExpiration(null);
+		account.setValidationToken(null);
+		account.setEnabled(true);
+
+		repo.save(account);
+
+		return ResponseEntity
+			.ok()
+			.body("Account activated");
+	}
+
+	@GetMapping("/recover")
+	@ResponseBody
+	public ResponseEntity<String> recoverPasswordService(@RequestParam String nickname){
+		Account account = repo.findByNickname(nickname);
+
+		if(account == null){
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid account");
+		}
+
+		//TODO send mail with new password?
+		return null;
+	}
+
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */

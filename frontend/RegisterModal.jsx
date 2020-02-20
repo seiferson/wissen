@@ -166,7 +166,7 @@ class RegisterModal extends Component {
                     </div>
                     <div className='ui success message'>
                       <div className='header'>Account created</div>
-                      <p>Please review your email inbox and follow the link to activate your account</p>
+                      <p>Please log in using your user and password</p>
                     </div>
                     <div className='ui error message' id='regdisplayerrors'></div>
                     <button className='ui blue fluid button' type='submit' >Register</button>

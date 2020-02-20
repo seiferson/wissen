@@ -3,7 +3,6 @@ package com.seifernet.wissen.model.tracker;
 import java.util.Date;
 import java.util.List;
 
-import com.seifernet.wissen.model.Comment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

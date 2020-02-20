@@ -79,8 +79,7 @@ public class AccountController {
 
 		return ResponseEntity.ok(new ResponseMessage(
 			ResponseStatus.SUCCESS,
-			"[Account " + account.getId() +
-			" created, please follow the link sent to your mail address to activate your account]"
+			"[Account " + account.getId() + " created]"
 		));
     }
 
@@ -122,7 +121,7 @@ public class AccountController {
 	public ResponseEntity<ResponseMessage> updateAccountService(
 			@RequestBody @Valid Account account,
 			Authentication authentication
-	){
+	) {
 		if(authentication.getName().equals(account.getNickname())) {
 			Account base = repo.findByNickname(account.getNickname());
 			if(!base.getEmail().equals(account.getEmail())){
@@ -152,55 +151,5 @@ public class AccountController {
 						"[Access denied]"
 				));
 		}
-	}
-
-	@GetMapping("/activate")
-	@ResponseBody
-	public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
-		Account account = repo.findByNickname(nickname);
-		Date currentDate = new Date();
-
-		if(account == null) {
-			return ResponseEntity
-				.badRequest()
-				.body("Invalid token/account combination");
-		}
-
-		if(account.isEnabled()){
-			return ResponseEntity
-				.badRequest()
-				.body("Account already active");
-		}
-
-		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)) {
-			return ResponseEntity
-				.badRequest()
-				.body("Invalid or expired token");
-		}
-
-		account.setValidationTokenExpiration(null);
-		account.setValidationToken(null);
-		account.setEnabled(true);
-
-		repo.save(account);
-
-		return ResponseEntity
-			.ok()
-			.body("Account activated");
-	}
-
-	@GetMapping("/recover")
-	@ResponseBody
-	public ResponseEntity<String> recoverPasswordService(@RequestParam String nickname){
-		Account account = repo.findByNickname(nickname);
-
-		if(account == null){
-			return ResponseEntity
-				.badRequest()
-				.body("Invalid account");
-		}
-
-		//TODO send mail with new password?
-		return null;
 	}
 }

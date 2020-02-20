@@ -105,7 +105,6 @@ class CreateEditTaskModal extends Component {
                 buttonText: 'Create'
             });
         } else if(this.props.mode === 'edit') {
-            console.log(this.props.task.tags);
             this.setState({
                 formTitle: 'Edit task ' + this.props.task.id,
                 title: this.props.task.title,

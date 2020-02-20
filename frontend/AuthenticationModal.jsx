@@ -58,7 +58,7 @@ class AuthenticationModal extends Component {
                     $.cookie('authuser', that.state.user);
                     $('#authmodal').modal('hide');
 
-                    var xData = data;
+                    var parentData = data;
 
                     $.ajax({
                         type: 'GET',
@@ -68,10 +68,20 @@ class AuthenticationModal extends Component {
                             'Accept' : 'application/json'
                         },
                         success: function(data) {
+                            $('body').toast({
+                                title: 'Welcome back ',
+                                message: that.state.user,
+                                class: '',
+                                showIcon: 'door open',
+                                className: {
+                                    toast: 'ui message'
+                                }
+                            })
+                            ;
                             $.cookie('avatar', data.avatarSeed);
                             that.props.parentStateCallback({
                                 user: that.state.user,
-                                token: xData.access_token,
+                                token: parentData.access_token,
                                 avatar: data.avatarSeed
                             });
                         }
