@@ -28,10 +28,37 @@ class App extends Component {
 
         this.handleStateChange = this.handleStateChange.bind(this);
         this.handleAuthValidation = this.handleAuthValidation.bind(this);
+        this.handleRevokeToken = this.handleRevokeToken.bind(this);
     }
 
     componentDidMount() {
         this.handleAuthValidation(function(){}, function(){});
+    }
+
+    handleRevokeToken() {
+        var that = this;
+
+        fetch('/oauth/token?token=' + that.state.token, {
+            method: 'delete',
+            headers: {
+                'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+                'Accept' : 'application/json'
+            }
+        })
+        .then(function(response) {
+            if (response.status === 200) {
+                $.removeCookie('authtoken');
+                $.cookie('authuser', 'anonymous');
+                $.cookie('avatar', md5(Math.random().toString()));
+
+                that.setState({
+                    user: 'anonymous',
+                    avatar: $.cookie('avatar'),
+                    token: undefined
+                });
+            }
+
+        });
     }
 
     handleStateChange(object, callback) {
@@ -94,7 +121,11 @@ class App extends Component {
 
         return (
             <Fragment>
-              <TopMenu user={this.state.user} avatar={this.state.avatar} parentStateCallback={this.handleStateChange}/>
+              <TopMenu
+                user={this.state.user}
+                avatar={this.state.avatar}
+                parentStateCallback={this.handleStateChange}
+                signOut={this.handleRevokeToken}/>
               {layout}
               <AuthenticationModal parentStateCallback={this.handleStateChange} />
               <RegisterModal />
