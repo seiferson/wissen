@@ -13,6 +13,8 @@ class TopMenu extends Component{
               <div className='ui right item' onClick={function() {
                   if(that.props.user === 'anonymous') {
                       $('#authmodal').modal('show');
+                  } else {
+                      that.props.parentStateCallback({layout: 'profile'}, function(){});
                   }
               }}>
                 <img

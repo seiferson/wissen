@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Home from './Home';
+import Profile from './Profile';
 import TopMenu from './TopMenu';
 import AuthenticationModal from './AuthenticationModal';
 import RegisterModal from './RegisterModal';
@@ -81,11 +82,19 @@ class App extends Component {
                 token={this.state.token}
                 avatar={this.state.avatar}
             />);
+        } else if(this.state.layout === 'profile') {
+            layout = (<Profile
+                parentStateCallback={this.handleStateChange}
+                authCallback={this.handleAuthValidation}
+                user={this.state.user}
+                token={this.state.token}
+                avatar={this.state.avatar}
+            />);
         }
 
         return (
             <Fragment>
-              <TopMenu user={this.state.user} avatar={this.state.avatar} />
+              <TopMenu user={this.state.user} avatar={this.state.avatar} parentStateCallback={this.handleStateChange}/>
               {layout}
               <AuthenticationModal parentStateCallback={this.handleStateChange} />
               <RegisterModal />
