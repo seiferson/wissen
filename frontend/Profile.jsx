@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 class Profile extends Component {
 
-    render(){
+    render() {
         return (
             <div className='ui container'>
               <div className='ui stackable grid'>
@@ -28,7 +28,6 @@ class Profile extends Component {
                 </div>
               </div>
             </div>
-
         );
     }
 

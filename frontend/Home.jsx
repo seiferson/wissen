@@ -51,10 +51,6 @@ class Home extends Component {
             </div>
         );
 
-        if(this.props.user !== 'anonymous') {
-            welcome_message = <Fragment />;
-        }
-
         return(
             <Fragment>
               <div className='ui container'>
@@ -69,11 +65,6 @@ class Home extends Component {
                     {welcome_message}
                   </div>
                   <div className='column'>
-                    <TasksDashboard
-                      authCallback={this.props.authCallback}
-                      user={this.props.user}
-                      token={this.props.token}
-                      avatar={this.props.avatar} />
                   </div>
                 </div>
               </div>
