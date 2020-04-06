@@ -37,7 +37,7 @@ public class DataLoader implements ApplicationRunner{
 
 	public void loadMainAccount(){
 		if(!accounts.existsByNickname("wissenmaster")){
-			logger.info("[Nonexistent main account, creating...]");
+			logger.info("[Nonexistent main account, creating wissenmaster...]");
 
 			ArrayList<String> authorities = new ArrayList<>();
 			authorities.add("USER");

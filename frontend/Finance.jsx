@@ -37,26 +37,38 @@ class Finance extends Component{
                       </thead>
                       <tbody>
                         <tr>
-                          <td class='collapsing'><i class='receipt icon'></i> Credit card payment</td>
-                          <td>15,587.00 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
+                          <td class='collapsing'><i class='calendar alternate outline icon'></i>27/02/2020</td>
+                          <td><i class='receipt icon'></i>Credit card payment</td>
+                          <td class='right aligned collapsing'>15,587.00 MXN</td>
                         </tr>
                         <tr>
-                          <td class='collapsing'><i class='gas pump icon'></i> Fuel</td>
-                          <td>700.00 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
+                          <td class='collapsing'><i class='calendar alternate outline icon'></i>12/02/2020</td>
+                          <td><i class='gas pump icon'></i>Fuel</td>
+                          <td class='right aligned collapsing'>700.00 MXN</td>
                         </tr>
                         <tr>
-                          <td class='collapsing'><i class='carrot icon'></i> Grocery</td>
-                          <td>854.20 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
+                          <td class='collapsing'><i class='calendar alternate outline icon'></i>06/02/2020</td>
+                          <td><i class="shopping cart icon"></i>Grocery</td>
+                          <td class='right aligned collapsing'>854.20 MXN</td>
                         </tr>
-                        <tr class="positive">
-                            <td><b><i class="receipt icon"></i> Total</b></td>
-                            <td>21587.00 MXN</td>
-                            <td></td>
+                        <tr>
+                          <td class='collapsing'><i class='calendar alternate outline icon'></i>25/01/2020</td>
+                          <td><i class='car icon'></i>Car repair</td>
+                          <td class='right aligned collapsing'>1200.00 MXN</td>
                         </tr>
+                         <tr>
+                           <td class='collapsing'><i class='calendar alternate outline icon'></i>12/01/2020</td>
+                           <td><i class='hospital outline icon'></i>Hospital bill</td>
+                           <td class='right aligned collapsing'>3000.00 MXN</td>
+                         </tr>
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <th></th>
+                          <th><b><i class="receipt icon"></i> Total</b></th>
+                          <th class='right aligned collapsing'>21587.00 MXN</th>
+                        </tr>
+                      </tfoot>
                     </table>
                     <table class="ui striped compact table">
                       <thead>
@@ -80,7 +92,7 @@ class Finance extends Component{
                           <td>854.20 MXN</td>
                           <td class='right aligned collapsing'>27/02/2020</td>
                         </tr>
-                        <tr class="active">
+                        <tr>
                             <td><b><i class="donate icon"></i> Total</b></td>
                             <td>21587.00 MXN</td>
                             <td></td>

@@ -76,7 +76,8 @@ class TopMenu extends Component{
                             layout: 'codecamp'
                           });
                       }}>
-                        <i className='campground icon'></i>Code camp</div>
+                        <i className='campground icon'></i>Code camp
+                      </div>
                       <div className='divider'></div>
                       <div className='item' onClick={this.props.signOut}>
                         <i className='sign out alternate icon'></i>Sign out
@@ -96,7 +97,14 @@ class TopMenu extends Component{
               }}>
                 <h3 className='ui header'>Wissen</h3>
               </div>
-              <div className='ui item'><i className='campground icon'></i><span className='mobile hidden'>Code camp</span></div>
+              <div className='ui item'onClick={function() {
+                $.cookie('layout','codecamp');
+                that.props.parentStateCallback({
+                  layout: 'codecamp'
+                });
+              }}><i className='campground icon'></i><span className='mobile hidden'>Code camp</span></div>
+
+
               <div className='right menu'>
                 {userItem}
                 {menu}

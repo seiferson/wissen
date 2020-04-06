@@ -34,6 +34,7 @@ public class Utils {
 		randomAccount.setEmail(getRandomEmail());
 		randomAccount.setNickname(getRandomNickname());
 		randomAccount.setPassword(getRandomPassword());
+		randomAccount.setAvatarSeed(getRandomPassword());
 		return randomAccount;
 	}
 	

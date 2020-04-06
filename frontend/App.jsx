@@ -57,7 +57,8 @@ class App extends Component {
                 that.setState({
                     user: 'anonymous',
                     avatar: $.cookie('avatar'),
-                    token: undefined
+                    token: undefined,
+                    layout: 'home'
                 });
             }
 
@@ -136,15 +137,15 @@ class App extends Component {
               token={this.state.token}
               avatar={this.state.avatar}
           />);
-      } else if(this.state.layout === 'dashboard') {
-      layout = (<Dashboard
-          parentStateCallback={this.handleStateChange}
-          authCallback={this.handleAuthValidation}
-          user={this.state.user}
-          token={this.state.token}
-          avatar={this.state.avatar}
-      />);
-      }
+        } else if(this.state.layout === 'dashboard') {
+          layout = (<Dashboard
+              parentStateCallback={this.handleStateChange}
+              authCallback={this.handleAuthValidation}
+              user={this.state.user}
+              token={this.state.token}
+              avatar={this.state.avatar}
+          />);
+        }
 
         return (
             <Fragment>

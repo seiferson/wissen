@@ -2,6 +2,16 @@ import React, {Component, Fragment} from 'react';
 
 class CodeCamp extends Component{
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        }
+    }
+
+    componentDidMount() {
+    }
+
     render() {
         return(
             <div class="ui container">
