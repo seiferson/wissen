@@ -1,6 +1,7 @@
 package com.seifernet.wissen.repository.finance;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,12 +13,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.seifernet.wissen.model.finance.Transaction;
 
 public interface TransactionRepository extends MongoRepository<Transaction, String>{
-	/**
-	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
-	public Page<Transaction> findByOwnerAndDateBetween(
-		@Param("owner") String owner, 
-		@Param("start") @DateTimeFormat(pattern = "MM-dd-yyyy-HH-mm") Date start, 
-		@Param("end") @DateTimeFormat(pattern = "MM-dd-yyyy-HH-mm") Date end, 
-		Pageable pageable
-	);*/
+
+	public List<Transaction> findByOwnerAndDateBetween(
+			String owner,
+			Date start,
+			Date end
+	);
 }

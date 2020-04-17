@@ -5,9 +5,13 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Document
 public class Transaction {
-	
+
 	public enum TransactionType{
 		INCOME,
 		EXPENSE
@@ -15,34 +19,35 @@ public class Transaction {
 	
 	@Id
 	private String id;
-	
+
+	@NotBlank
 	private String owner;
-	
-	private Double value;
-	
+
+	@DecimalMin("0.0")
+	@NotNull
+	private Double amount;
+
+	@NotBlank
 	private String description;
-	
+
+	@NotNull
 	private TransactionType type;
-	
+
+	@NotNull
 	private Date date;
-	
-	public Transaction() {
-		
-	}
-	
-	public Transaction(String owner, Double value, String description, TransactionType type, Date date) {
-		super();
+
+	private String icon;
+
+	public Transaction(String owner, Double amount, String description, TransactionType type, Date date) {
 		this.owner = owner;
-		this.value = value;
+		this.amount = amount;
 		this.description = description;
 		this.type = type;
 		this.date = date;
+		this.icon = icon;
 	}
-	
-	@Override
-	public String toString() {
-		return this.description + " / " + this.value + " / " + this.date; 
-	}
+
+	public Transaction() {}
 
 	public String getId() {
 		return id;
@@ -60,12 +65,12 @@ public class Transaction {
 		this.owner = owner;
 	}
 
-	public Double getValue() {
-		return value;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public String getDescription() {
@@ -90,5 +95,13 @@ public class Transaction {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 }

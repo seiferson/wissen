@@ -3,13 +3,52 @@ import Pagination from './Pagination';
 
 class Finance extends Component{
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            expenseTransactions: [],
+            incomeTransactions: [],
+            balance: 0.00,
+            incomeTotal: 0.00,
+            expensesTotal: 0.00,
+            date: new Date()
+        }
+    }
+
+    handleGetTransactionData( ) {
+        var that = this;
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/finance/balance?month='+ (this.state.date.getMonth() + 1) +'&year=' + this.state.date.getFullYear(),
+            headers: {
+                'Authorization' : 'Bearer ' + that.props.token,
+                'Accept' : 'application/json'
+            },
+            success: function(data) {
+                that.setState({
+                    balance: data.balance,
+                    incomeTotal: data.incomeAmount,
+                    expensesTotal: data.expensesAmount,
+                    expenseTransactions: data.expenses,
+                    incomeTransactions: data.income
+                });
+            }
+        });
+    }
+
+    componentDidMount() {
+        this.handleGetTransactionData();
+    }
+
     render() {
         return(
             <div class="ui container">
               <div className='ui segment'>
                 <h2 className='ui center aligned icon header'>
                   <i className='circular chart line icon'></i>
-                  <div class="content">Expenses report<span class="sub header">Feb 2020</span></div>
+                  <div class="content">Expenses report<span class="sub header">{this.state.date.getMonth()+1}/{this.state.date.getFullYear()}</span></div>
                 </h2>
               </div>
               <div class="ui stackable grid">
@@ -18,8 +57,8 @@ class Finance extends Component{
                   </div>
                   <div class="six wide column">
                     <div class="ui green center aligned segment">
-                      <div class="ui green tiny statistic">
-                        <div class="value"><i class="wallet icon"></i> 35,000.00</div>
+                      <div class="ui tiny statistic">
+                        <div class="value"><i class="wallet icon"></i> {this.state.balance}</div>
                         <div class="label">Balance MXN</div>
                       </div>
                     </div>
@@ -36,37 +75,19 @@ class Finance extends Component{
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class='collapsing'><i class='calendar alternate outline icon'></i>27/02/2020</td>
-                          <td><i class='receipt icon'></i>Credit card payment</td>
-                          <td class='right aligned collapsing'>15,587.00 MXN</td>
-                        </tr>
-                        <tr>
-                          <td class='collapsing'><i class='calendar alternate outline icon'></i>12/02/2020</td>
-                          <td><i class='gas pump icon'></i>Fuel</td>
-                          <td class='right aligned collapsing'>700.00 MXN</td>
-                        </tr>
-                        <tr>
-                          <td class='collapsing'><i class='calendar alternate outline icon'></i>06/02/2020</td>
-                          <td><i class="shopping cart icon"></i>Grocery</td>
-                          <td class='right aligned collapsing'>854.20 MXN</td>
-                        </tr>
-                        <tr>
-                          <td class='collapsing'><i class='calendar alternate outline icon'></i>25/01/2020</td>
-                          <td><i class='car icon'></i>Car repair</td>
-                          <td class='right aligned collapsing'>1200.00 MXN</td>
-                        </tr>
-                         <tr>
-                           <td class='collapsing'><i class='calendar alternate outline icon'></i>12/01/2020</td>
-                           <td><i class='hospital outline icon'></i>Hospital bill</td>
-                           <td class='right aligned collapsing'>3000.00 MXN</td>
-                         </tr>
+                        {this.state.expenseTransactions.map((entry, i) =>{return(
+                            <tr>
+                              <td class='collapsing'><i class='calendar alternate outline icon'></i>{formatDate(entry.date)}</td>
+                              <td><i class='receipt icon'></i>{entry.description}</td>
+                              <td class='right aligned collapsing'>{entry.amount} MXN</td>
+                            </tr>
+                        );})}
                       </tbody>
                       <tfoot>
                         <tr>
                           <th></th>
                           <th><b><i class="receipt icon"></i> Total</b></th>
-                          <th class='right aligned collapsing'>21587.00 MXN</th>
+                          <th class='right aligned collapsing'>{this.state.expensesTotal} MXN</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -77,27 +98,21 @@ class Finance extends Component{
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class='collapsing'><i class='hand holding usd icon'></i> Salary</td>
-                          <td>15,587.00 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
-                        </tr>
-                        <tr>
-                          <td class='collapsing'><i class='money bill alternate outline icon'></i> Cash</td>
-                          <td>700.00 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
-                        </tr>
-                        <tr>
-                          <td class='collapsing'><i class='piggy bank icon'></i> Savings</td>
-                          <td>854.20 MXN</td>
-                          <td class='right aligned collapsing'>27/02/2020</td>
-                        </tr>
-                        <tr>
-                            <td><b><i class="donate icon"></i> Total</b></td>
-                            <td>21587.00 MXN</td>
-                            <td></td>
-                        </tr>
+                        {this.state.incomeTransactions.map((entry, i) =>{return(
+                            <tr>
+                              <td class='collapsing'><i class='calendar alternate outline icon'></i>{formatDate(entry.date)}</td>
+                              <td><i class='money bill alternate outline icon'></i>{entry.description}</td>
+                              <td class='right aligned collapsing'>{entry.amount} MXN</td>
+                            </tr>
+                        );})}
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <th></th>
+                          <th><b><i class="donate icon"></i> Total</b></th>
+                          <th class='right aligned collapsing'>{this.state.incomeTotal} MXN</th>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>

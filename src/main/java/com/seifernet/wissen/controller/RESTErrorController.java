@@ -32,7 +32,7 @@ public class RESTErrorController extends ResponseEntityExceptionHandler {
             .collect(Collectors.toList());
 
         for(String error : errors) {
-            body.setMessage(body.getMessage() + "[" + error + "] ");
+            body.setMessage(body.getMessage() + "[" + error + "]");
         }
 
         return new ResponseEntity<>(body, headers, status);

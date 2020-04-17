@@ -65,7 +65,7 @@ public class AccountController {
 				.badRequest()
 				.body(new ResponseMessage(
 						ResponseStatus.ERROR,
-						"[Error creating account, email or nickname not available]"
+						"[Error creating account. Email or nickname not available]"
 				));
 		} catch(Exception e) {
 			logger.error(e.getMessage());
