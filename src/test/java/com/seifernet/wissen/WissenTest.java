@@ -264,11 +264,11 @@ public class WissenTest {
 		headers.setAccept(acceptTypes);
 
 		Transaction t = new Transaction(
+				new Date(),
 				account.getNickname(),
 				amount,
 				description,
-				type,
-				new Date()
+				type
 		);
 
 		String body = mapper.writeValueAsString(t);

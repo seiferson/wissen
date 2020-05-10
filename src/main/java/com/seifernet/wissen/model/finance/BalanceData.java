@@ -4,33 +4,33 @@ import java.util.List;
 
 public class BalanceData {
 
-    private double balance;
-    private double incomeAmount;
-    private double expensesAmount;
+    private Double balance;
+    private Double incomeAmount;
+    private Double expensesAmount;
     private List<Transaction> expenses;
     private List<Transaction> income;
 
-    public double getIncomeAmount() {
+    public Double getIncomeAmount() {
         return incomeAmount;
     }
 
-    public void setIncomeAmount(double incomeAmount) {
+    public void setIncomeAmount(Double incomeAmount) {
         this.incomeAmount = incomeAmount;
     }
 
-    public double getExpensesAmount() {
+    public Double getExpensesAmount() {
         return expensesAmount;
     }
 
-    public void setExpensesAmount(double expensesAmount) {
+    public void setExpensesAmount(Double expensesAmount) {
         this.expensesAmount = expensesAmount;
     }
 
-    public double getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

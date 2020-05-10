@@ -1,7 +1,9 @@
 package com.seifernet.wissen.controller;
 
 import com.seifernet.wissen.model.finance.BalanceData;
+import com.seifernet.wissen.model.finance.FinancialAccount;
 import com.seifernet.wissen.model.finance.Transaction;
+import com.seifernet.wissen.repository.finance.FinancialAccountRepository;
 import com.seifernet.wissen.repository.finance.TransactionRepository;
 import com.seifernet.wissen.util.HashGen;
 import com.seifernet.wissen.util.ResponseMessage;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 public class FinanceController {
@@ -25,7 +28,93 @@ public class FinanceController {
     @Autowired
     private TransactionRepository transactionRepo;
 
+    @Autowired
+    private FinancialAccountRepository financialAccountRepo;
+
     private static final Logger logger = LoggerFactory.getLogger(FinanceController.class);
+
+    @PostMapping("/api/v1/finance/accounts")
+    public @ResponseBody ResponseEntity<ResponseMessage> createFinancialAccountService(
+            @RequestBody @Valid FinancialAccount account,
+            Authentication authentication
+    ) {
+        account.setOwner(HashGen.md5gen(authentication.getName()));
+
+        if(account.getAccount() == null) {
+            account.setAccount(HashGen.md5gen(authentication.getName() + "@GeneralAccount"));
+        } else {
+            Optional<FinancialAccount> reference = financialAccountRepo.findById(account.getAccount());
+            if(!reference.isPresent()) {
+                return ResponseEntity
+                    .badRequest()
+                    .body(new ResponseMessage(
+                        ResponseMessage.ResponseStatus.ERROR,
+                        "[Error creating financial account. Parent account not valid]"
+                    ));
+            } else if(!reference.get().getId().equals(HashGen.md5gen(authentication.getName()))) {
+                return ResponseEntity
+                    .badRequest()
+                    .body(new ResponseMessage(
+                        ResponseMessage.ResponseStatus.ERROR,
+                        "[Error creating financial account. Parent account not valid]"
+                    ));
+            }
+        }
+
+        try{
+            financialAccountRepo.insert(account);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+			return ResponseEntity
+				.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(new ResponseMessage(
+					ResponseMessage.ResponseStatus.ERROR,
+                    "[Error creating financial account, server error]"
+				));
+        }
+
+        return ResponseEntity.ok(new ResponseMessage(
+			ResponseMessage.ResponseStatus.SUCCESS,
+			"[Financial account " + account.getId() + " created]"
+		));
+    }
+
+    @PatchMapping("/api/v1/finance/accounts/{id}")
+    public @ResponseBody ResponseEntity<ResponseMessage> updateFinancialAccountService(
+            @RequestBody FinancialAccount account,
+            @PathVariable String id,
+            Authentication authentication
+    ) {
+        Optional<FinancialAccount> optional = financialAccountRepo.findById(id);
+        if(optional.isPresent()){
+            FinancialAccount base = optional.get();
+
+            if(HashGen.md5gen(authentication.getName()).equals(base.getOwner())) {
+
+                if (account.getType() != null) {
+                    base.setType(account.getType());
+                }
+
+                financialAccountRepo.save(base);
+
+                return ResponseEntity.ok(new ResponseMessage(
+                    ResponseMessage.ResponseStatus.SUCCESS,
+                    "[Financial account successfully updated]"
+                ));
+            } else {
+                return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseMessage(
+                            ResponseMessage.ResponseStatus.ERROR,
+                            "[Access denied]"
+                    ));
+            }
+        } else {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+        }
+    }
 
     @PostMapping("/api/v1/finance/transactions")
     public @ResponseBody ResponseEntity<ResponseMessage> createTransactionService(

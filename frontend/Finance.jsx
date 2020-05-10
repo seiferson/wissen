@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Pagination from './Pagination';
+import CreateEditTransactionModal from './CreateEditTransactionModal';
 
 class Finance extends Component{
 
@@ -66,6 +67,7 @@ class Finance extends Component{
                 </div>
                 <div class="row">
                   <div class="four wide column">
+                    <button class="ui fluid button" onClick={function(){$('#xmodal').modal('show');}}><i class="plus icon"></i> Log transaction</button>
                   </div>
                   <div class="twelve wide column">
                     <table class="ui striped compact table">
@@ -117,6 +119,7 @@ class Finance extends Component{
                   </div>
                 </div>
               </div>
+              <CreateEditTransactionModal />
             </div>
         );
     }

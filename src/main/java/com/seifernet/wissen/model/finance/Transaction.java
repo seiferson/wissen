@@ -20,10 +20,13 @@ public class Transaction {
 	@Id
 	private String id;
 
+	@NotNull
+	private Date date;
+
 	@NotBlank
 	private String owner;
 
-	@DecimalMin("0.0")
+	@DecimalMin("0.01")
 	@NotNull
 	private Double amount;
 
@@ -33,18 +36,16 @@ public class Transaction {
 	@NotNull
 	private TransactionType type;
 
-	@NotNull
-	private Date date;
+	private String account;
+	private String targetAccount;
+	private String category;
 
-	private String icon;
-
-	public Transaction(String owner, Double amount, String description, TransactionType type, Date date) {
+	public Transaction(Date date,String owner, Double amount, String description, TransactionType type) {
+		this.date = date;
 		this.owner = owner;
 		this.amount = amount;
 		this.description = description;
 		this.type = type;
-		this.date = date;
-		this.icon = icon;
 	}
 
 	public Transaction() {}
@@ -97,11 +98,27 @@ public class Transaction {
 		this.date = date;
 	}
 
-	public String getIcon() {
-		return icon;
+	public String getAccount() {
+		return account;
 	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getTargetAccount() {
+		return targetAccount;
+	}
+
+	public void setTargetAccount(String targetAccount) {
+		this.targetAccount = targetAccount;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }
