@@ -151,11 +151,12 @@ public class FinanceController {
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(year, month - 1, 1);
+        calendar.set(year, month - 1, 1, 0, 0);
         Date start = calendar.getTime();
 
-        calendar.set(year, month - 1, calendar.getActualMaximum(Calendar.DATE));
+        calendar.set(year, month - 1, calendar.getActualMaximum(Calendar.DATE), 0, 0);
         Date end = calendar.getTime();
+
 
         ArrayList<Transaction> transactions = new ArrayList<>(
                 transactionRepo.findByOwnerAndDateBetween(HashGen.md5gen(authentication.getName()), start, end)
