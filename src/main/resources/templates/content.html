@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+    <style>
+      @font-face {
+        font-family: 'blackletter';
+        src: URL('/font/brand.otf') format('truetype');
+      }
+
+      @font-face {
+        font-family: 'headline';
+        src: URL('/font/headline.ttf') format('truetype');
+      }
+
+      @font-face {
+        font-family: 'content';
+        src: URL('/font/content.ttf') format('truetype');
+      }
+
+      body {
+        background-color: #e7e7e7;
+      }
+
+      p {
+        font-family: content;
+        font-size: 0.9em;
+        text-align: justify;
+      }
+
+      figure {
+        font-family: content;
+        font-size: 0.9em;
+        text-align: center;
+      }
+
+      address {
+        font-family: content;
+        border-top: 1px;
+        border-bottom: 1px;
+        border-left: 0px;
+        border-right: 0px;
+        border-style: solid;
+        font-style: normal;
+        font-size: 0.8em;
+        padding: 3px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-family: blackletter;
+        text-align: center;
+        font-size: 4em;
+        font-weight: normal;
+      }
+
+      h2 {
+        font-family: headline;
+        text-align: center;
+        font-size: 3em;
+      }
+
+      h3 {
+        font-family: content;
+        font-size: 1.4em;
+        font-weight: bold;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      blockquote {
+        margin-top: 0;
+        font-family: content;
+        font-style: italic;
+        font-size: 1.2em;
+        background-color: dimgrey;
+        color: #e7e7e7;
+        padding: 10px;
+      }
+
+      ol, ul{
+        font-family: content;
+        font-size: 0.9em;
+      }
+
+      li {
+        margin-bottom: 0;
+      }
+
+      ol ol, ol ul, ul ol, ul ul {
+        font-size: 100% !important;
+      }
+
+      q {
+        font-family: content;
+        background-color: dimgrey;
+        color: #e7e7e7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wissensherold</h1>
+    <address>Published 19th Jun 2020 by <b>Cuauhtemoc Herrera</b> <a href="https://twitter.com/seiferson">@seiferson</a></address>
+    <h2 th:text="${title}"></h2>
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <p>
+            So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no.
+            Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his.
+              Guest tiled he quick by so these trees am. <b>It announcing alteration at surrounded comparison.</b>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="six columns">
+          <h3>The working class in danger</h3>
+          <p>
+              <em>Particular unaffected projection sentiments no my. Music marry as at cause party worth weeks.</em> Saw how marianne graceful dissuade new outlived prospect followed. Uneasy no settle
+            whence nature narrow in afraid. At could merit by keeps child. While dried maids on he of linen in.
+          </p>
+          <p>
+            So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no.
+            Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his.
+            Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison.
+          </p>
+          <p>
+            Inquietude simplicity terminated she compliment remarkably few her nay. The weeks are ham asked jokes. Neglected perceived shy nay concluded.
+            Not mile draw plan snug next all. Houses latter an valley be indeed wished merely in my. Money doubt oh drawn every or an china. Visited out friends for expense message set eat.
+          </p>
+          <p>
+            Questions explained agreeable preferred strangers too him her son. Set put shyness offices his females him distant. Improve has message besides
+            shy himself cheered however how son. Quick judge other leave ask first chief her. Indeed or remark always silent seemed narrow be. Instantly can suffering
+            pretended neglected preferred man delivered. Perhaps fertile brandon do imagine to cordial cottage.
+          </p>
+          <h3>Miles away from justice</h3>
+          <p>
+            Questions explained agreeable preferred strangers too him her son. Set put shyness offices his females him distant. Improve has message besides
+            shy himself cheered however how son. Quick judge other leave ask first chief her. Indeed or remark always silent seemed narrow be. Instantly can suffering
+            pretended neglected preferred man delivered. Perhaps fertile brandon do imagine to cordial cottage.
+          </p>
+          <p>
+            Particular unaffected projection sentiments no my. Music marry as at cause party worth weeks. Saw how marianne graceful dissuade new outlived prospect followed. Uneasy no settle
+            whence nature narrow in afraid. At could merit by keeps child. While dried maids on he of linen in.
+          </p>
+          <p>
+            Article evident arrived express highest men did boy. <q>Mistress sensible entirely am so.</q> Quick can manor smart money hopes worth too.
+            Comfort produce husband boy her had hearing. Law others theirs passed but wishes. You day real less till dear read. Considered use
+            dispatched melancholy sympathize discretion led. <a href="#">Oh feel if up to till like.</a>
+          </p>
+        </div>
+        <div class="six columns">
+          <blockquote cite="http://www.worldwildlife.org/who/index.html">
+            "For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally."
+              <br/><br/><span style="font-size: 0.7em; font-style:normal;">&mdash; <cite>The Art of Computer Programming</cite> by Donald Knuth</span>
+          </blockquote>
+          <figure>
+            <img src="/img/sample.jpg" class="u-max-full-width" alt="Photo by Noor Sethi on Unsplash" />
+            <figcaption><em>Haunted house by the beach</em></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+
+  </body>
+</html>
