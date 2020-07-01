@@ -1,5 +1,14 @@
 @CHARSET "UTF-8";
 
+pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
 body > #root .ui.container {
 	margin-top: 3em; 
 }
@@ -69,4 +78,48 @@ body > #root .ui.container {
   [class*="widescreen or lower hidden"] {
     display: none !important;
   }
+}
+
+.input-line {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  clear: both;
+}
+.input-line > div:nth-child(2) {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+.prompt {
+  white-space: nowrap;
+  color: #96b38a;
+  margin-right: 7px;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-orient: vertical;
+  display: -moz-box;
+  -moz-box-pack: center;
+  -moz-box-orient: vertical;
+  display: box;
+  box-pack: center;
+  box-orient: vertical;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.cmdline {
+  outline: none;
+  background-color: transparent;
+  margin: 0;
+  width: 100%;
+  font: inherit;
+  border: none;
+  color: inherit;
 }

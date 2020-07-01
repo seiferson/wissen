@@ -1,4 +1,101 @@
 
+	@GetMapping("/activate")
+	@ResponseBody
+	public ResponseEntity<String> activateAccountService(@RequestParam String token, @RequestParam String nickname) {
+		Account account = repo.findByNickname(nickname);
+		Date currentDate = new Date();
+
+		if(account == null) {
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid token/account combination");
+		}
+
+		if(account.isEnabled()){
+			return ResponseEntity
+				.badRequest()
+				.body("Account already active");
+		}
+
+		if(account.getValidationTokenExpiration().after(currentDate) || !account.getValidationToken().equals(token)) {
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid or expired token");
+		}
+
+		account.setValidationTokenExpiration(null);
+		account.setValidationToken(null);
+		account.setEnabled(true);
+
+		repo.save(account);
+
+		return ResponseEntity
+			.ok()
+			.body("Account activated");
+	}
+
+	@GetMapping("/recover")
+	@ResponseBody
+	public ResponseEntity<String> recoverPasswordService(@RequestParam String nickname){
+		Account account = repo.findByNickname(nickname);
+
+		if(account == null){
+			return ResponseEntity
+				.badRequest()
+				.body("Invalid account");
+		}
+
+		//TODO send mail with new password?
+		return null;
+	}
+
+/**
+ * @author Seiferson (Cuauhtemoc Herrera)
+ */
+@RepositoryRestResource
+public interface TaskRepository extends MongoRepository<Task, String>{
+
+	@RestResource(path = "taskscompletedtoday")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
+	public long countByOwnerAndDueDateBetweenAndCompletedTrue(
+			@Param("owner") String owner,
+			@Param("startdate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date startDate,
+			@Param("enddate") @DateTimeFormat(pattern = "MM-dd-yyyy/HH-mm") Date endDate
+	);
+
+	@RestResource(path = "todo")
+	@PreAuthorize("@hashgen.md5gen(authentication.name) == #owner")
+	public List<Task> findByOwnerAndCompletedFalseOrderByCreationDate(@Param("owner") String owner);
+
+	/**
+	@PostAuthorize("@hashgen.md5gen(authentication.name) == returnObject.get().owner")
+	@Override
+	public Optional<Task> findById(String id);**/
+}
+
+
+private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
+
+private void financeLoader() throws Exception{
+		financialrepo.deleteAll();
+		recordrepo.deleteAll();
+		
+		Record r1 = new Record(HashGen.md5gen("seiferson"), 10000.00, "Bancomer savings account", Record.RecordType.ASSET_BANK_ACCOUNT, new Date(), null, null);
+		recordrepo.insert(r1);
+		
+		Record r2 = new Record(HashGen.md5gen("seiferson"), 24000.00, "Gibson SG guitar", Record.RecordType.DEBT, new Date(), null, 12);
+		
+		Transaction t1 = new Transaction(HashGen.md5gen("seiferson"), 12.5, "Sears chocolates", Transaction.TransactionType.EXPENSE, new Date());
+		Transaction t2 = new Transaction(HashGen.md5gen("seiferson"), 300.0, "Fuel", Transaction.TransactionType.EXPENSE, new Date());
+		Transaction t3 = new Transaction(HashGen.md5gen("seiferson"), 130.0, "Uber", Transaction.TransactionType.EXPENSE, new Date());
+		
+		financialrepo.insert(t1);
+		financialrepo.insert(t2);
+		financialrepo.insert(t3);
+	}
+
+
+
 <div className='ui container'>
 					<div className='ui stackable grid'>
 						<div className='eight wide column'>
@@ -809,7 +906,7 @@ function irrigate(plantid) {
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log(textStatus);
-        console.log(XMLHttpRequest.status);
+        console.log(XMLHttpRequest.responseStatus);
       }
     });
   }
@@ -1952,7 +2049,7 @@ function getBankAccount(){
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("yes");
-			if(XMLHttpRequest.status === 404) {
+			if(XMLHttpRequest.responseStatus === 404) {
 				$("#bankaccount").text("No info");
 				$("#banksegment").append("<button class='ui button' id='addbankbtn' onclick='toggleBankAccountModal()'>Add bank account data</button>")
 			}
@@ -1998,7 +2095,7 @@ function getCurrentTransactions(){
 			"Authorization" : "Bearer " + $.cookie("authtoken"),
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			if(XMLHttpRequest.status === 404) {
+			if(XMLHttpRequest.responseStatus === 404) {
 				console.log("no expenses");
 			}
 			console.log(textStatus);

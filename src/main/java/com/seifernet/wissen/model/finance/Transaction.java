@@ -5,9 +5,13 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Document
 public class Transaction {
-	
+
 	public enum TransactionType{
 		INCOME,
 		EXPENSE
@@ -15,34 +19,36 @@ public class Transaction {
 	
 	@Id
 	private String id;
-	
-	private String owner;
-	
-	private Double value;
-	
-	private String description;
-	
-	private TransactionType type;
-	
+
+	@NotNull
 	private Date date;
-	
-	public Transaction() {
-		
-	}
-	
-	public Transaction(String owner, Double value, String description, TransactionType type, Date date) {
-		super();
+
+	@NotBlank
+	private String owner;
+
+	@DecimalMin("0.01")
+	@NotNull
+	private Double amount;
+
+	@NotBlank
+	private String description;
+
+	@NotNull
+	private TransactionType type;
+
+	private String account;
+	private String targetAccount;
+	private String category;
+
+	public Transaction(Date date,String owner, Double amount, String description, TransactionType type) {
+		this.date = date;
 		this.owner = owner;
-		this.value = value;
+		this.amount = amount;
 		this.description = description;
 		this.type = type;
-		this.date = date;
 	}
-	
-	@Override
-	public String toString() {
-		return this.description + " / " + this.value + " / " + this.date; 
-	}
+
+	public Transaction() {}
 
 	public String getId() {
 		return id;
@@ -60,12 +66,12 @@ public class Transaction {
 		this.owner = owner;
 	}
 
-	public Double getValue() {
-		return value;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public String getDescription() {
@@ -90,5 +96,29 @@ public class Transaction {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getTargetAccount() {
+		return targetAccount;
+	}
+
+	public void setTargetAccount(String targetAccount) {
+		this.targetAccount = targetAccount;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

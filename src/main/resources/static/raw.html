@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <style>
+      body {
+        background-color: #3D4849;
+        color: white;
+        font-family: monospace;
+      }
+
+      input {
+        background-color: transparent;
+        margin: 0;
+        border: none;
+        outline: none;
+        color: white;
+        width: 100%;
+        font-family: monospace;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100vh;
+        background-color: transparent;
+        margin: 0;
+        border: none;
+        outline: none;
+        color: white;
+        font-family: monospace;
+      }
+
+      pre {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <output><pre id="content">Welcome to wissen console</pre></output>
+    <div style="display: flex;" id="winput">
+      <div>
+        <span>[anonymous@wissen] #&nbsp;</span>
+      </div>
+      <div style="flex-grow: 100;">
+        <input id="cmd" onkeypress="processCommand(event)" onkeydown="lastCMD(event)" />
+      </div>
+    </div>
+    <span id="editorheader" style="display: none">File editor [Use ESC key to exit][Use END key to save]</span>
+    <textarea id="editor" style="display: none"></textarea>
+
+    <script src="/js/console.js"></script>
+  </body>
+</html>

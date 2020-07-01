@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.7.8/semantic.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/solarized-dark.min.css">
+    <title>Wissen CMS</title>
+  </head>
+
+  <body>
+    <div class="ui container">
+      <form class='ui form' id='cmscrform'>
+        <h4 class='ui dividing header'>CMS FORM</h4>
+        <div class='field'>
+          <label>Title</label>
+          <input type='text' name='title'/>
+        </div>
+        <div class='field'>
+          <div class="ui icon buttons">
+            <button class="ui button" type="button" data-content="Header"><i class="heading icon"></i></button>
+            <button class="ui button" type="button" data-content="Bold"><i class="bold icon"></i></button>
+            <button class="ui button" type="button" data-content="Italics"><i class="italic icon"></i></button>
+            <button class="ui button" type="button" data-content="Block quote"><i class="quote left icon"></i></button>
+            <button class="ui button" type="button" data-content="Code block"><i class="code left icon"></i></button>
+            <button class="ui button" type="button" data-content="Link"><i class="linkify icon"></i></button>
+            <button class="ui button" type="button" data-content="Image"><i class="image outline icon"></i></button>
+            <button class="ui button" type="button" data-content="Unordered list"><i class="list ul icon"></i></button>
+            <button class="ui button" type="button" data-content="Ordered list"><i class="list ol icon"></i></button>
+          </div>
+        </div>
+        <div class='field'>
+          <textarea rows='15' name='description'></textarea>
+        </div>
+        <button class="ui button" type="button">Preview</button>
+        <button class="ui primary button" type="submit">Post</button>
+      </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.7.8/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script>
+      $('.button').popup();
+    </script>
+  </body>
+</html>

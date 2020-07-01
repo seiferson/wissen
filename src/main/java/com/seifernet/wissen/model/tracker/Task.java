@@ -1,53 +1,43 @@
 package com.seifernet.wissen.model.tracker;
 
 import java.util.Date;
-
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.data.annotation.Id;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author Seiferson (Cuauhtemoc Herrera)
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Task{
+@Document
+public class Task {
 
 	@Id
 	private String id;
-	
+
 	@NotBlank
+	@Size(max=70)
 	private String title;
-	
 	private String owner;
-	
-	private Boolean descriptionRequired;
-	
 	private String description;
-	
 	private Date dueDate;
-	
-	private Boolean completed;
-	
-	private Date completionDate;
-	
 	private Date creationDate;
-	
-	private Boolean expires;
-	
-	private Date expirationDate;
-	
-	private Boolean expired;
-	
-	private Long priority;
-	
-	public Long getPriority() {
-		return priority;
+	private Date lastUpdate;
+	private Boolean completed;
+	private Date completionDate;
+	private List<String> tags;
+
+	public Date getLastUpdate() {
+		return this.lastUpdate;
 	}
 
-	public void setPriority(Long priority) {
-		this.priority = priority;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
 	public String getId() {
@@ -56,10 +46,6 @@ public class Task{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	public String getIdentifier(){
-		return id;
 	}
 	
 	public void setOwner(String owner){
@@ -76,14 +62,6 @@ public class Task{
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public Boolean getDescriptionRequired() {
-		return descriptionRequired;
-	}
-
-	public void setDescriptionRequired(Boolean descriptionRequired) {
-		this.descriptionRequired = descriptionRequired;
 	}
 
 	public String getDescription() {
@@ -117,22 +95,6 @@ public class Task{
 	public void setCompletionDate(Date completionDate) {
 		this.completionDate = completionDate;
 	}
-
-	public Boolean getExpires() {
-		return expires;
-	}
-
-	public void setExpires(Boolean expires) {
-		this.expires = expires;
-	}
-
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
 	
 	public Date getCreationDate(){
 		return creationDate;
@@ -142,11 +104,11 @@ public class Task{
 		this.creationDate = creationDate;
 	}
 
-	public Boolean getExpired() {
-		return expired;
+	public List<String> getTags() {
+		return tags;
 	}
 
-	public void setExpired(Boolean expired) {
-		this.expired = expired;
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 }

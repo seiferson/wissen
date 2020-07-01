@@ -1,17 +1,24 @@
-function loadContextFromCookies(){
-	//Current layout
-	if($.cookie('layout') === undefined){
-		$.cookie('layout','home');
-	}
-	
-	//Current user
-	if($.cookie('authuser') === undefined){
-		$.cookie('authuser', 'anonymous');
-	}
+function patchTask(task, callback) {
+    $.ajax({
+        type: 'PATCH',
+        url: '/api/v1/tasks/' + task.id,
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(task),
+        error: function(XMLHttpRequest) {
+            console.log('something went wrong');
+        },
+        success: function(resultData) {
+            getToDoList(callback);
+        }
+    });
 }
 
-function checkTokenFromCookies(){
-	if($.cookie('authuser') !== 'anonymous' && $.cookie('authtoken') != undefined) {
+function checkTokenFromCookies(stateCallback, controlCallback){
+	if($.cookie('authuser') != 'anonymous' && $.cookie('authtoken') != undefined) {
 		$.ajax({
 			type: 'GET',
 			url: '/oauth/check_token?token=' + $.cookie('authtoken'),
@@ -22,12 +29,213 @@ function checkTokenFromCookies(){
 			error: function(XMLHttpRequest) {
 				$.removeCookie('authuser');
 				$.removeCookie('authtoken');
-				$.removeCookie('hashuser');
 				$.cookie('authuser', 'anonymous');
+				$.cookie('avatar', md5(Math.random().toString()))
+				stateCallback('user', $.cookie('authuser'));
+                stateCallback('avatar', $.cookie('avatar'));
+                controlCallback();
+			},
+			success: function(data){
+			    getToDoList(stateCallback);
 			}
 		});
+	} else {
+	    controlCallback();
 	}
 }
+
+function login(user, passwd, callback){
+	$.ajax({
+		type: 'POST',
+		url: '/oauth/token',
+		headers: {
+			'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+			'Accept' : 'application/json'
+		},
+		contentType: 'application/x-www-form-urlencoded',
+		data: {
+			password : passwd,
+			username : user,
+			grant_type : 'password'
+		},
+		error: function(XMLHttpRequest) {
+            $('[name="loginerror"]').val('');
+            $('#authform').form('validate form');
+            $('[name="loginerror"]').val('value');
+		},
+		success: function(data) {
+			$.cookie('authtoken', data.access_token);
+			$.cookie('authuser', user);
+            $('#authmodal').modal('hide');
+            callback('user', user);
+            getUserInfo(callback);
+            getToDoList(callback);
+		}
+	});
+}
+
+function getUserInfo(callback) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/accounts/' + $.cookie('authuser'),
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        success: function(data) {
+            $.cookie('avatar', data.avatarSeed);
+            callback('avatar', data.avatarSeed);
+        }
+    });
+}
+
+function getToDoList(callback){
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/tasks/search/todo?owner=' + md5($.cookie('authuser')),
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function(data) {
+
+            data.forEach(function(element){
+                element.viewAction = function() {
+                    callback('currentTask', element);
+                }
+                element.completeAction = function() {
+                    element.completed = true;
+                    patchTask(element, callback);
+                }
+                element.patchAction = function() {
+                    patchTask(element, callback);
+                }
+            });
+            callback('tasks', data);
+        }
+    });
+}
+
+function getTaskIconClass(completed, dueDate){
+    var currentDate = new Date();
+    if(completed) {
+        return 'green check square';
+    } else if(dueDate != undefined) {
+        var dueDateObj = new Date(dueDate);
+
+        if(currentDate > dueDateObj) {
+            return 'red square outline';
+        } else if((dueDateObj.getTime() - currentDate.getTime()) < 86400000) {
+           return 'yellow square outline';
+        }
+    }
+    return 'teal square outline';
+}
+
+function createTask(title, description, duedate, category, callback){
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/tasks',
+        headers: {
+            'Authorization' : 'Bearer ' + $.cookie('authtoken'),
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'title' : title,
+            'dueDate' : duedate,
+            'description' : description,
+            'category' : category,
+            'updates' : []
+        }),
+        error: function(XMLHttpRequest) {
+        },
+        success: function(resultData) {
+            getToDoList(callback);
+            setTimeout(function() {
+                $('#createtaskmodal').modal('hide');
+            }, 300);
+        }
+    });
+}
+
+function createUser(user, password, email, avatar, callback){
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/accounts',
+        headers: {
+            'Accept' : 'application/json'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'password' : password,
+            'nickname' : user,
+            'email' : email,
+            'avatarSeed' : avatar
+        }),
+        error: function(XMLHttpRequest) {
+
+        },
+        success: function(resultData) {
+            $('#regdisplayerrors').empty();
+            $('#regform').form('clear');
+            $('#regform').removeClass('error');
+            $('#regform').addClass('success');
+            setTimeout(function() {
+                $('#regmodal').modal('hide');
+            }, 1500);
+        }
+    });
+}
+
+/**
+ *  Utility function to format date values to compact 3 digit time difference from current date
+ */
+function dateDiffFormat(a,b){
+	var milis = a.getTime() - b.getTime();
+
+	if(milis > 31536000000) {
+		if(Math.trunc(milis/31536000000) > 1){
+			return  (Math.trunc(milis/31536000000)) + " years"
+		} else {
+			return "1 year";
+		}
+	} else if(milis > 2592000000) {
+		if(Math.trunc(milis/2592000000) > 1){
+			return  (Math.trunc(milis/2592000000)) + " months"
+		} else {
+			return "1 month";
+		}
+	} else if(milis > 86400000) {
+		if(Math.trunc(milis/86400000) > 1){
+			return  (Math.trunc(milis/86400000)) + " days"
+		} else {
+			return "1 day";
+		}
+	} else if(milis > 3600000){
+		if(Math.trunc(milis/3600000) > 1){
+			return  (Math.trunc(milis/3600000)) + " hours"
+		} else {
+			return "1 hour";
+		}
+	} else if(milis > 60000){
+		if(Math.trunc(milis/60000) > 1){
+			return  (Math.trunc(milis/60000)) + " minutes"
+		} else {
+			return "1 minute";
+		}
+	} else {
+		return "Seconds";
+	}
+}
+
+
+
+
+
+
+
 
 function getGoalColor(goal){
 	let color;
@@ -48,37 +256,13 @@ function calculateGoalProgress(goal){
 	return 10;
 }
 
-function login(user,passwd,callback){
-	$.ajax({
-		type: 'POST',
-		url: '/oauth/token',
-		headers: {
-			'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
-			'Accept' : 'application/json'
-		},
-		contentType: 'application/x-www-form-urlencoded',
-		data: {
-			password : passwd,
-			username : user,
-			grant_type : 'password'
-		},
-		error: function(XMLHttpRequest) {
-			callback(false);
-		},
-		success: function(resultData) {
-			$.cookie('authtoken', resultData.access_token);
-			$.cookie('authuser', user);
-			$.cookie('hashuser', (md5(user)).toUpperCase());
-			callback(true);
-		}
-	});
-}
+
 
 function githubAPIRepoQuery(callback){
 	$.ajax({
 		url : "https://api.github.com/repos/Seiferxx/wissen",
 		dataType : "jsonp",
-		success : function ( resultData ) {
+		success : function ( data ) {
 			
 		}
 	});

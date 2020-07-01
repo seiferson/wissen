@@ -32,10 +32,10 @@ public class CustomUserDetailsService implements UserDetailsService{
 			return new User( 
 					account.getNickname(),
 					account.getPassword(),
-					account.getEnabled(),
-					account.getEnabled(),
-					account.getEnabled(),
-					account.getEnabled(),
+					account.isEnabled(),
+					account.isEnabled(),
+					account.isEnabled(),
+					account.isEnabled(),
 					account.getGrantedAuthorities()
 				);
 		} else {
