@@ -45,8 +45,4 @@ public class Markzwei {
     public static void fromHTMLtoMarkzwei(String text){
 
     }
-
-    public static void main(String args[]) {
-
-    }
 }
