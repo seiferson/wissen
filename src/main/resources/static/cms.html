@@ -6,48 +6,132 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.7.8/semantic.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/solarized-dark.min.css">
     <title>Wissen CMS</title>
   </head>
 
   <body>
-    <div class="ui container">
-      <form class='ui form' id='cmscrform'>
-        <h4 class='ui dividing header'>CMS FORM</h4>
-        <div class='field'>
-          <label>Title</label>
-          <input type='text' name='title'/>
+    <div class="ui top attached secondary menu">
+      <div class='item'><h3 class='ui header'>Wissen</h3></div>
+      <div class="right menu">
+        <div class="item">
+          <div class="ui search">
+          <div class="ui icon input">
+            <input class="prompt" type="text" placeholder="Search">
+            <i class="search link icon"></i>
+          </div>
+            </div>
         </div>
-        <div class='field'>
-          <div class="ui icon buttons">
-            <button class="ui button" type="button" data-content="Header"><i class="heading icon"></i></button>
-            <button class="ui button" type="button" data-content="Bold"><i class="bold icon"></i></button>
-            <button class="ui button" type="button" data-content="Italics"><i class="italic icon"></i></button>
-            <button class="ui button" type="button" data-content="Block quote"><i class="quote left icon"></i></button>
-            <button class="ui button" type="button" data-content="Code block"><i class="code left icon"></i></button>
-            <button class="ui button" type="button" data-content="Link"><i class="linkify icon"></i></button>
-            <button class="ui button" type="button" data-content="Image"><i class="image outline icon"></i></button>
-            <button class="ui button" type="button" data-content="Unordered list"><i class="list ul icon"></i></button>
-            <button class="ui button" type="button" data-content="Ordered list"><i class="list ol icon"></i></button>
+      </div>
+    </div>
+    <div class="ui container">
+      <br />
+      <div class='ui segment'>
+        <h2 class='ui center aligned icon header'>
+          <i class='circular feather alternate icon'></i>
+          <div class="content">Wissen</div>
+        </h2>
+      </div>
+      <h3 class="ui dividing centered header">Highlights</h3>
+      <br />
+      <div class="ui three stackable cards">
+        <div class="ui orange card">
+          <div class="content">
+            <div class="header">The kata's way</div>
+            <div class="meta">
+              <span>12 days ago</span>
+            </div>
+            <br />
+            <p>
+              10 years ago I discovered the code katas, a very disciplined way to learn and practice
+              coding, since then I have tried different and various ways to implement a fun way to do
+              it, all this years later, this are my conclusions.
+            </p>
+          </div>
+          <div class="extra content">
+            <div class="ui yellow basic label">
+              <i class="star fitted icon"></i> rate 143
+            </div>
+            <div class="right floated author">
+              <img class="ui avatar image" src="https://avatars.dicebear.com/v2/jdenticon/extra.svg"> seiferson
+            </div>
           </div>
         </div>
-        <div class='field'>
-          <textarea rows='15' name='description'></textarea>
+        <div class="ui teal card">
+          <div class="content">
+            <div class="header">Learning, the hard way</div>
+            <div class="meta">
+              <span>2 hours ago</span>
+            </div>
+            <br />
+            <p>
+              Learning has always been a hard thing, through my entire life I have struggled to identify
+              which is the best way to do it. Many studies reflect about different approaches and
+              methodologies, I have my own thoughts.
+            </p>
+          </div>
+          <div class="extra content">
+            <div class="ui yellow basic label">
+              <i class="star fitted icon"></i> rate 76
+            </div>
+            <div class="right floated author">
+              <img class="ui avatar image" src="https://avatars.dicebear.com/v2/jdenticon/extra.svg"> seiferson
+            </div>
+          </div>
         </div>
-        <button class="ui button" type="button">Preview</button>
-        <button class="ui primary button" type="submit">Post</button>
-      </form>
+        <div class="ui purple card">
+          <div class="content">
+            <div class="header">Politics as a service</div>
+            <div class="meta">
+              <span>3 months ago</span>
+            </div>
+            <br />
+            <p>
+              Everything related to this year election is surrounded by corruption and mystery. The
+              first concern is to identify which is the source of the money for the campaign and
+              who other actors are involved in all of this.
+            </p>
+          </div>
+          <div class="extra content">
+            <div class="ui yellow basic label">
+              <i class="star fitted icon"></i> rate -56
+            </div>
+            <div class="right floated author">
+              <img class="ui avatar image" src="https://avatars.dicebear.com/v2/jdenticon/extra.svg"> seiferson
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="ui segment">
+        <h3 class="ui dividing centered header">Latest</h3>
+        <div class="ui divided items">
+          <div class="item">
+            <div class="content">
+              <a class="header">Politics as a service</a>
+              <div class="meta">
+                <span>3 months ago</span>
+              </div>
+              <div class="description">
+                <p>Everything related to this year election is surrounded by corruption and mystery. The
+                  first concern is to identify which is the source of the money for the campaign and
+                  who other actors are involved in all of this.
+                </p>
+              </div>
+              <div class="extra">
+                <div class="ui yellow basic label">
+                  <i class="star fitted icon"></i> rate -56
+                </div>
+                <div class="right floated author">
+                  <img class="ui avatar image" src="https://avatars.dicebear.com/v2/jdenticon/extra.svg"> seiferson
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.7.8/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <script>
-      $('.button').popup();
-    </script>
   </body>
 </html>

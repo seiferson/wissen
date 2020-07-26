@@ -24,7 +24,7 @@ public class RESTErrorController extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request
     ) {
 
-        ResponseMessage body = new ResponseMessage(ResponseStatus.ERROR, "");
+        ResponseMessage body = new ResponseMessage(ResponseStatus.ERROR, "", null);
         List<String> errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()

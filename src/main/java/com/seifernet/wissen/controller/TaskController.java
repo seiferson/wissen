@@ -44,14 +44,16 @@ public class TaskController {
                 repo.delete(base);
                 return ResponseEntity.ok(new ResponseMessage(
                         ResponseStatus.SUCCESS,
-                        "[Task successfully deleted]"
+                        "[Task successfully deleted]",
+                        null
                 ));
             } else {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
                         .body(new ResponseMessage(
                                 ResponseStatus.ERROR,
-                                "[Access denied]"
+                                "[Access denied]",
+                                null
                         ));
             }
         } else {
@@ -72,7 +74,7 @@ public class TaskController {
 
         repo.insert(task);
 
-        return ResponseEntity.ok(new ResponseMessage(ResponseStatus.SUCCESS, "Created task"));
+        return ResponseEntity.ok(new ResponseMessage(ResponseStatus.SUCCESS, "Created task", null));
     }
 
     @GetMapping("/api/v1/tasks/search/todo")
@@ -156,14 +158,16 @@ public class TaskController {
 
                 return ResponseEntity.ok(new ResponseMessage(
                     ResponseStatus.SUCCESS,
-                    "[Task successfully updated]"
+                    "[Task successfully updated]",
+                        null
                 ));
             } else {
                 return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseMessage(
                             ResponseStatus.ERROR,
-                            "[Access denied]"
+                            "[Access denied]",
+                            null
                     ));
             }
         } else {

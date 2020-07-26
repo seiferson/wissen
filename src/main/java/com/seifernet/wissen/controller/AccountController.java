@@ -65,7 +65,7 @@ public class AccountController {
 				.badRequest()
 				.body(new ResponseMessage(
 						ResponseStatus.ERROR,
-						"[Error creating account. Email or nickname not available]"
+						"[Error creating account. Email or nickname not available]", null
 				));
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -73,13 +73,13 @@ public class AccountController {
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseMessage(
 						ResponseMessage.ResponseStatus.ERROR,
-						"[Error creating account, server error]"
+						"[Error creating account, server error]", null
 				));
 		}
 
 		return ResponseEntity.ok(new ResponseMessage(
 			ResponseStatus.SUCCESS,
-			"[Account " + account.getId() + " created]"
+			"[Account " + account.getId() + " created]", null
 		));
     }
 
@@ -141,14 +141,14 @@ public class AccountController {
 
 			return ResponseEntity.ok(new ResponseMessage(
 				ResponseStatus.SUCCESS,
-				"[Password/email succesfully changed]"
+				"[Password/email succesfully changed]", null
 			));
 		} else {
 			return ResponseEntity
 				.status(HttpStatus.UNAUTHORIZED)
 				.body(new ResponseMessage(
 						ResponseStatus.ERROR,
-						"[Access denied]"
+						"[Access denied]", null
 				));
 		}
 	}

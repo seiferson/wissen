@@ -12,7 +12,7 @@ class Home extends Component {
                 <div className='header'>Welcome!</div>
                 <p>
                   This is a personal project to showcase some programming techniques and frameworks,
-                  it currently features a personal task manager and a simple content management system.
+                  it currently features a note app.
                 </p>
                 <p>
                   The initial idea behind the project was to create a flashcard repository or "knowledge base"

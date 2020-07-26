@@ -47,36 +47,12 @@ class TopMenu extends Component{
                       </div>
                       <div className='divider'></div>
                       <div className='item' onClick={function() {
-                        $.cookie('layout','profile');
+                        $.cookie('layout','notes');
                         that.props.parentStateCallback({
-                          layout: 'profile'
+                          layout: 'notes'
                         });
                       }}>
-                        <i className='id card outline icon'></i>Profile
-                      </div>
-                      <div className='item' onClick={function() {
-                        $.cookie('layout','finance');
-                        that.props.parentStateCallback({
-                          layout: 'finance'
-                        });
-                      }}>
-                        <i className='chart line icon'></i>Finance
-                      </div>
-                      <div className='item' onClick={function() {
-                        $.cookie('layout','dashboard');
-                        that.props.parentStateCallback({
-                          layout: 'dashboard'
-                        });
-                      }}>
-                        <i className='columns icon'></i>Dashboard
-                      </div>
-                      <div className='item'onClick={function() {
-                        $.cookie('layout','codecamp');
-                          that.props.parentStateCallback({
-                            layout: 'codecamp'
-                          });
-                      }}>
-                        <i className='campground icon'></i>Code camp
+                        <i className='sticky note outline icon'></i>Notes
                       </div>
                       <div className='divider'></div>
                       <div className='item' onClick={this.props.signOut}>
@@ -97,14 +73,6 @@ class TopMenu extends Component{
               }}>
                 <h3 className='ui header'>Wissen</h3>
               </div>
-              <div className='ui item'onClick={function() {
-                $.cookie('layout','codecamp');
-                that.props.parentStateCallback({
-                  layout: 'codecamp'
-                });
-              }}><i className='campground icon'></i><span className='mobile hidden'>Code camp</span></div>
-
-
               <div className='right menu'>
                 {userItem}
                 {menu}

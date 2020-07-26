@@ -49,14 +49,16 @@ public class FinanceController {
                     .badRequest()
                     .body(new ResponseMessage(
                         ResponseMessage.ResponseStatus.ERROR,
-                        "[Error creating financial account. Parent account not valid]"
+                        "[Error creating financial account. Parent account not valid]",
+                            null
                     ));
             } else if(!reference.get().getId().equals(HashGen.md5gen(authentication.getName()))) {
                 return ResponseEntity
                     .badRequest()
                     .body(new ResponseMessage(
                         ResponseMessage.ResponseStatus.ERROR,
-                        "[Error creating financial account. Parent account not valid]"
+                        "[Error creating financial account. Parent account not valid]",
+                            null
                     ));
             }
         }
@@ -69,13 +71,15 @@ public class FinanceController {
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseMessage(
 					ResponseMessage.ResponseStatus.ERROR,
-                    "[Error creating financial account, server error]"
+                    "[Error creating financial account, server error]",
+                        null
 				));
         }
 
         return ResponseEntity.ok(new ResponseMessage(
 			ResponseMessage.ResponseStatus.SUCCESS,
-			"[Financial account " + account.getId() + " created]"
+			"[Financial account " + account.getId() + " created]",
+                null
 		));
     }
 
@@ -99,14 +103,14 @@ public class FinanceController {
 
                 return ResponseEntity.ok(new ResponseMessage(
                     ResponseMessage.ResponseStatus.SUCCESS,
-                    "[Financial account successfully updated]"
+                    "[Financial account successfully updated]", null
                 ));
             } else {
                 return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseMessage(
                             ResponseMessage.ResponseStatus.ERROR,
-                            "[Access denied]"
+                            "[Access denied]", null
                     ));
             }
         } else {
@@ -132,13 +136,13 @@ public class FinanceController {
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseMessage(
 						ResponseMessage.ResponseStatus.ERROR,
-                        "[Error creating transaction, server error]"
+                        "[Error creating transaction, server error]", null
 				));
         }
 
         return ResponseEntity.ok(new ResponseMessage(
 			ResponseMessage.ResponseStatus.SUCCESS,
-			"[Transaction " + transaction.getId() + " created]"
+			"[Transaction " + transaction.getId() + " created]", null
 		));
     }
 
@@ -151,10 +155,10 @@ public class FinanceController {
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(year, month - 1, 1, 0, 0);
+        calendar.set(year, month - 1, 1, 0, 0, 0);
         Date start = calendar.getTime();
 
-        calendar.set(year, month - 1, calendar.getActualMaximum(Calendar.DATE), 0, 0);
+        calendar.set(year, month - 1, calendar.getActualMaximum(Calendar.DATE), 23, 59, 59);
         Date end = calendar.getTime();
 
 

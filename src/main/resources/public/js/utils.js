@@ -17,6 +17,26 @@ function patchTask(task, callback) {
     });
 }
 
+function getRandomColor() {
+    var index = Math.floor((Math.random() * 7) + 1);
+    switch(index) {
+        case 1:
+            return 'orange';
+        case 2:
+            return 'teal';
+        case 3:
+            return 'olive';
+        case 4:
+            return 'violet';
+        case 5:
+            return 'purple';
+        case 6:
+            return 'pink';
+        case 7:
+            return 'brown';
+    }
+}
+
 function checkTokenFromCookies(stateCallback, controlCallback){
 	if($.cookie('authuser') != 'anonymous' && $.cookie('authtoken') != undefined) {
 		$.ajax({
@@ -197,31 +217,31 @@ function dateDiffFormat(a,b){
 
 	if(milis > 31536000000) {
 		if(Math.trunc(milis/31536000000) > 1){
-			return  (Math.trunc(milis/31536000000)) + " years"
+			return  (Math.trunc(milis/31536000000)) + " years";
 		} else {
 			return "1 year";
 		}
 	} else if(milis > 2592000000) {
 		if(Math.trunc(milis/2592000000) > 1){
-			return  (Math.trunc(milis/2592000000)) + " months"
+			return  (Math.trunc(milis/2592000000)) + " months";
 		} else {
 			return "1 month";
 		}
 	} else if(milis > 86400000) {
 		if(Math.trunc(milis/86400000) > 1){
-			return  (Math.trunc(milis/86400000)) + " days"
+			return  (Math.trunc(milis/86400000)) + " days";
 		} else {
 			return "1 day";
 		}
 	} else if(milis > 3600000){
 		if(Math.trunc(milis/3600000) > 1){
-			return  (Math.trunc(milis/3600000)) + " hours"
+			return  (Math.trunc(milis/3600000)) + " hours";
 		} else {
 			return "1 hour";
 		}
 	} else if(milis > 60000){
 		if(Math.trunc(milis/60000) > 1){
-			return  (Math.trunc(milis/60000)) + " minutes"
+			return  (Math.trunc(milis/60000)) + " minutes";
 		} else {
 			return "1 minute";
 		}

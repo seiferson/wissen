@@ -31,7 +31,7 @@ public class ContentController {
     ) {
         return ResponseEntity.ok(new ResponseMessage(
 			ResponseMessage.ResponseStatus.SUCCESS,
-			"[ Post " + "" + " created]"
+			"[ Post " + "" + " created]", null
 		));
     }
 

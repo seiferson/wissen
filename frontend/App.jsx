@@ -1,10 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Home from './Home';
-import Profile from './Profile';
-import Finance from './Finance';
+import Notes from './Notes';
 import TopMenu from './TopMenu';
-import CodeCamp from './CodeCamp';
-import Dashboard from './Dashboard';
 import AuthenticationModal from './AuthenticationModal';
 import RegisterModal from './RegisterModal';
 
@@ -61,7 +58,6 @@ class App extends Component {
                     layout: 'home'
                 });
             }
-
         });
     }
 
@@ -113,38 +109,14 @@ class App extends Component {
                 token={this.state.token}
                 avatar={this.state.avatar}
             />);
-        } else if(this.state.layout === 'profile') {
-            layout = (<Profile
+        } else if(this.state.layout === 'notes') {
+            layout = (<Notes
                 parentStateCallback={this.handleStateChange}
                 authCallback={this.handleAuthValidation}
                 user={this.state.user}
                 token={this.state.token}
                 avatar={this.state.avatar}
             />);
-        } else if(this.state.layout === 'finance') {
-            layout = (<Finance
-                parentStateCallback={this.handleStateChange}
-                authCallback={this.handleAuthValidation}
-                user={this.state.user}
-                token={this.state.token}
-                avatar={this.state.avatar}
-            />);
-        } else if(this.state.layout === 'codecamp') {
-          layout = (<CodeCamp
-              parentStateCallback={this.handleStateChange}
-              authCallback={this.handleAuthValidation}
-              user={this.state.user}
-              token={this.state.token}
-              avatar={this.state.avatar}
-          />);
-        } else if(this.state.layout === 'dashboard') {
-          layout = (<Dashboard
-              parentStateCallback={this.handleStateChange}
-              authCallback={this.handleAuthValidation}
-              user={this.state.user}
-              token={this.state.token}
-              avatar={this.state.avatar}
-          />);
         }
 
         return (
