@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -55,9 +56,16 @@ public class NoteController {
                 note.setText(updates.getText());
             }
 
+            if(updates.getTitle() != null) {
+                note.setTitle(updates.getTitle());
+            }
+
             if(updates.isEncrypted() != null) {
                 note.setEncrypted(updates.isEncrypted());
             }
+
+            note.setLastUpdate(new Date());
+
             noteRepo.save(note);
             return ResponseEntity.ok(new ResponseMessage(
                 ResponseMessage.ResponseStatus.SUCCESS,
@@ -94,6 +102,9 @@ public class NoteController {
     public @ResponseBody ResponseEntity<ResponseMessage<Note>> createNote(Authentication authentication, @RequestBody @Valid Note note) {
         note.setOwner(HashGen.md5gen(authentication.getName()));
         note = noteRepo.insert(note);
+        note.setCreation(new Date());
+        note.setDeleted(false);
+        note.setLastUpdate(new Date());
         return ResponseEntity.ok(new ResponseMessage<>(
 			ResponseMessage.ResponseStatus.SUCCESS,
 			"[Note " + note.getId() + " created]",

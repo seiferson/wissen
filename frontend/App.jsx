@@ -5,25 +5,23 @@ import TopMenu from './TopMenu';
 import AuthenticationModal from './AuthenticationModal';
 import RegisterModal from './RegisterModal';
 
+const TOKEN_ENDPOINT = '/oauth/';
+const CHECK_TOKEN_ENDPOINT = TOKEN_ENDPOINT + 'check_token?token=';
+const MANAGE_TOKEN_ENDPOINT = TOKEN_ENDPOINT + 'token?token=';
+
 class App extends Component {
 
     constructor(props) {
         super(props);
 
-        if($.cookie('layout') === undefined) {
-            $.cookie('layout','home');
-        }
-
-        if($.cookie('authuser') === undefined) {
-            $.cookie('authuser', 'anonymous');
-            $.cookie('avatar', md5(Math.random().toString()));
+        if(localStorage.getItem('layout') === undefined) {
+            localStorage.setItem('layout', 'home');
         }
 
         this.state = {
-            layout: $.cookie('layout'),
-            user: $.cookie('authuser'),
-            avatar: $.cookie('avatar'),
-            token: $.cookie('authtoken')
+            layout: localStorage.getItem('layout'),
+            user: undefined,
+            avatar: undefined
         }
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -35,10 +33,37 @@ class App extends Component {
         this.handleAuthValidation(function(){}, function(){});
     }
 
+    handleStateChange(object, callback) {
+        this.setState(object, callback);
+    }
+
+    handleAuthValidation(onSuccessCallback, onErrorCallback) {
+        var that = this;
+
+        fetch(CHECK_TOKEN_ENDPOINT + localStorage.getItem('authtoken'), {
+            method: 'post',
+            headers: {
+                'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+                'Accept' : 'application/json'
+            }
+        })
+        .then(function(response) {
+            if (response.status !== 200) {
+                localStorage.removeItem('authtoken')
+                that.setState({
+                    user: undefined,
+                    avatar: undefined
+                }, onErrorCallback());
+            } else {
+                onSuccessCallback();
+            }
+        });
+    }
+
     handleRevokeToken() {
         var that = this;
 
-        fetch('/oauth/token?token=' + that.state.token, {
+        fetch(MANAGE_TOKEN_ENDPOINT + localStorage.getItem('authtoken'), {
             method: 'delete',
             headers: {
                 'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
@@ -47,55 +72,20 @@ class App extends Component {
         })
         .then(function(response) {
             if (response.status === 200) {
-                $.removeCookie('authtoken');
-                $.cookie('authuser', 'anonymous');
-                $.cookie('avatar', md5(Math.random().toString()));
-
                 that.setState({
-                    user: 'anonymous',
-                    avatar: $.cookie('avatar'),
-                    token: undefined,
+                    user: undefined,
+                    avatar: undefined,
                     layout: 'home'
+                }, function() {
+                    $('body').toast({
+                        title: 'Bye bye',
+                        showIcon: 'door closed',
+                        position: 'top left',
+                        className: {toast: 'ui message'}
+                    });
                 });
             }
         });
-    }
-
-    handleStateChange(object, callback) {
-        this.setState(object, callback);
-    }
-
-    handleAuthValidation(onSuccessCallback, onErrorCallback) {
-        var that = this;
-
-        if(this.state.token !== undefined && this.state.user !== 'anonymous') {
-            fetch('/oauth/check_token?token=' + that.state.token, {
-                method: 'post',
-                headers: {
-                    'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
-                    'Accept' : 'application/json'
-                }
-            })
-            .then(function(response) {
-                if (response.status !== 200) {
-                    $.removeCookie('authtoken');
-                    $.cookie('authuser', 'anonymous');
-                    $.cookie('avatar', md5(Math.random().toString()));
-
-                    that.setState({
-                        user: 'anonymous',
-                        avatar: $.cookie('avatar'),
-                        token: undefined
-                    }, onErrorCallback());
-
-                    return;
-                }
-
-                onSuccessCallback();
-            });
-        } else {
-            onErrorCallback();
-        }
     }
 
     render() {
@@ -106,7 +96,6 @@ class App extends Component {
                 parentStateCallback={this.handleStateChange}
                 authCallback={this.handleAuthValidation}
                 user={this.state.user}
-                token={this.state.token}
                 avatar={this.state.avatar}
             />);
         } else if(this.state.layout === 'notes') {
@@ -114,7 +103,6 @@ class App extends Component {
                 parentStateCallback={this.handleStateChange}
                 authCallback={this.handleAuthValidation}
                 user={this.state.user}
-                token={this.state.token}
                 avatar={this.state.avatar}
             />);
         }

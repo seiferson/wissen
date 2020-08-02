@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 
 const ENDPOINT = '/api/v1/notes';
+const SEARCH_ENDPOINT = ENDPOINT + '/search?text={query}';
 const SYNC_ICON = 'check circle outline';
 const SYNC_COLOR = 'green';
 const SYNC_TEXT = 'sync';
@@ -17,10 +18,12 @@ class Notes extends Component {
             notes: {},
             note: null,
             text: '',
+            title: '',
             updateQueue: []
         };
 
         this.handleQueueProcessing = this.handleQueueProcessing.bind(this);
+        this.handleUpdateNote = this.handleUpdateNote.bind(this);
     }
 
     componentDidMount() {
@@ -33,7 +36,7 @@ class Notes extends Component {
                 $('.ui.search').search({
                     minCharacters: 3,
                     apiSettings: {
-                        url: ENDPOINT + '/search?text={query}',
+                        url: SEARCH_ENDPOINT,
                         onResponse: function(APIResponse) {
                             var response = {
                                 results : []
@@ -82,7 +85,7 @@ class Notes extends Component {
         var queue = this.state.updateQueue;
         var notes = this.state.notes;
 
-        notes[note].text = value;
+        notes[note][name] = value;
 
         if(!queue.includes(note)){
             queue.push(note);
@@ -101,7 +104,7 @@ class Notes extends Component {
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({owner: that.props.user, text: new Date() + '\n\n[Start here]', encrypted: false})
+            body: JSON.stringify({owner: that.props.user, title: new Date() + '',  text: '', encrypted: false})
         })
         .then(response => response.json())
         .then(function(data) {
@@ -114,7 +117,8 @@ class Notes extends Component {
             that.setState({
                 'notes': notes,
                 'note': note.id,
-                'text': note.text
+                'text': note.text,
+                'title': note.title
             });
         });
     }
@@ -180,7 +184,8 @@ class Notes extends Component {
                 that.setState({
                     'notes': notes,
                     'note': data[0].id,
-                    'text': data[0].text
+                    'text': data[0].text,
+                    'title': data[0].title
                 });
             }
         });
@@ -189,7 +194,8 @@ class Notes extends Component {
     handleSelectNote(id) {
         this.setState({
             'note': id,
-            'text': this.state.notes[id].text
+            'text': this.state.notes[id].text,
+            'title': this.state.notes[id].title
         });
     }
 
@@ -203,7 +209,7 @@ class Notes extends Component {
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({text:  this.state.notes[id].text, encrypted: this.state.notes[id].encrypted})
+            body: JSON.stringify({text: this.state.notes[id].text, title: this.state.notes[id].title, encrypted: this.state.notes[id].encrypted})
         })
         .then(function(response) {
             if(response.status !== 200) {
@@ -233,9 +239,9 @@ class Notes extends Component {
                     <div className={`${active} item`} onClick={function() {that.handleSelectNote(entry.id)}}>
                       <i className={`sticky note outline ${entry.color} icon`}></i>
                       <div className='content'>
-                        <div className='header'>{entry.text.split('\n')[0].substring(0, 25)} ...</div>
+                        <div className='header'>{entry.title}</div>
                         <div className='description'>
-                          <span className={`ui ${entry.color} text right floated`}>{entry.id}</span>
+                          <span className={`ui ${entry.color} text right floated`}>{formatDate(entry.lastUpdate)}</span>
                         </div>
                       </div>
                     </div>
@@ -261,10 +267,28 @@ class Notes extends Component {
                 statusText = SYNC_TEXT;
             }
 
+            var textarea = null;
+
             if(this.state.notes[this.state.note].encrypted){
                 encryptedIcon = 'eye outline';
+                textarea = (
+                  <div className="ui fluid placeholder" style={{'margin-left': '15px'}}>
+                    <div className="paragraph">
+                      <div className="line"></div>
+                      <div className="line"></div>
+                      <div className="line"></div>
+                      <div className="line"></div>
+                      <div className="line"></div>
+                    </div>
+                  </div>);
             } else {
                 encryptedIcon = 'eye slash outline';
+                textarea = (<textarea
+                    className='transparent'
+                    name='text'
+                    placeholder='Note content'
+                    value={this.state.text}
+                    onInput={(event) => this.handleUserInput(event)}></textarea>);
             }
 
             workarea = (
@@ -273,20 +297,16 @@ class Notes extends Component {
                   <i className={`${statusIcon} icon`}></i> {statusText}
                 </div>
                 <div className="ui icon buttons">
+                  <button className='ui tertiary disabled icon button' type='button'><i className='icon'></i></button>
                   <button
                     className='ui tertiary icon button'
                     type='button'
                     onClick={function() {
                         that.handleQueueProcessing();
                     }}>
-                    <i className='save outline icon'></i>
+                    <i className='save outline blue icon'></i>
                   </button>
-                  <button
-                    className='ui tertiary icon button'
-                    type='button'
-                    onClick={function() {that.handleDeleteNote(that.state.note)}}>
-                    <i className='trash alternate outline icon'></i>
-                  </button>
+                  <button className='ui tertiary disabled icon button' type='button'><i className='icon'></i></button>
                   <button
                     className='ui tertiary icon button'
                     type='button'
@@ -313,16 +333,29 @@ class Notes extends Component {
 
                         that.setState({'notes': notes, 'text': text, updateQueue: queue});
                     }}>
-                    <i className={`${encryptedIcon} icon`}></i>
+                    <i className={`${encryptedIcon} blue icon`}></i>
+                  </button>
+                  <button className='ui tertiary disabled icon button' type='button'><i className='icon'></i></button>
+                  <button
+                    className='ui tertiary icon button'
+                    type='button'
+                    onClick={function() {that.handleDeleteNote(that.state.note)}}>
+                    <i className='trash alternate outline blue icon'></i>
                   </button>
                 </div>
                 <div className='field'>
-                  <textarea
-                    className='transparent'
-                    name='text'
-                    placeholder='Note content'
-                    value={this.state.text}
-                    onInput={(event) => this.handleUserInput(event)}></textarea>
+                  <br/>
+                  <div className="ui transparent input">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      name="title"
+                      value={this.state.title}
+                      onInput={(event) => this.handleUserInput(event)}/>
+                  </div>
+                </div>
+                <div className='field'>
+                  {textarea}
                 </div>
               </form>
             );
@@ -362,8 +395,7 @@ class Notes extends Component {
                   {notes}
                 </div>
                 <div className='eleven wide column'>
-                    <br />
-                    {workarea}
+                  {workarea}
                 </div>
               </div>
             </div>

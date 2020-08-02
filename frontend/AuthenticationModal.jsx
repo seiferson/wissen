@@ -73,11 +73,10 @@ class AuthenticationModal extends Component {
                                 message: that.state.user,
                                 class: '',
                                 showIcon: 'door open',
-                                className: {
-                                    toast: 'ui message'
-                                }
-                            })
-                            ;
+                                position: 'top left',
+                                className: {toast: 'ui message'}
+                            });
+
                             $.cookie('avatar', data.avatarSeed);
                             that.props.parentStateCallback({
                                 user: that.state.user,

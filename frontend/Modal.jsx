@@ -8,8 +8,6 @@ class Modal extends Component {
         $(`#${this.props.id}`).modal( {
             allowMultiple: false,
             detachable: false,
-            useFlex: false,
-            autofocus: false,
             onHidden: function() {
                 if(that.props.onClosedCallback !== undefined) {
                     that.props.onClosedCallback();
