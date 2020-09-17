@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import TasksDashboard from './TasksDashboard';
-import Content from './Content';
 
 class Home extends Component {
 

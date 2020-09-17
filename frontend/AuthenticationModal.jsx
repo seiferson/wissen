@@ -77,7 +77,6 @@ class AuthenticationModal extends Component {
                                 className: {toast: 'ui message'}
                             });
 
-                            $.cookie('avatar', data.avatarSeed);
                             that.props.parentStateCallback({
                                 user: that.state.user,
                                 token: parentData.access_token,

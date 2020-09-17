@@ -66,7 +66,7 @@ class TopMenu extends Component{
         return (
             <div className='ui top attached menu'>
               <div className='ui item' onClick={function() {
-                $.cookie('layout','home');
+                localStorage.setItem('layout','home');
                 that.props.parentStateCallback({
                     layout: 'home'
                 });
