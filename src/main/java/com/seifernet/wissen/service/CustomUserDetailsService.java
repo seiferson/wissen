@@ -13,6 +13,8 @@ import com.seifernet.wissen.model.Account;
 import com.seifernet.wissen.repository.AccountRepository;
 import com.seifernet.wissen.scheduler.Scheduler;
 
+import java.util.Optional;
+
 /**
  * 
  * @author Seiferson (Cuauhtemoc Herrera)
@@ -27,8 +29,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = accountRepository.findByNickname(username);
-		if(account != null) {
+		Optional<Account> opt = accountRepository.findByNickname(username);
+		if(opt.isPresent()) {
+			Account account = opt.get();
 			return new User( 
 					account.getNickname(),
 					account.getPassword(),

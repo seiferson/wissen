@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -86,14 +87,15 @@ public class AccountController {
 	@GetMapping("/api/v1/accounts/{nickname}")
 	@ResponseBody
 	public ResponseEntity<Account> getAccountService(@PathVariable String nickname, Authentication authentication) {
-		Account account = repo.findByNickname(nickname);
+		Optional<Account> opt = repo.findByNickname(nickname);
 
-		if(account == null){
+		if(!opt.isPresent()){
 			return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
 				.body(null);
 		}
 
+		Account account = opt.get();
 		account.setPassword(null);
 		account.setLastUpdate(null);
 		account.setValidationToken(null);
@@ -123,7 +125,11 @@ public class AccountController {
 			Authentication authentication
 	) {
 		if(authentication.getName().equals(account.getNickname())) {
-			Account base = repo.findByNickname(account.getNickname());
+			Optional<Account> opt = repo.findByNickname(account.getNickname());
+			Account base = null;
+			if(opt.isPresent()){
+				base = opt.get();
+			}
 			if(!base.getEmail().equals(account.getEmail())){
 				base.setEmail(account.getEmail());
 				base.setEnabled(false);

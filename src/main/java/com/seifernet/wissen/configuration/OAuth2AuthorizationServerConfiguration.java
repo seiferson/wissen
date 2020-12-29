@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 public class OAuth2AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter{
 	
 	private TokenStore tokenStore = new InMemoryTokenStore();
-	
+
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
