@@ -14,7 +14,7 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        if(localStorage.getItem('layout') === undefined) {
+        if(localStorage.getItem('layout') == null) {
             localStorage.setItem('layout', 'home');
         }
 
