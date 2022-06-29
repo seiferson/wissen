@@ -1,7 +1,7 @@
 # Wissen
 -----
 
-[![Build Status](https://travis-ci.org/Seiferxx/wissen.svg?branch=master)](https://travis-ci.org/Seiferxx/wissen)
+[![Build Status](https://app.travis-ci.com/seiferson/wissen.svg?branch=development-heroku)](https://app.travis-ci.com/seiferson/wissen)
 
 __Personal development project__
 
