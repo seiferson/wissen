@@ -18,10 +18,18 @@ class App extends Component {
             localStorage.setItem('layout', 'home');
         }
 
+        if(localStorage.getItem('user') == null) {
+            localStorage.setItem('user', 'anonymous');
+        }
+
+        if(localStorage.getItem('avatar') == null) {
+            localStorage.setItem('avatar', 'anonymous');
+        }
+
         this.state = {
             layout: localStorage.getItem('layout'),
-            user: undefined,
-            avatar: undefined
+            user: localStorage.getItem('user'),
+            avatar: localStorage.getItem('avatar')
         }
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -40,24 +48,32 @@ class App extends Component {
     handleAuthValidation(onSuccessCallback, onErrorCallback) {
         var that = this;
 
-        fetch(CHECK_TOKEN_ENDPOINT + localStorage.getItem('authtoken'), {
-            method: 'post',
-            headers: {
-                'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
-                'Accept' : 'application/json'
-            }
-        })
-        .then(function(response) {
-            if (response.status !== 200) {
-                localStorage.removeItem('authtoken')
-                that.setState({
-                    user: undefined,
-                    avatar: undefined
-                }, onErrorCallback());
-            } else {
-                onSuccessCallback();
-            }
-        });
+        if(localStorage.getItem('authtoken') != null) {
+
+            fetch(CHECK_TOKEN_ENDPOINT + localStorage.getItem('authtoken'), {
+                method: 'post',
+                headers: {
+                    'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
+                    'Accept' : 'application/json'
+                }
+            })
+            .then(function(response) {
+                if (response.status !== 200) {
+                    localStorage.removeItem('authtoken');
+                    that.setState({
+                        user: 'anonymous',
+                        avatar: 'anonymous'
+                    }, onErrorCallback());
+                } else {
+                    onSuccessCallback();
+                }
+            });
+        } else {
+            that.setState({
+                user: 'anonymous',
+                avatar: 'anonymous'
+            }, onErrorCallback());
+        }
     }
 
     handleRevokeToken() {
@@ -72,9 +88,10 @@ class App extends Component {
         })
         .then(function(response) {
             if (response.status === 200) {
+                localStorage.removeItem('authtoken');
                 that.setState({
-                    user: undefined,
-                    avatar: undefined,
+                    user: 'anonymous',
+                    avatar: 'anonymous',
                     layout: 'home'
                 }, function() {
                     $('body').toast({

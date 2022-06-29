@@ -50,7 +50,7 @@ class Notes extends Component {
                             return response;
                         },
                         beforeXHR: function(xhr) {
-                            xhr.setRequestHeader ('Authorization', 'Bearer ' + that.props.token);
+                            xhr.setRequestHeader ('Authorization', 'Bearer ' + localStorage.getItem('authtoken'));
                             xhr.setRequestHeader ('Accept', 'application/json');
                             return xhr;
                         }
@@ -100,7 +100,7 @@ class Notes extends Component {
         fetch(ENDPOINT, {
             method: 'POST',
             headers: {
-                'Authorization' : 'Bearer ' + that.props.token,
+                'Authorization' : 'Bearer ' + localStorage.getItem('authtoken'),
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -129,7 +129,7 @@ class Notes extends Component {
         fetch(ENDPOINT + '/' + id, {
             method: 'DELETE',
             headers: {
-                'Authorization' : 'Bearer ' + that.props.token,
+                'Authorization' : 'Bearer ' + localStorage.getItem('authtoken'),
                 'Accept' : 'application/json'
             }
         })
@@ -168,7 +168,7 @@ class Notes extends Component {
         fetch(ENDPOINT, {
             method: 'GET',
             headers: {
-                'Authorization' : 'Bearer ' + that.props.token,
+                'Authorization' : 'Bearer ' + localStorage.getItem('authtoken'),
                 'Accept' : 'application/json'
             }
         })
@@ -179,7 +179,7 @@ class Notes extends Component {
             if(data.length) {
                 data.map((entry, i) =>{
                     notes[entry.id] = entry;
-                    notes[entry.id].color = getRandomColor();
+                    //notes[entry.id].color = getRandomColor();
                 });
                 that.setState({
                     'notes': notes,
@@ -205,7 +205,7 @@ class Notes extends Component {
         fetch(ENDPOINT + '/' + id, {
             method: 'PATCH',
             headers: {
-                'Authorization' : 'Bearer ' + that.props.token,
+                'Authorization' : 'Bearer ' + localStorage.getItem('authtoken'),
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },

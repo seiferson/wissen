@@ -38,7 +38,7 @@ class TopMenu extends Component{
                   <i className='bars icon'></i>
                     <div className='menu'>
                       <div className='item' onClick={function() {
-                        $.cookie('layout','home');
+                        localStorage.getItem('layout', 'home');
                         that.props.parentStateCallback({
                           layout: 'home'
                         });
@@ -47,7 +47,7 @@ class TopMenu extends Component{
                       </div>
                       <div className='divider'></div>
                       <div className='item' onClick={function() {
-                        $.cookie('layout','notes');
+                        localStorage.setItem('layout', 'notes');
                         that.props.parentStateCallback({
                           layout: 'notes'
                         });

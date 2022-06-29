@@ -54,8 +54,8 @@ class AuthenticationModal extends Component {
                     $('[name="loginerror"]').val('value');
                 },
                 success: function(data) {
-                    $.cookie('authtoken', data.access_token);
-                    $.cookie('authuser', that.state.user);
+                    localStorage.setItem('authtoken', data.access_token);
+                    localStorage.setItem('user', that.state.user);
                     $('#authmodal').modal('hide');
 
                     var parentData = data;
