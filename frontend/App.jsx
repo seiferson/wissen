@@ -14,22 +14,14 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        if(localStorage.getItem('layout') == null) {
-            localStorage.setItem('layout', 'home');
-        }
-
-        if(localStorage.getItem('user') == null) {
-            localStorage.setItem('user', 'anonymous');
-        }
-
-        if(localStorage.getItem('avatar') == null) {
-            localStorage.setItem('avatar', 'anonymous');
-        }
+        var local_layout = localStorage.getItem('layout');
+        var local_user = localStorage.getItem('user');
+        var local_avatar = localStorage.getItem('avatar');
 
         this.state = {
-            layout: localStorage.getItem('layout'),
-            user: localStorage.getItem('user'),
-            avatar: localStorage.getItem('avatar')
+            layout: local_layout == null ? 'home' : local_layout,
+            user: local_user == null ? 'anonymous' : local_user,
+            avatar: local_avatar == null ? 'avatar' : local_avatar
         }
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -47,10 +39,11 @@ class App extends Component {
 
     handleAuthValidation(onSuccessCallback, onErrorCallback) {
         var that = this;
+        var local_authtoken = localStorage.getItem('authtoken');
 
-        if(localStorage.getItem('authtoken') != null) {
+        if(local_authtoken != null) {
 
-            fetch(CHECK_TOKEN_ENDPOINT + localStorage.getItem('authtoken'), {
+            fetch(CHECK_TOKEN_ENDPOINT + local_authtoken, {
                 method: 'post',
                 headers: {
                     'Authorization' : 'Basic bWFzdGVyOjEyMzQ1Ng==',
@@ -62,7 +55,7 @@ class App extends Component {
                     localStorage.removeItem('authtoken');
                     that.setState({
                         user: 'anonymous',
-                        avatar: 'anonymous'
+                        avatar: 'avatar'
                     }, onErrorCallback());
                 } else {
                     onSuccessCallback();
@@ -71,7 +64,7 @@ class App extends Component {
         } else {
             that.setState({
                 user: 'anonymous',
-                avatar: 'anonymous'
+                avatar: 'avatar'
             }, onErrorCallback());
         }
     }
@@ -91,7 +84,7 @@ class App extends Component {
                 localStorage.removeItem('authtoken');
                 that.setState({
                     user: 'anonymous',
-                    avatar: 'anonymous',
+                    avatar: 'avatar',
                     layout: 'home'
                 }, function() {
                     $('body').toast({

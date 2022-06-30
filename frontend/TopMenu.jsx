@@ -38,7 +38,7 @@ class TopMenu extends Component{
                   <i className='bars icon'></i>
                     <div className='menu'>
                       <div className='item' onClick={function() {
-                        localStorage.getItem('layout', 'home');
+                        localStorage.setItem('layout', 'home');
                         that.props.parentStateCallback({
                           layout: 'home'
                         });

@@ -43,7 +43,7 @@ class Notes extends Component {
                             };
                             $.each(APIResponse, function(index, item) {
                                 response.results.push({
-                                    title       : item.text.split('\n')[0].substring(0, 25),
+                                    title       : item.title.split('\n')[0].substring(0, 25),
                                     description : item.id
                                 });
                             });
@@ -104,7 +104,7 @@ class Notes extends Component {
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({owner: that.props.user, title: new Date() + '',  text: '', encrypted: false})
+            body: JSON.stringify({title: new Date() + '',  text: '', encrypted: false})
         })
         .then(response => response.json())
         .then(function(data) {
@@ -179,7 +179,7 @@ class Notes extends Component {
             if(data.length) {
                 data.map((entry, i) =>{
                     notes[entry.id] = entry;
-                    //notes[entry.id].color = getRandomColor();
+                    notes[entry.id].color = getRandomColor();
                 });
                 that.setState({
                     'notes': notes,

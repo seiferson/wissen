@@ -101,10 +101,12 @@ public class NoteController {
     @PostMapping("/api/v1/notes")
     public @ResponseBody ResponseEntity<ResponseMessage<Note>> createNote(Authentication authentication, @RequestBody @Valid Note note) {
         note.setOwner(HashGen.md5gen(authentication.getName()));
-        note = noteRepo.insert(note);
         note.setCreation(new Date());
         note.setDeleted(false);
         note.setLastUpdate(new Date());
+        note.setEncrypted(false);
+
+        note = noteRepo.insert(note);
         return ResponseEntity.ok(new ResponseMessage<>(
 			ResponseMessage.ResponseStatus.SUCCESS,
 			"[Note " + note.getId() + " created]",
