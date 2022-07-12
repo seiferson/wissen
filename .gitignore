@@ -6,6 +6,7 @@
 .tern-project
 .npmrc
 wissen.iml
+.idea/
 
 #Maven files
 target/
@@ -26,7 +27,4 @@ hs_err_pid*
 *.gz
 
 #Node plugin files
-node/
-node_modules/
 etc/
-package-lock.json
